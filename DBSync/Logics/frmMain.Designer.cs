@@ -1,0 +1,897 @@
+﻿namespace DBSync.Logics
+{
+    partial class frmMain
+    {
+        /// <summary>
+        /// 必需的设计器变量。
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// 清理所有正在使用的资源。
+        /// </summary>
+        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows 窗体设计器生成的代码
+
+        /// <summary>
+        /// 设计器支持所需的方法 - 不要修改
+        /// 使用代码编辑器修改此方法的内容。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.mainTab = new System.Windows.Forms.TabControl();
+            this.tLog = new System.Windows.Forms.TabPage();
+            this.dtpLog = new System.Windows.Forms.DateTimePicker();
+            this.btnRLog = new System.Windows.Forms.Button();
+            this.txtLog = new System.Windows.Forms.TextBox();
+            this.gridLog = new System.Windows.Forms.DataGridView();
+            this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.coldate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tSrc = new System.Windows.Forms.TabPage();
+            this.btnSrcApply = new System.Windows.Forms.Button();
+            this.txtSrcDB = new System.Windows.Forms.TextBox();
+            this.txtSrcPassword = new System.Windows.Forms.TextBox();
+            this.txtSrcUser = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtSrcPort = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtSrcSource = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbSrcAuthz = new System.Windows.Forms.ComboBox();
+            this.cbSrcType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tTarget = new System.Windows.Forms.TabPage();
+            this.btnDstApply = new System.Windows.Forms.Button();
+            this.txtDstDB = new System.Windows.Forms.TextBox();
+            this.txtDstPassword = new System.Windows.Forms.TextBox();
+            this.txtDstUser = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtDstPort = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtDstSource = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cbDstAuthz = new System.Windows.Forms.ComboBox();
+            this.cbDstType = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tSQL = new System.Windows.Forms.TabPage();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnNewFile = new System.Windows.Forms.Button();
+            this.txtNewFile = new System.Windows.Forms.TextBox();
+            this.txtSQL = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.rbSQLDst = new System.Windows.Forms.RadioButton();
+            this.rbSQLSrc = new System.Windows.Forms.RadioButton();
+            this.cbSQLSelect = new System.Windows.Forms.ComboBox();
+            this.tSQLTest = new System.Windows.Forms.TabPage();
+            this.tabResult = new System.Windows.Forms.TabControl();
+            this.tabGrid = new System.Windows.Forms.TabPage();
+            this.scGrid = new System.Windows.Forms.SplitContainer();
+            this.lbGrid = new System.Windows.Forms.ListBox();
+            this.gridTest = new System.Windows.Forms.DataGridView();
+            this.tabMsg = new System.Windows.Forms.TabPage();
+            this.txtMsg = new System.Windows.Forms.TextBox();
+            this.rbDst = new System.Windows.Forms.RadioButton();
+            this.rbSrc = new System.Windows.Forms.RadioButton();
+            this.cbTestDebug = new System.Windows.Forms.CheckBox();
+            this.btnTestExec = new System.Windows.Forms.Button();
+            this.txtTestSQL = new System.Windows.Forms.TextBox();
+            this.mainTab.SuspendLayout();
+            this.tLog.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
+            this.tSrc.SuspendLayout();
+            this.tTarget.SuspendLayout();
+            this.tSQL.SuspendLayout();
+            this.tSQLTest.SuspendLayout();
+            this.tabResult.SuspendLayout();
+            this.tabGrid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scGrid)).BeginInit();
+            this.scGrid.Panel1.SuspendLayout();
+            this.scGrid.Panel2.SuspendLayout();
+            this.scGrid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridTest)).BeginInit();
+            this.tabMsg.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mainTab
+            // 
+            this.mainTab.Controls.Add(this.tLog);
+            this.mainTab.Controls.Add(this.tSrc);
+            this.mainTab.Controls.Add(this.tTarget);
+            this.mainTab.Controls.Add(this.tSQL);
+            this.mainTab.Controls.Add(this.tSQLTest);
+            this.mainTab.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainTab.Location = new System.Drawing.Point(0, 0);
+            this.mainTab.Name = "mainTab";
+            this.mainTab.SelectedIndex = 0;
+            this.mainTab.Size = new System.Drawing.Size(723, 718);
+            this.mainTab.TabIndex = 0;
+            // 
+            // tLog
+            // 
+            this.tLog.Controls.Add(this.dtpLog);
+            this.tLog.Controls.Add(this.btnRLog);
+            this.tLog.Controls.Add(this.txtLog);
+            this.tLog.Controls.Add(this.gridLog);
+            this.tLog.Location = new System.Drawing.Point(4, 22);
+            this.tLog.Name = "tLog";
+            this.tLog.Padding = new System.Windows.Forms.Padding(3);
+            this.tLog.Size = new System.Drawing.Size(715, 692);
+            this.tLog.TabIndex = 0;
+            this.tLog.Text = "日志";
+            this.tLog.UseVisualStyleBackColor = true;
+            // 
+            // dtpLog
+            // 
+            this.dtpLog.CustomFormat = "yyyy-MM-dd";
+            this.dtpLog.Location = new System.Drawing.Point(124, 18);
+            this.dtpLog.MaxDate = new System.DateTime(2030, 12, 31, 0, 0, 0, 0);
+            this.dtpLog.MinDate = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
+            this.dtpLog.Name = "dtpLog";
+            this.dtpLog.Size = new System.Drawing.Size(200, 21);
+            this.dtpLog.TabIndex = 4;
+            // 
+            // btnRLog
+            // 
+            this.btnRLog.Location = new System.Drawing.Point(19, 17);
+            this.btnRLog.Name = "btnRLog";
+            this.btnRLog.Size = new System.Drawing.Size(98, 23);
+            this.btnRLog.TabIndex = 3;
+            this.btnRLog.Text = "刷新日志列表";
+            this.btnRLog.UseVisualStyleBackColor = true;
+            this.btnRLog.Click += new System.EventHandler(this.btnRLog_Click);
+            // 
+            // txtLog
+            // 
+            this.txtLog.Location = new System.Drawing.Point(19, 369);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLog.Size = new System.Drawing.Size(662, 307);
+            this.txtLog.TabIndex = 2;
+            // 
+            // gridLog
+            // 
+            this.gridLog.AllowUserToAddRows = false;
+            this.gridLog.AllowUserToDeleteRows = false;
+            this.gridLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridLog.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colType,
+            this.coldate,
+            this.colSrc});
+            this.gridLog.Location = new System.Drawing.Point(19, 46);
+            this.gridLog.MultiSelect = false;
+            this.gridLog.Name = "gridLog";
+            this.gridLog.ReadOnly = true;
+            this.gridLog.RowTemplate.Height = 23;
+            this.gridLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridLog.Size = new System.Drawing.Size(662, 308);
+            this.gridLog.TabIndex = 1;
+            this.gridLog.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridLog_CellClick);
+            // 
+            // colType
+            // 
+            this.colType.DataPropertyName = "LogLevel";
+            this.colType.Frozen = true;
+            this.colType.HeaderText = "日志类型";
+            this.colType.Name = "colType";
+            this.colType.ReadOnly = true;
+            this.colType.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // coldate
+            // 
+            this.coldate.DataPropertyName = "LogTime";
+            this.coldate.Frozen = true;
+            this.coldate.HeaderText = "发生时间";
+            this.coldate.Name = "coldate";
+            this.coldate.ReadOnly = true;
+            this.coldate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.coldate.Width = 200;
+            // 
+            // colSrc
+            // 
+            this.colSrc.DataPropertyName = "Source";
+            this.colSrc.Frozen = true;
+            this.colSrc.HeaderText = "发生来源";
+            this.colSrc.Name = "colSrc";
+            this.colSrc.ReadOnly = true;
+            this.colSrc.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colSrc.Width = 300;
+            // 
+            // tSrc
+            // 
+            this.tSrc.Controls.Add(this.btnSrcApply);
+            this.tSrc.Controls.Add(this.txtSrcDB);
+            this.tSrc.Controls.Add(this.txtSrcPassword);
+            this.tSrc.Controls.Add(this.txtSrcUser);
+            this.tSrc.Controls.Add(this.label7);
+            this.tSrc.Controls.Add(this.txtSrcPort);
+            this.tSrc.Controls.Add(this.label6);
+            this.tSrc.Controls.Add(this.txtSrcSource);
+            this.tSrc.Controls.Add(this.label3);
+            this.tSrc.Controls.Add(this.cbSrcAuthz);
+            this.tSrc.Controls.Add(this.cbSrcType);
+            this.tSrc.Controls.Add(this.label5);
+            this.tSrc.Controls.Add(this.label4);
+            this.tSrc.Controls.Add(this.label2);
+            this.tSrc.Controls.Add(this.label1);
+            this.tSrc.Location = new System.Drawing.Point(4, 22);
+            this.tSrc.Name = "tSrc";
+            this.tSrc.Padding = new System.Windows.Forms.Padding(3);
+            this.tSrc.Size = new System.Drawing.Size(715, 692);
+            this.tSrc.TabIndex = 1;
+            this.tSrc.Text = "源数据库设置";
+            this.tSrc.UseVisualStyleBackColor = true;
+            // 
+            // btnSrcApply
+            // 
+            this.btnSrcApply.Location = new System.Drawing.Point(93, 299);
+            this.btnSrcApply.Name = "btnSrcApply";
+            this.btnSrcApply.Size = new System.Drawing.Size(75, 23);
+            this.btnSrcApply.TabIndex = 3;
+            this.btnSrcApply.Text = "应用";
+            this.btnSrcApply.UseVisualStyleBackColor = true;
+            this.btnSrcApply.Click += new System.EventHandler(this.btnSrcApply_Click);
+            // 
+            // txtSrcDB
+            // 
+            this.txtSrcDB.Location = new System.Drawing.Point(93, 256);
+            this.txtSrcDB.Name = "txtSrcDB";
+            this.txtSrcDB.Size = new System.Drawing.Size(221, 21);
+            this.txtSrcDB.TabIndex = 2;
+            // 
+            // txtSrcPassword
+            // 
+            this.txtSrcPassword.Location = new System.Drawing.Point(93, 217);
+            this.txtSrcPassword.Name = "txtSrcPassword";
+            this.txtSrcPassword.Size = new System.Drawing.Size(221, 21);
+            this.txtSrcPassword.TabIndex = 2;
+            this.txtSrcPassword.UseSystemPasswordChar = true;
+            // 
+            // txtSrcUser
+            // 
+            this.txtSrcUser.Location = new System.Drawing.Point(93, 179);
+            this.txtSrcUser.Name = "txtSrcUser";
+            this.txtSrcUser.Size = new System.Drawing.Size(221, 21);
+            this.txtSrcUser.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(22, 259);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 12);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "数据库";
+            // 
+            // txtSrcPort
+            // 
+            this.txtSrcPort.Location = new System.Drawing.Point(93, 104);
+            this.txtSrcPort.Name = "txtSrcPort";
+            this.txtSrcPort.Size = new System.Drawing.Size(221, 21);
+            this.txtSrcPort.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(22, 220);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "密码";
+            // 
+            // txtSrcSource
+            // 
+            this.txtSrcSource.Location = new System.Drawing.Point(93, 66);
+            this.txtSrcSource.Name = "txtSrcSource";
+            this.txtSrcSource.Size = new System.Drawing.Size(221, 21);
+            this.txtSrcSource.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(22, 107);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "实例端口";
+            // 
+            // cbSrcAuthz
+            // 
+            this.cbSrcAuthz.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSrcAuthz.FormattingEnabled = true;
+            this.cbSrcAuthz.Items.AddRange(new object[] {
+            "Windows 身份认证",
+            "密码认证"});
+            this.cbSrcAuthz.Location = new System.Drawing.Point(93, 142);
+            this.cbSrcAuthz.Name = "cbSrcAuthz";
+            this.cbSrcAuthz.Size = new System.Drawing.Size(221, 20);
+            this.cbSrcAuthz.TabIndex = 1;
+            // 
+            // cbSrcType
+            // 
+            this.cbSrcType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSrcType.FormattingEnabled = true;
+            this.cbSrcType.Items.AddRange(new object[] {
+            "SQL Server",
+            "MySQL"});
+            this.cbSrcType.Location = new System.Drawing.Point(93, 33);
+            this.cbSrcType.Name = "cbSrcType";
+            this.cbSrcType.Size = new System.Drawing.Size(221, 20);
+            this.cbSrcType.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(22, 182);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "用户名";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 145);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "认证方式";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "实例名称";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(22, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "数据库类型";
+            // 
+            // tTarget
+            // 
+            this.tTarget.Controls.Add(this.btnDstApply);
+            this.tTarget.Controls.Add(this.txtDstDB);
+            this.tTarget.Controls.Add(this.txtDstPassword);
+            this.tTarget.Controls.Add(this.txtDstUser);
+            this.tTarget.Controls.Add(this.label8);
+            this.tTarget.Controls.Add(this.txtDstPort);
+            this.tTarget.Controls.Add(this.label9);
+            this.tTarget.Controls.Add(this.txtDstSource);
+            this.tTarget.Controls.Add(this.label10);
+            this.tTarget.Controls.Add(this.cbDstAuthz);
+            this.tTarget.Controls.Add(this.cbDstType);
+            this.tTarget.Controls.Add(this.label11);
+            this.tTarget.Controls.Add(this.label12);
+            this.tTarget.Controls.Add(this.label13);
+            this.tTarget.Controls.Add(this.label14);
+            this.tTarget.Location = new System.Drawing.Point(4, 22);
+            this.tTarget.Name = "tTarget";
+            this.tTarget.Padding = new System.Windows.Forms.Padding(3);
+            this.tTarget.Size = new System.Drawing.Size(715, 692);
+            this.tTarget.TabIndex = 2;
+            this.tTarget.Text = "目标数据库设置";
+            this.tTarget.UseVisualStyleBackColor = true;
+            // 
+            // btnDstApply
+            // 
+            this.btnDstApply.Location = new System.Drawing.Point(93, 299);
+            this.btnDstApply.Name = "btnDstApply";
+            this.btnDstApply.Size = new System.Drawing.Size(75, 23);
+            this.btnDstApply.TabIndex = 18;
+            this.btnDstApply.Text = "应用";
+            this.btnDstApply.UseVisualStyleBackColor = true;
+            this.btnDstApply.Click += new System.EventHandler(this.btnDstApply_Click);
+            // 
+            // txtDstDB
+            // 
+            this.txtDstDB.Location = new System.Drawing.Point(93, 256);
+            this.txtDstDB.Name = "txtDstDB";
+            this.txtDstDB.Size = new System.Drawing.Size(221, 21);
+            this.txtDstDB.TabIndex = 13;
+            // 
+            // txtDstPassword
+            // 
+            this.txtDstPassword.Location = new System.Drawing.Point(93, 217);
+            this.txtDstPassword.Name = "txtDstPassword";
+            this.txtDstPassword.Size = new System.Drawing.Size(221, 21);
+            this.txtDstPassword.TabIndex = 14;
+            this.txtDstPassword.UseSystemPasswordChar = true;
+            // 
+            // txtDstUser
+            // 
+            this.txtDstUser.Location = new System.Drawing.Point(93, 179);
+            this.txtDstUser.Name = "txtDstUser";
+            this.txtDstUser.Size = new System.Drawing.Size(221, 21);
+            this.txtDstUser.TabIndex = 15;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(22, 259);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(41, 12);
+            this.label8.TabIndex = 4;
+            this.label8.Text = "数据库";
+            // 
+            // txtDstPort
+            // 
+            this.txtDstPort.Location = new System.Drawing.Point(93, 104);
+            this.txtDstPort.Name = "txtDstPort";
+            this.txtDstPort.Size = new System.Drawing.Size(221, 21);
+            this.txtDstPort.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(22, 220);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(29, 12);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "密码";
+            // 
+            // txtDstSource
+            // 
+            this.txtDstSource.Location = new System.Drawing.Point(93, 66);
+            this.txtDstSource.Name = "txtDstSource";
+            this.txtDstSource.Size = new System.Drawing.Size(221, 21);
+            this.txtDstSource.TabIndex = 17;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(22, 107);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "实例端口";
+            // 
+            // cbDstAuthz
+            // 
+            this.cbDstAuthz.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDstAuthz.FormattingEnabled = true;
+            this.cbDstAuthz.Items.AddRange(new object[] {
+            "Windows 身份认证",
+            "密码认证"});
+            this.cbDstAuthz.Location = new System.Drawing.Point(93, 142);
+            this.cbDstAuthz.Name = "cbDstAuthz";
+            this.cbDstAuthz.Size = new System.Drawing.Size(221, 20);
+            this.cbDstAuthz.TabIndex = 11;
+            // 
+            // cbDstType
+            // 
+            this.cbDstType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDstType.FormattingEnabled = true;
+            this.cbDstType.Items.AddRange(new object[] {
+            "SQL Server",
+            "MySQL"});
+            this.cbDstType.Location = new System.Drawing.Point(93, 33);
+            this.cbDstType.Name = "cbDstType";
+            this.cbDstType.Size = new System.Drawing.Size(221, 20);
+            this.cbDstType.TabIndex = 12;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(22, 182);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "用户名";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(22, 145);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "认证方式";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(22, 69);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "实例名称";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(22, 36);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(65, 12);
+            this.label14.TabIndex = 10;
+            this.label14.Text = "数据库类型";
+            // 
+            // tSQL
+            // 
+            this.tSQL.Controls.Add(this.btnDelete);
+            this.tSQL.Controls.Add(this.btnNewFile);
+            this.tSQL.Controls.Add(this.txtNewFile);
+            this.tSQL.Controls.Add(this.txtSQL);
+            this.tSQL.Controls.Add(this.btnSave);
+            this.tSQL.Controls.Add(this.btnRefresh);
+            this.tSQL.Controls.Add(this.rbSQLDst);
+            this.tSQL.Controls.Add(this.rbSQLSrc);
+            this.tSQL.Controls.Add(this.cbSQLSelect);
+            this.tSQL.Location = new System.Drawing.Point(4, 22);
+            this.tSQL.Name = "tSQL";
+            this.tSQL.Size = new System.Drawing.Size(715, 692);
+            this.tSQL.TabIndex = 3;
+            this.tSQL.Text = "SQL设置";
+            this.tSQL.UseVisualStyleBackColor = true;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(585, 56);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "删除";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnNewFile
+            // 
+            this.btnNewFile.Location = new System.Drawing.Point(504, 56);
+            this.btnNewFile.Name = "btnNewFile";
+            this.btnNewFile.Size = new System.Drawing.Size(75, 23);
+            this.btnNewFile.TabIndex = 5;
+            this.btnNewFile.Text = "新建";
+            this.btnNewFile.UseVisualStyleBackColor = true;
+            this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
+            // 
+            // txtNewFile
+            // 
+            this.txtNewFile.Location = new System.Drawing.Point(348, 58);
+            this.txtNewFile.Name = "txtNewFile";
+            this.txtNewFile.Size = new System.Drawing.Size(150, 21);
+            this.txtNewFile.TabIndex = 4;
+            // 
+            // txtSQL
+            // 
+            this.txtSQL.Location = new System.Drawing.Point(42, 91);
+            this.txtSQL.Multiline = true;
+            this.txtSQL.Name = "txtSQL";
+            this.txtSQL.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSQL.Size = new System.Drawing.Size(618, 565);
+            this.txtSQL.TabIndex = 3;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(585, 24);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "保存";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(504, 24);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 2;
+            this.btnRefresh.Text = "刷新";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // rbSQLDst
+            // 
+            this.rbSQLDst.AutoSize = true;
+            this.rbSQLDst.Location = new System.Drawing.Point(383, 27);
+            this.rbSQLDst.Name = "rbSQLDst";
+            this.rbSQLDst.Size = new System.Drawing.Size(65, 16);
+            this.rbSQLDst.TabIndex = 1;
+            this.rbSQLDst.Text = "目标SQL";
+            this.rbSQLDst.UseVisualStyleBackColor = true;
+            // 
+            // rbSQLSrc
+            // 
+            this.rbSQLSrc.AutoSize = true;
+            this.rbSQLSrc.Location = new System.Drawing.Point(324, 27);
+            this.rbSQLSrc.Name = "rbSQLSrc";
+            this.rbSQLSrc.Size = new System.Drawing.Size(53, 16);
+            this.rbSQLSrc.TabIndex = 1;
+            this.rbSQLSrc.Text = "源SQL";
+            this.rbSQLSrc.UseVisualStyleBackColor = true;
+            this.rbSQLSrc.CheckedChanged += new System.EventHandler(this.rbSQLSrc_CheckedChanged);
+            // 
+            // cbSQLSelect
+            // 
+            this.cbSQLSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSQLSelect.FormattingEnabled = true;
+            this.cbSQLSelect.Location = new System.Drawing.Point(42, 26);
+            this.cbSQLSelect.Name = "cbSQLSelect";
+            this.cbSQLSelect.Size = new System.Drawing.Size(264, 20);
+            this.cbSQLSelect.TabIndex = 0;
+            this.cbSQLSelect.SelectedIndexChanged += new System.EventHandler(this.cbSQLSelect_SelectedIndexChanged);
+            // 
+            // tSQLTest
+            // 
+            this.tSQLTest.Controls.Add(this.tabResult);
+            this.tSQLTest.Controls.Add(this.rbDst);
+            this.tSQLTest.Controls.Add(this.rbSrc);
+            this.tSQLTest.Controls.Add(this.cbTestDebug);
+            this.tSQLTest.Controls.Add(this.btnTestExec);
+            this.tSQLTest.Controls.Add(this.txtTestSQL);
+            this.tSQLTest.Location = new System.Drawing.Point(4, 22);
+            this.tSQLTest.Name = "tSQLTest";
+            this.tSQLTest.Size = new System.Drawing.Size(715, 692);
+            this.tSQLTest.TabIndex = 4;
+            this.tSQLTest.Text = "SQL调试";
+            this.tSQLTest.UseVisualStyleBackColor = true;
+            // 
+            // tabResult
+            // 
+            this.tabResult.Controls.Add(this.tabGrid);
+            this.tabResult.Controls.Add(this.tabMsg);
+            this.tabResult.Location = new System.Drawing.Point(20, 421);
+            this.tabResult.Name = "tabResult";
+            this.tabResult.SelectedIndex = 0;
+            this.tabResult.Size = new System.Drawing.Size(668, 249);
+            this.tabResult.TabIndex = 5;
+            // 
+            // tabGrid
+            // 
+            this.tabGrid.Controls.Add(this.scGrid);
+            this.tabGrid.Location = new System.Drawing.Point(4, 22);
+            this.tabGrid.Name = "tabGrid";
+            this.tabGrid.Size = new System.Drawing.Size(660, 223);
+            this.tabGrid.TabIndex = 0;
+            this.tabGrid.Text = "结果";
+            this.tabGrid.UseVisualStyleBackColor = true;
+            // 
+            // scGrid
+            // 
+            this.scGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scGrid.IsSplitterFixed = true;
+            this.scGrid.Location = new System.Drawing.Point(0, 0);
+            this.scGrid.Name = "scGrid";
+            // 
+            // scGrid.Panel1
+            // 
+            this.scGrid.Panel1.Controls.Add(this.lbGrid);
+            // 
+            // scGrid.Panel2
+            // 
+            this.scGrid.Panel2.Controls.Add(this.gridTest);
+            this.scGrid.Size = new System.Drawing.Size(660, 223);
+            this.scGrid.SplitterDistance = 116;
+            this.scGrid.TabIndex = 1;
+            // 
+            // lbGrid
+            // 
+            this.lbGrid.DisplayMember = "TableName";
+            this.lbGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbGrid.FormattingEnabled = true;
+            this.lbGrid.ItemHeight = 12;
+            this.lbGrid.Location = new System.Drawing.Point(0, 0);
+            this.lbGrid.Name = "lbGrid";
+            this.lbGrid.Size = new System.Drawing.Size(116, 223);
+            this.lbGrid.TabIndex = 0;
+            this.lbGrid.SelectedIndexChanged += new System.EventHandler(this.lbGrid_SelectedIndexChanged);
+            // 
+            // gridTest
+            // 
+            this.gridTest.AllowUserToAddRows = false;
+            this.gridTest.AllowUserToDeleteRows = false;
+            this.gridTest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridTest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridTest.Location = new System.Drawing.Point(0, 0);
+            this.gridTest.Name = "gridTest";
+            this.gridTest.ReadOnly = true;
+            this.gridTest.RowTemplate.Height = 23;
+            this.gridTest.Size = new System.Drawing.Size(540, 223);
+            this.gridTest.TabIndex = 0;
+            // 
+            // tabMsg
+            // 
+            this.tabMsg.Controls.Add(this.txtMsg);
+            this.tabMsg.Location = new System.Drawing.Point(4, 22);
+            this.tabMsg.Name = "tabMsg";
+            this.tabMsg.Size = new System.Drawing.Size(660, 223);
+            this.tabMsg.TabIndex = 1;
+            this.tabMsg.Text = "消息";
+            this.tabMsg.UseVisualStyleBackColor = true;
+            // 
+            // txtMsg
+            // 
+            this.txtMsg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtMsg.Location = new System.Drawing.Point(0, 0);
+            this.txtMsg.Multiline = true;
+            this.txtMsg.Name = "txtMsg";
+            this.txtMsg.ReadOnly = true;
+            this.txtMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtMsg.Size = new System.Drawing.Size(660, 223);
+            this.txtMsg.TabIndex = 4;
+            // 
+            // rbDst
+            // 
+            this.rbDst.AutoSize = true;
+            this.rbDst.Location = new System.Drawing.Point(135, 361);
+            this.rbDst.Name = "rbDst";
+            this.rbDst.Size = new System.Drawing.Size(107, 16);
+            this.rbDst.TabIndex = 3;
+            this.rbDst.Text = "使用目标数据库";
+            this.rbDst.UseVisualStyleBackColor = true;
+            // 
+            // rbSrc
+            // 
+            this.rbSrc.AutoSize = true;
+            this.rbSrc.Checked = true;
+            this.rbSrc.Location = new System.Drawing.Point(34, 361);
+            this.rbSrc.Name = "rbSrc";
+            this.rbSrc.Size = new System.Drawing.Size(95, 16);
+            this.rbSrc.TabIndex = 3;
+            this.rbSrc.TabStop = true;
+            this.rbSrc.Text = "使用源数据库";
+            this.rbSrc.UseVisualStyleBackColor = true;
+            // 
+            // cbTestDebug
+            // 
+            this.cbTestDebug.AutoSize = true;
+            this.cbTestDebug.Checked = true;
+            this.cbTestDebug.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbTestDebug.Location = new System.Drawing.Point(480, 362);
+            this.cbTestDebug.Name = "cbTestDebug";
+            this.cbTestDebug.Size = new System.Drawing.Size(72, 16);
+            this.cbTestDebug.TabIndex = 2;
+            this.cbTestDebug.Text = "调试模式";
+            this.cbTestDebug.UseVisualStyleBackColor = true;
+            // 
+            // btnTestExec
+            // 
+            this.btnTestExec.Location = new System.Drawing.Point(568, 358);
+            this.btnTestExec.Name = "btnTestExec";
+            this.btnTestExec.Size = new System.Drawing.Size(75, 23);
+            this.btnTestExec.TabIndex = 1;
+            this.btnTestExec.Text = "执行";
+            this.btnTestExec.UseVisualStyleBackColor = true;
+            this.btnTestExec.Click += new System.EventHandler(this.btnTestExec_Click);
+            // 
+            // txtTestSQL
+            // 
+            this.txtTestSQL.Location = new System.Drawing.Point(20, 21);
+            this.txtTestSQL.Multiline = true;
+            this.txtTestSQL.Name = "txtTestSQL";
+            this.txtTestSQL.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtTestSQL.Size = new System.Drawing.Size(668, 330);
+            this.txtTestSQL.TabIndex = 0;
+            // 
+            // frmMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(723, 718);
+            this.Controls.Add(this.mainTab);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "frmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "数据同步工具";
+            this.Load += new System.EventHandler(this.frmMain_Load);
+            this.mainTab.ResumeLayout(false);
+            this.tLog.ResumeLayout(false);
+            this.tLog.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridLog)).EndInit();
+            this.tSrc.ResumeLayout(false);
+            this.tSrc.PerformLayout();
+            this.tTarget.ResumeLayout(false);
+            this.tTarget.PerformLayout();
+            this.tSQL.ResumeLayout(false);
+            this.tSQL.PerformLayout();
+            this.tSQLTest.ResumeLayout(false);
+            this.tSQLTest.PerformLayout();
+            this.tabResult.ResumeLayout(false);
+            this.tabGrid.ResumeLayout(false);
+            this.scGrid.Panel1.ResumeLayout(false);
+            this.scGrid.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scGrid)).EndInit();
+            this.scGrid.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridTest)).EndInit();
+            this.tabMsg.ResumeLayout(false);
+            this.tabMsg.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TabControl mainTab;
+        private System.Windows.Forms.TabPage tLog;
+        private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.DataGridView gridLog;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn coldate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSrc;
+        private System.Windows.Forms.DateTimePicker dtpLog;
+        private System.Windows.Forms.Button btnRLog;
+        private System.Windows.Forms.TabPage tSrc;
+        private System.Windows.Forms.TabPage tTarget;
+        private System.Windows.Forms.TabPage tSQL;
+        private System.Windows.Forms.TabPage tSQLTest;
+        private System.Windows.Forms.TextBox txtSrcPassword;
+        private System.Windows.Forms.TextBox txtSrcUser;
+        private System.Windows.Forms.TextBox txtSrcPort;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtSrcSource;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbSrcAuthz;
+        private System.Windows.Forms.ComboBox cbSrcType;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtSrcDB;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnSrcApply;
+        private System.Windows.Forms.Button btnDstApply;
+        private System.Windows.Forms.TextBox txtDstDB;
+        private System.Windows.Forms.TextBox txtDstPassword;
+        private System.Windows.Forms.TextBox txtDstUser;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtDstPort;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtDstSource;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cbDstAuthz;
+        private System.Windows.Forms.ComboBox cbDstType;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtTestSQL;
+        private System.Windows.Forms.RadioButton rbDst;
+        private System.Windows.Forms.RadioButton rbSrc;
+        private System.Windows.Forms.CheckBox cbTestDebug;
+        private System.Windows.Forms.Button btnTestExec;
+        private System.Windows.Forms.TextBox txtMsg;
+        private System.Windows.Forms.TabControl tabResult;
+        private System.Windows.Forms.TabPage tabGrid;
+        private System.Windows.Forms.DataGridView gridTest;
+        private System.Windows.Forms.TabPage tabMsg;
+        private System.Windows.Forms.SplitContainer scGrid;
+        private System.Windows.Forms.ListBox lbGrid;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.RadioButton rbSQLDst;
+        private System.Windows.Forms.RadioButton rbSQLSrc;
+        private System.Windows.Forms.ComboBox cbSQLSelect;
+        private System.Windows.Forms.TextBox txtSQL;
+        private System.Windows.Forms.Button btnNewFile;
+        private System.Windows.Forms.TextBox txtNewFile;
+        private System.Windows.Forms.Button btnDelete;
+    }
+}
+
