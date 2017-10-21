@@ -81,6 +81,7 @@
     <Compile Include="Services\DBSyncService.Designer.cs">
       <DependentUpon>DBSyncService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\SQLHelper.cs" />
     <EmbeddedResource Include="Logics\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>

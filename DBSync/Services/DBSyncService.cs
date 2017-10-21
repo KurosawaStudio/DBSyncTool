@@ -29,6 +29,29 @@ namespace DBSync.Services
         {
             GetParametersForService();
             GetDBConfigForService();
+            TryDBConfigForService();
+        }
+
+        private void TryDBConfigForService()
+        {
+            LogManager.CreateLogManager().AddLog("数据库测试", LogLevel.Info, $"正在测试源数据库连接");
+            if (!SQLHelper.TryConnection(Src, out string smsg))
+            {
+                LogManager.CreateLogManager().AddLog("数据库测试", LogLevel.Info, $"源数据库连接失败,服务自动停止\r\n错误信息:{smsg}");
+                error = true;
+                Stop();
+                return;
+            }
+            LogManager.CreateLogManager().AddLog("数据库测试", LogLevel.Info, $"源数据库连接成功");
+            LogManager.CreateLogManager().AddLog("数据库测试", LogLevel.Info, $"正在测试目标数据库连接");
+            if (!SQLHelper.TryConnection(Dest, out string dmsg))
+            {
+                LogManager.CreateLogManager().AddLog("数据库测试", LogLevel.Info, $"目标数据库连接失败,服务自动停止\r\n错误信息:{dmsg}");
+                error = true;
+                Stop();
+                return;
+            }
+            LogManager.CreateLogManager().AddLog("配置文件", LogLevel.Info, $"目标数据库连接成功");
         }
 
         private void GetDBConfigForService()
@@ -48,8 +71,8 @@ namespace DBSync.Services
             
             try
             {
-                IniFile ini = IniFile.FromIni(File.ReadAllLines("Sync.ini"));
-                Dest = new DatabaseConfig
+                IniFile ini = IniFile.FromIni(File.ReadAllLines($@"{Program.basePath}\Sync.ini"));
+                Src = new DatabaseConfig
                 {
                     ServerType =
                         (DatabaseServerType) Enum.Parse(typeof(DatabaseServerType), ini["SourceDatabase"]["Type"]),
@@ -62,15 +85,18 @@ namespace DBSync.Services
                     Database = ini["SourceDatabase"]["Database"]
                 };
 
-                Src = new DatabaseConfig();
-                Src.ServerType =
-                    (DatabaseServerType) Enum.Parse(typeof(DatabaseServerType), ini["DestDatabase"]["Type"]);
-                Src.DataSource = ini["DestDatabase"]["DataSource"];
-                Src.Port = int.Parse(ini["DestDatabase"]["Port"]);
-                Src.UserID = ini["DestDatabase"]["UserID"];
-                Src.Password = ini["DestDatabase"]["Password"];
-                Src.AuthType = (DatabaseAuthType) Enum.Parse(typeof(DatabaseAuthType), ini["DestDatabase"]["AuthType"]);
-                Src.Database = ini["DestDatabase"]["Database"];
+                Dest = new DatabaseConfig
+                {
+                    ServerType =
+                    (DatabaseServerType)Enum.Parse(typeof(DatabaseServerType), ini["DestDatabase"]["Type"]),
+                    DataSource = ini["DestDatabase"]["DataSource"],
+                    Port = int.Parse(ini["DestDatabase"]["Port"]),
+                    UserID = ini["DestDatabase"]["UserID"],
+                    Password = ini["DestDatabase"]["Password"],
+                    AuthType = (DatabaseAuthType)Enum.Parse(typeof(DatabaseAuthType), ini["DestDatabase"]["AuthType"]),
+                    Database = ini["DestDatabase"]["Database"]
+                };
+                LogManager.CreateLogManager().AddLog("配置文件", LogLevel.Info, $"配置文件读取成功");
             }
             catch (Exception ex)
             {
@@ -95,5 +121,7 @@ namespace DBSync.Services
         {
             LogManager.CreateLogManager().AddLog("系统服务运行池", LogLevel.Info, "服务已停止");
         }
+        
+
     }
 }
