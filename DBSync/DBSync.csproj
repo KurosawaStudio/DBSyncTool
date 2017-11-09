@@ -115,10 +115,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SQL\Dst\test2.sql">
+    <Content Include="SQL\Dst\test.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SQL\Src\test1.sql">
+    <Content Include="SQL\Src\test.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

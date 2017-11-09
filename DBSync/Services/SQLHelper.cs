@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -81,6 +82,50 @@ namespace DBSync.Services
             {
                 msg = ex.Message;
                 return false;
+            }
+        }
+
+        public static DataSet QueryDataSet(DatabaseConfig dbconf, string sql, List<IDbDataParameter> parameters,
+            out string msg)
+        {
+            var con = GetConnection(dbconf);
+            msg = "";
+            DataSet dataSet=new DataSet();
+            if (con is SqlConnection)
+            {
+                SqlCommand cmd = new SqlCommand(sql, con as SqlConnection);
+                if (parameters != null)
+                {
+                    foreach (IDbDataParameter parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+               
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                con.Open();
+                sda.Fill(dataSet);
+                return dataSet;
+            }
+            else if (con is MySqlConnection)
+            {
+                MySqlCommand cmd = new MySqlCommand(sql,con as MySqlConnection);
+                if (parameters != null)
+                {
+                    foreach (IDbDataParameter parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+                MySqlDataAdapter mda=new MySqlDataAdapter(cmd);
+                con.Open();
+                mda.Fill(dataSet);
+                return dataSet;
+            }
+            else
+            {
+                msg = "不支持的数据库类型";
+                return null;
             }
         }
     }

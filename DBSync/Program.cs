@@ -63,10 +63,14 @@ namespace DBSync
                     ServiceBase service=new ServiceBase();
                     if (args.Contains("DBSyncService"))
                     {
-                        service=new DBSyncService();
+                        service = new DBSyncService();
                     }
-                    ServiceBase[] serviceToRun = new ServiceBase[]
+                    else
                     {
+                        MessageBox.Show($@"没有这个服务:{args[1]??"<NULL>"}");
+                        return;
+                    }
+                    ServiceBase[] serviceToRun = {
                         service
                     };
                     ServiceBase.Run(serviceToRun);

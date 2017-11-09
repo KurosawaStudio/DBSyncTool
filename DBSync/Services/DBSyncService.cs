@@ -7,11 +7,14 @@ using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using DBSync.Enumerations;
 using DBSync.Ini;
 using DBSync.Log;
+using STT=System.Threading.Timer;
 
 namespace DBSync.Services
 {
@@ -24,12 +27,22 @@ namespace DBSync.Services
         
         private bool error = false;
         private DatabaseConfig Dest,Src;
+        private Thread worker;
 
         protected override void OnStart(string[] args)
         {
             GetParametersForService();
             GetDBConfigForService();
             TryDBConfigForService();
+            WriteSuccessLogForService();
+            StartNewThreadForService();
+        }
+
+        #region Basic Service Functions
+
+        private void WriteSuccessLogForService()
+        {
+            LogManager.CreateLogManager().AddLog("系统服务运行池",LogLevel.Info,"服务启动成功");
         }
 
         private void TryDBConfigForService()
@@ -121,7 +134,88 @@ namespace DBSync.Services
         {
             LogManager.CreateLogManager().AddLog("系统服务运行池", LogLevel.Info, "服务已停止");
         }
-        
 
+        #endregion
+
+        private void StartNewThreadForService()
+        {
+            LogManager.CreateLogManager().AddLog("线程操作池",LogLevel.Info,"开启线程操作");
+            try
+            {
+                new Thread(() =>
+                {
+                    WorkerThreadForService();
+                }).Start();
+                LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Info, "线程启动成功");
+            }
+            catch (Exception ex)
+            {
+                LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Error, $@"线程启动失败,错误类型:{ex.GetType().FullName}\r\n错误信息:{ex.Message}\r\n错误堆栈:{ex.StackTrace}");
+            }
+            
+        }
+
+        private void WorkerThreadForService()
+        {
+            string SrcSqlBasePath = $@"{Program.basePath}\SQL\Src\";
+            string DstSqlBasePath = $@"{Program.basePath}\SQL\Dst\";
+
+            DirectoryInfo srcDirInfo=new DirectoryInfo(SrcSqlBasePath);
+            DirectoryInfo dstDirInfo=new DirectoryInfo(DstSqlBasePath);
+            SortedList<string,string> srcSqlList=new SortedList<string,string>();
+            SortedList<string,string> dstSqlList=new SortedList<string,string>();
+
+            FileInfo[] sfis = srcDirInfo.GetFiles("*.sql");
+            foreach (var sfi in sfis)
+            {
+                srcSqlList.Add(sfi.Name,sfi.FullName);
+            }
+
+            FileInfo[] dfis = dstDirInfo.GetFiles("*.sql");
+            foreach (var dfi in dfis)
+            {
+                dstSqlList.Add(dfi.Name,dfi.FullName);
+            }
+
+            STT timer =new STT((obj) =>
+            {
+                DoSqlForService(srcSqlList, dstSqlList);
+            },null,Timeout.Infinite,0);
+            timer.Change(0, 1000);
+        }
+
+        private void DoSqlForService(SortedList<string, string> srcSqlList, SortedList<string, string> dstSqlList)
+        {
+            foreach (var key in srcSqlList.Keys)
+            {
+                string srcSql = File.ReadAllText(srcSqlList[key]);
+                string smsg, dmsg;
+                DataSet ds = SQLHelper.QueryDataSet(Src, srcSql, null, out smsg);
+
+                if (ds.Tables.Count == 0)
+                {
+                    LogManager.CreateLogManager().AddLog("数据库查询",LogLevel.Error,$@"数据库查询'{srcSql}'没有返回表");
+                    continue;
+                }
+
+                if (!dstSqlList.ContainsKey(key))
+                {
+                    LogManager.CreateLogManager().AddLog("数据库查询", LogLevel.Error, $@"数据库查询'{key}'没有对应的同步查询");
+                    continue;
+                }
+
+                string dstSql = File.ReadAllText(dstSqlList[key]);
+
+                foreach (var dr in ds.Tables[0].Rows)
+                {
+                    List<IDbDataParameter> paras = new List<IDbDataParameter>();
+                    foreach (DataColumn col in ds.Tables[0].Columns)
+                    {
+                        //IDbDataParameter para = SQLHelper.CreateParameter("@" + col.ColumnName, dr[col]);
+
+                    }
+                }
+            }
+        }
     }
 }
