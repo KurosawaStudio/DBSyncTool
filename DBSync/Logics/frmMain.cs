@@ -168,29 +168,43 @@ namespace DBSync.Logics
             txtMsg.Text = "";
             if (cbTestDebug.Checked)
             {
-
+                if(con is SqlConnection)
+                {
+                    cmd.CommandText = "BEGIN TRAN;\r\n" + cmd.CommandText + "\r\nROLLBACK TRAN;\r\n";
+                }
+                else if(con is MySqlConnection)
+                {
+                    cmd.CommandText = "SET AUTOCOMMIT=0;\r\nBEGIN;\r\n" + cmd.CommandText + "\r\nROLLBACK;\r\nROLLBACK;\r\nSET AUTOCOMMIT=1;\r\n";
+                }
             }
-            IDataAdapter da = cmd is SqlCommand
-                ? (IDataAdapter) new SqlDataAdapter(cmd as SqlCommand)
-                : (IDataAdapter) new MySqlDataAdapter(cmd as MySqlCommand);
-            ds = new DataSet();
-            da.Fill(ds);
-            if (ds.Tables.Count > 0)
+            try
             {
-                gridTest.DataSource = ds.Tables[0];
+                IDataAdapter da = cmd is SqlCommand
+                    ? (IDataAdapter)new SqlDataAdapter(cmd as SqlCommand)
+                    : (IDataAdapter)new MySqlDataAdapter(cmd as MySqlCommand);
+                ds = new DataSet();
+                da.Fill(ds);
+                if (ds.Tables.Count > 0)
+                {
+                    gridTest.DataSource = ds.Tables[0];
+                }
+                else
+                {
+                    gridTest.DataSource = new DataTable();
+                }
+                gridTest.Update();
+                tables = new List<DataTable>();
+                foreach (DataTable dt in ds.Tables)
+                {
+                    tables.Add(dt);
+                }
+                lbGrid.DataSource = tables;
+                lbGrid.Update();
             }
-            else
+            catch(Exception ex)
             {
-                gridTest.DataSource = new DataTable();
+                txtMsg.Text = ex.Message;
             }
-            gridTest.Update();
-            tables = new List<DataTable>();
-            foreach (DataTable dt in ds.Tables)
-            {
-                tables.Add(dt);
-            }
-            lbGrid.DataSource = tables;
-            lbGrid.Update();
 
             con.Close();
         }

@@ -1,0 +1,1 @@
+﻿INSERT INTO dt VALUES(@dt)
