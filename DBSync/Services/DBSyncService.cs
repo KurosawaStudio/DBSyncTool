@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using DBSync.Enumerations;
 using DBSync.Ini;
 using DBSync.Log;
-using STT=System.Threading.Timer;
+using STT=System.Timers.Timer;
 
 namespace DBSync.Services
 {
@@ -36,6 +36,11 @@ namespace DBSync.Services
             TryDBConfigForService();
             WriteSuccessLogForService();
             StartNewThreadForService();
+        }
+
+        public void s()
+        {
+            OnStart(null);
         }
 
         #region Basic Service Functions
@@ -177,12 +182,18 @@ namespace DBSync.Services
                 dstSqlList.Add(dfi.Name,dfi.FullName);
             }
 
-            STT timer =new STT((obj) =>
+            /*STT timer =new STT((obj) =>
             {
                 DoSqlForService(srcSqlList, dstSqlList);
             },null,Timeout.Infinite,0);
-            timer.Change(0, 1000);
-        }
+            timer.Change(0, 10000);*/
+            STT timer = new STT(1000);
+            timer.Elapsed += (sender, e) =>
+            {
+                DoSqlForService(srcSqlList, dstSqlList);
+            };
+            timer.Start();
+        }        
 
         private void DoSqlForService(SortedList<string, string> srcSqlList, SortedList<string, string> dstSqlList)
         {
@@ -206,15 +217,17 @@ namespace DBSync.Services
 
                 string dstSql = File.ReadAllText(dstSqlList[key]);
 
-                foreach (var dr in ds.Tables[0].Rows)
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     List<IDbDataParameter> paras = new List<IDbDataParameter>();
                     foreach (DataColumn col in ds.Tables[0].Columns)
                     {
-                        //IDbDataParameter para = SQLHelper.CreateParameter("@" + col.ColumnName, dr[col]);
-
+                        IDbDataParameter para = SQLHelper.CreateParameter(Dest,"@" + col.ColumnName, dr[col],out dmsg);
+                        paras.Add(para);
                     }
+                    SQLHelper.NonQuery(Dest, dstSql, paras, out dmsg);
                 }
+                
             }
         }
     }

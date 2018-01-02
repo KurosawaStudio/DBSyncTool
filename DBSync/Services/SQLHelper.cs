@@ -105,6 +105,7 @@ namespace DBSync.Services
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 con.Open();
                 sda.Fill(dataSet);
+                con.Close();
                 return dataSet;
             }
             else if (con is MySqlConnection)
@@ -120,7 +121,70 @@ namespace DBSync.Services
                 MySqlDataAdapter mda=new MySqlDataAdapter(cmd);
                 con.Open();
                 mda.Fill(dataSet);
+                con.Close();
                 return dataSet;
+            }
+            else
+            {
+                msg = "不支持的数据库类型";
+                return null;
+            }
+        }
+
+        public static int NonQuery(DatabaseConfig dbconf, string sql, List<IDbDataParameter> parameters,
+           out string msg)
+        {
+            var con = GetConnection(dbconf);
+            msg = "";
+            DataSet dataSet = new DataSet();
+            con.Open();
+            if (con is SqlConnection)
+            {
+                SqlCommand cmd = new SqlCommand(sql, con as SqlConnection);
+                if (parameters != null)
+                {
+                    foreach (IDbDataParameter parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+                int ret= cmd.ExecuteNonQuery();
+                con.Close();
+                return ret;
+            }
+            else if (con is MySqlConnection)
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, con as MySqlConnection);
+                if (parameters != null)
+                {
+                    foreach (IDbDataParameter parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+                int ret = cmd.ExecuteNonQuery();
+                con.Close();
+                return ret;
+            }
+            else
+            {
+                msg = "不支持的数据库类型";
+                return 0;
+            }
+        }
+
+        public static IDbDataParameter CreateParameter(DatabaseConfig dbconf, string name,object value,out string msg)
+        {
+            var con = GetConnection(dbconf);
+            msg = "";
+            DataSet dataSet = new DataSet();
+            if (con is SqlConnection)
+            {
+                return new SqlParameter(name, value);
+            }
+            else if (con is MySqlConnection)
+            {
+                return new MySqlParameter(name, value);
             }
             else
             {

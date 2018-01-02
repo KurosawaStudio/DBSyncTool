@@ -54,6 +54,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tTarget = new System.Windows.Forms.TabPage();
+            this.btnDstTest = new System.Windows.Forms.Button();
             this.btnDstApply = new System.Windows.Forms.Button();
             this.txtDstDB = new System.Windows.Forms.TextBox();
             this.txtDstPassword = new System.Windows.Forms.TextBox();
@@ -92,6 +93,7 @@
             this.cbTestDebug = new System.Windows.Forms.CheckBox();
             this.btnTestExec = new System.Windows.Forms.Button();
             this.txtTestSQL = new System.Windows.Forms.TextBox();
+            this.btnSrcTest = new System.Windows.Forms.Button();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -218,6 +220,7 @@
             // 
             // tSrc
             // 
+            this.tSrc.Controls.Add(this.btnSrcTest);
             this.tSrc.Controls.Add(this.btnSrcApply);
             this.tSrc.Controls.Add(this.txtSrcDB);
             this.tSrc.Controls.Add(this.txtSrcPassword);
@@ -325,6 +328,7 @@
             this.cbSrcAuthz.Name = "cbSrcAuthz";
             this.cbSrcAuthz.Size = new System.Drawing.Size(221, 20);
             this.cbSrcAuthz.TabIndex = 1;
+            this.cbSrcAuthz.SelectedIndexChanged += new System.EventHandler(this.cbSrcAuthz_SelectedIndexChanged);
             // 
             // cbSrcType
             // 
@@ -376,6 +380,7 @@
             // 
             // tTarget
             // 
+            this.tTarget.Controls.Add(this.btnDstTest);
             this.tTarget.Controls.Add(this.btnDstApply);
             this.tTarget.Controls.Add(this.txtDstDB);
             this.tTarget.Controls.Add(this.txtDstPassword);
@@ -398,6 +403,16 @@
             this.tTarget.TabIndex = 2;
             this.tTarget.Text = "目标数据库设置";
             this.tTarget.UseVisualStyleBackColor = true;
+            // 
+            // btnDstTest
+            // 
+            this.btnDstTest.Location = new System.Drawing.Point(198, 299);
+            this.btnDstTest.Name = "btnDstTest";
+            this.btnDstTest.Size = new System.Drawing.Size(75, 23);
+            this.btnDstTest.TabIndex = 19;
+            this.btnDstTest.Text = "测试";
+            this.btnDstTest.UseVisualStyleBackColor = true;
+            this.btnDstTest.Click += new System.EventHandler(this.btnDstTest_Click);
             // 
             // btnDstApply
             // 
@@ -483,6 +498,7 @@
             this.cbDstAuthz.Name = "cbDstAuthz";
             this.cbDstAuthz.Size = new System.Drawing.Size(221, 20);
             this.cbDstAuthz.TabIndex = 11;
+            this.cbDstAuthz.SelectedIndexChanged += new System.EventHandler(this.cbDstAuthz_SelectedIndexChanged);
             // 
             // cbDstType
             // 
@@ -789,6 +805,16 @@
             this.txtTestSQL.Size = new System.Drawing.Size(668, 330);
             this.txtTestSQL.TabIndex = 0;
             // 
+            // btnSrcTest
+            // 
+            this.btnSrcTest.Location = new System.Drawing.Point(198, 299);
+            this.btnSrcTest.Name = "btnSrcTest";
+            this.btnSrcTest.Size = new System.Drawing.Size(75, 23);
+            this.btnSrcTest.TabIndex = 20;
+            this.btnSrcTest.Text = "测试";
+            this.btnSrcTest.UseVisualStyleBackColor = true;
+            this.btnSrcTest.Click += new System.EventHandler(this.btnSrcTest_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -892,6 +918,8 @@
         private System.Windows.Forms.Button btnNewFile;
         private System.Windows.Forms.TextBox txtNewFile;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnDstTest;
+        private System.Windows.Forms.Button btnSrcTest;
     }
 }
 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using DBSync.Enumerations;
 using DBSync.Ini;
 using DBSync.Log;
+using DBSync.Services;
 using MySql.Data.MySqlClient;
 
 namespace DBSync.Logics
@@ -115,6 +116,55 @@ namespace DBSync.Logics
             File.WriteAllText("Sync.ini", data, Encoding.UTF8);
         }
 
+        private void btnSrcTest_Click(object sender, EventArgs e)
+        {
+            if (ini == null)
+            {
+                ini = new IniFile();
+            }
+
+            ini["SourceDatabase"]["Type"] = ((DatabaseServerType)cbSrcType.SelectedIndex).ToString();
+            ini["SourceDatabase"]["DataSource"] = txtSrcSource.Text;
+            ini["SourceDatabase"]["Port"] = txtSrcPort.Text;
+            ini["SourceDatabase"]["UserID"] = txtSrcUser.Text;
+            ini["SourceDatabase"]["Password"] = txtSrcPassword.Text;
+            ini["SourceDatabase"]["AuthType"] = ((DatabaseAuthType)cbSrcAuthz.SelectedIndex).ToString();
+            ini["SourceDatabase"]["Database"] = txtSrcDB.Text;
+
+            DatabaseConfig src = new DatabaseConfig
+            {
+                ServerType =
+                        (DatabaseServerType)Enum.Parse(typeof(DatabaseServerType), ini["SourceDatabase"]["Type"]),
+                DataSource = ini["SourceDatabase"]["DataSource"],
+                Port = int.Parse(ini["SourceDatabase"]["Port"]),
+                UserID = ini["SourceDatabase"]["UserID"],
+                Password = ini["SourceDatabase"]["Password"],
+                AuthType = (DatabaseAuthType)Enum.Parse(typeof(DatabaseAuthType),
+                        ini["SourceDatabase"]["AuthType"]),
+                Database = ini["SourceDatabase"]["Database"]
+            };
+
+            SQLHelper.TryConnection(src, out string msg);
+            MessageBox.Show(msg);
+        }
+
+        private void cbSrcAuthz_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (((DatabaseAuthType)cbSrcAuthz.SelectedIndex) == DatabaseAuthType.Windows)
+            {
+                txtSrcUser.Enabled = false;
+                txtSrcPassword.Enabled = false;
+                txtSrcUser.ReadOnly = true;
+                txtSrcPassword.ReadOnly = true;
+            }
+            else
+            {
+                txtSrcUser.Enabled = true;
+                txtSrcPassword.Enabled = true;
+                txtSrcUser.ReadOnly = false;
+                txtSrcPassword.ReadOnly = false;
+            }
+        }
 
         #endregion
 
@@ -149,6 +199,53 @@ namespace DBSync.Logics
 
             string data = ini.ToIni();
             File.WriteAllText("Sync.ini", data, Encoding.UTF8);
+        }
+        private void btnDstTest_Click(object sender, EventArgs e)
+        {
+            if (ini == null)
+            {
+                ini = new IniFile();
+            }
+
+            ini["DestDatabase"]["Type"] = ((DatabaseServerType)cbDstType.SelectedIndex).ToString();
+            ini["DestDatabase"]["DataSource"] = txtDstSource.Text;
+            ini["DestDatabase"]["Port"] = txtDstPort.Text;
+            ini["DestDatabase"]["UserID"] = txtDstUser.Text;
+            ini["DestDatabase"]["Password"] = txtDstPassword.Text;
+            ini["DestDatabase"]["AuthType"] = ((DatabaseAuthType)cbDstAuthz.SelectedIndex).ToString();
+            ini["DestDatabase"]["Database"] = txtDstDB.Text;
+
+            DatabaseConfig dst = new DatabaseConfig
+            {
+                ServerType =
+                    (DatabaseServerType)Enum.Parse(typeof(DatabaseServerType), ini["DestDatabase"]["Type"]),
+                DataSource = ini["DestDatabase"]["DataSource"],
+                Port = int.Parse(ini["DestDatabase"]["Port"]),
+                UserID = ini["DestDatabase"]["UserID"],
+                Password = ini["DestDatabase"]["Password"],
+                AuthType = (DatabaseAuthType)Enum.Parse(typeof(DatabaseAuthType), ini["DestDatabase"]["AuthType"]),
+                Database = ini["DestDatabase"]["Database"]
+            };
+
+            SQLHelper.TryConnection(dst, out string msg);
+            MessageBox.Show(msg);
+        }
+        private void cbDstAuthz_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (((DatabaseAuthType)cbDstAuthz.SelectedIndex) == DatabaseAuthType.Windows)
+            {
+                txtDstUser.Enabled = false;
+                txtDstPassword.Enabled = false;
+                txtDstUser.ReadOnly = true;
+                txtDstPassword.ReadOnly = true;
+            }
+            else
+            {
+                txtDstUser.Enabled = true;
+                txtDstPassword.Enabled = true;
+                txtDstUser.ReadOnly = false;
+                txtDstPassword.ReadOnly = false;
+            }
         }
 
         #endregion
@@ -457,8 +554,12 @@ namespace DBSync.Logics
         }
 
 
+
+
+
         #endregion
 
+        
     }
 }
 
