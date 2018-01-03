@@ -37,12 +37,7 @@ namespace DBSync.Services
             WriteSuccessLogForService();
             StartNewThreadForService();
         }
-
-        public void s()
-        {
-            OnStart(null);
-        }
-
+        
         #region Basic Service Functions
 
         private void WriteSuccessLogForService()
@@ -181,12 +176,7 @@ namespace DBSync.Services
             {
                 dstSqlList.Add(dfi.Name,dfi.FullName);
             }
-
-            /*STT timer =new STT((obj) =>
-            {
-                DoSqlForService(srcSqlList, dstSqlList);
-            },null,Timeout.Infinite,0);
-            timer.Change(0, 10000);*/
+            
             STT timer = new STT(1000);
             timer.Elapsed += (sender, e) =>
             {

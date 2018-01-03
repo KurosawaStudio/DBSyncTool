@@ -10,6 +10,7 @@ namespace DBSync.Services
 {
     public class SQLHelper
     {
+        private static DataSet cdsConfig;
         private static IDbConnection GetConnection(DatabaseConfig dbconf)
         {
             IDbConnection con=null;
@@ -48,6 +49,8 @@ namespace DBSync.Services
                 csb.Database = dbconf.Database;
                 csb.Server = dbconf.DataSource;
                 csb.Port = (uint)dbconf.Port;
+                csb.AllowBatch = true;
+                csb.AllowUserVariables = true;
                 if (dbconf.AuthType == DatabaseAuthType.Windows)
                 {
                     csb.IntegratedSecurity = true;
@@ -85,6 +88,35 @@ namespace DBSync.Services
             }
         }
 
+        private static void GetCommonParas(ref IDbCommand cmd)
+        {
+            cdsConfig = new DataSet();
+            cdsConfig.ReadXml($@"{Program.basePath}\config.xml");
+            foreach (DataRow dr in cdsConfig.Tables["global_var"].Rows)
+            {
+                string var_name = "gv_" + dr["var_name"].ToString();
+                object var_value = dr["var_value"];
+                if (cmd is SqlCommand)
+                {
+                    (cmd as SqlCommand).Parameters.AddWithValue(var_name, var_value);
+                }
+                else if (cmd is MySqlCommand)
+                {
+                    (cmd as MySqlCommand).Parameters.AddWithValue(var_name, var_value);
+                }
+            }
+        }
+        private static void GetCommonParasSqlServer(ref SqlCommand cmd)
+        {
+            IDbCommand scmd = cmd;
+            GetCommonParas(ref scmd);
+        }
+
+        private static void GetCommonParasMySql(ref MySqlCommand cmd) {
+            IDbCommand mcmd = cmd;
+            GetCommonParas(ref mcmd);
+        }
+
         public static DataSet QueryDataSet(DatabaseConfig dbconf, string sql, List<IDbDataParameter> parameters,
             out string msg)
         {
@@ -101,7 +133,7 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
-               
+                GetCommonParasSqlServer(ref cmd);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 con.Open();
                 sda.Fill(dataSet);
@@ -118,6 +150,7 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
+                GetCommonParasMySql(ref cmd);
                 MySqlDataAdapter mda=new MySqlDataAdapter(cmd);
                 con.Open();
                 mda.Fill(dataSet);
@@ -148,6 +181,7 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
+                GetCommonParasSqlServer(ref cmd);
                 int ret= cmd.ExecuteNonQuery();
                 con.Close();
                 return ret;
@@ -162,6 +196,7 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
+                GetCommonParasMySql(ref cmd);
                 int ret = cmd.ExecuteNonQuery();
                 con.Close();
                 return ret;

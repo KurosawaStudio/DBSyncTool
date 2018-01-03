@@ -1,1 +1,1 @@
-﻿INSERT INTO dt VALUES(@dt)
+﻿INSERT INTO dt VALUES(@dt,@gv_test);

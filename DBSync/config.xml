@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<config:cdsConfig xmlns:config="https://kurosawa.ruby.ne.jp/dbconf/">
+  <config:global_var>
+    <config:var_name>test</config:var_name>
+    <config:var_type>1</config:var_type>
+    <config:var_value>test</config:var_value>
+  </config:global_var>
+  <config:zd_var_type>
+    <config:type_id>0</config:type_id>
+    <config:type_name>环境变量</config:type_name>
+  </config:zd_var_type>
+  <config:zd_var_type>
+    <config:type_id>1</config:type_id>
+    <config:type_name>数据库参数</config:type_name>
+  </config:zd_var_type>
+</config:cdsConfig>

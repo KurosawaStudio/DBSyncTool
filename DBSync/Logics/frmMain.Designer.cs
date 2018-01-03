@@ -38,6 +38,7 @@
             this.coldate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tSrc = new System.Windows.Forms.TabPage();
+            this.btnSrcTest = new System.Windows.Forms.Button();
             this.btnSrcApply = new System.Windows.Forms.Button();
             this.txtSrcDB = new System.Windows.Forms.TextBox();
             this.txtSrcPassword = new System.Windows.Forms.TextBox();
@@ -93,7 +94,19 @@
             this.cbTestDebug = new System.Windows.Forms.CheckBox();
             this.btnTestExec = new System.Windows.Forms.Button();
             this.txtTestSQL = new System.Windows.Forms.TextBox();
-            this.btnSrcTest = new System.Windows.Forms.Button();
+            this.tConfig = new System.Windows.Forms.TabPage();
+            this.dbgrdconfig = new System.Windows.Forms.DataGridView();
+            this.cdsConfig = new System.Data.DataSet();
+            this.global_var = new System.Data.DataTable();
+            this.var_name_col = new System.Data.DataColumn();
+            this.var_type_col = new System.Data.DataColumn();
+            this.var_value_col = new System.Data.DataColumn();
+            this.zd_var_type = new System.Data.DataTable();
+            this.type_id_col = new System.Data.DataColumn();
+            this.type_name_col = new System.Data.DataColumn();
+            this.var_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.var_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.var_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -109,6 +122,11 @@
             this.scGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridTest)).BeginInit();
             this.tabMsg.SuspendLayout();
+            this.tConfig.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dbgrdconfig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdsConfig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.global_var)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zd_var_type)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTab
@@ -118,6 +136,7 @@
             this.mainTab.Controls.Add(this.tTarget);
             this.mainTab.Controls.Add(this.tSQL);
             this.mainTab.Controls.Add(this.tSQLTest);
+            this.mainTab.Controls.Add(this.tConfig);
             this.mainTab.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTab.Location = new System.Drawing.Point(0, 0);
             this.mainTab.Name = "mainTab";
@@ -243,6 +262,16 @@
             this.tSrc.TabIndex = 1;
             this.tSrc.Text = "源数据库设置";
             this.tSrc.UseVisualStyleBackColor = true;
+            // 
+            // btnSrcTest
+            // 
+            this.btnSrcTest.Location = new System.Drawing.Point(198, 299);
+            this.btnSrcTest.Name = "btnSrcTest";
+            this.btnSrcTest.Size = new System.Drawing.Size(75, 23);
+            this.btnSrcTest.TabIndex = 20;
+            this.btnSrcTest.Text = "测试";
+            this.btnSrcTest.UseVisualStyleBackColor = true;
+            this.btnSrcTest.Click += new System.EventHandler(this.btnSrcTest_Click);
             // 
             // btnSrcApply
             // 
@@ -805,15 +834,134 @@
             this.txtTestSQL.Size = new System.Drawing.Size(668, 330);
             this.txtTestSQL.TabIndex = 0;
             // 
-            // btnSrcTest
+            // tConfig
             // 
-            this.btnSrcTest.Location = new System.Drawing.Point(198, 299);
-            this.btnSrcTest.Name = "btnSrcTest";
-            this.btnSrcTest.Size = new System.Drawing.Size(75, 23);
-            this.btnSrcTest.TabIndex = 20;
-            this.btnSrcTest.Text = "测试";
-            this.btnSrcTest.UseVisualStyleBackColor = true;
-            this.btnSrcTest.Click += new System.EventHandler(this.btnSrcTest_Click);
+            this.tConfig.Controls.Add(this.dbgrdconfig);
+            this.tConfig.Location = new System.Drawing.Point(4, 22);
+            this.tConfig.Name = "tConfig";
+            this.tConfig.Padding = new System.Windows.Forms.Padding(3);
+            this.tConfig.Size = new System.Drawing.Size(715, 692);
+            this.tConfig.TabIndex = 5;
+            this.tConfig.Text = "程序设置";
+            this.tConfig.UseVisualStyleBackColor = true;
+            // 
+            // dbgrdconfig
+            // 
+            this.dbgrdconfig.AllowUserToResizeColumns = false;
+            this.dbgrdconfig.AllowUserToResizeRows = false;
+            this.dbgrdconfig.AutoGenerateColumns = false;
+            this.dbgrdconfig.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dbgrdconfig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.var_name,
+            this.var_type,
+            this.var_value});
+            this.dbgrdconfig.DataMember = "global_var";
+            this.dbgrdconfig.DataSource = this.cdsConfig;
+            this.dbgrdconfig.Location = new System.Drawing.Point(18, 26);
+            this.dbgrdconfig.MultiSelect = false;
+            this.dbgrdconfig.Name = "dbgrdconfig";
+            this.dbgrdconfig.RowTemplate.Height = 23;
+            this.dbgrdconfig.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dbgrdconfig.Size = new System.Drawing.Size(656, 632);
+            this.dbgrdconfig.TabIndex = 0;
+            this.dbgrdconfig.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.dbgrdconfig_CancelRowEdit);
+            this.dbgrdconfig.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dbgrdconfig_CellEndEdit);
+            this.dbgrdconfig.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dbgrdconfig_DataError);
+            this.dbgrdconfig.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dbgrdconfig_DefaultValuesNeeded);
+            this.dbgrdconfig.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dbgrdconfig_RowsAdded);
+            this.dbgrdconfig.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dbgrdconfig_RowsRemoved);
+            // 
+            // cdsConfig
+            // 
+            this.cdsConfig.DataSetName = "cdsConfig";
+            this.cdsConfig.Namespace = "https://kurosawa.ruby.ne.jp/dbconf/";
+            this.cdsConfig.Prefix = "config";
+            this.cdsConfig.Tables.AddRange(new System.Data.DataTable[] {
+            this.global_var,
+            this.zd_var_type});
+            // 
+            // global_var
+            // 
+            this.global_var.Columns.AddRange(new System.Data.DataColumn[] {
+            this.var_name_col,
+            this.var_type_col,
+            this.var_value_col});
+            this.global_var.Constraints.AddRange(new System.Data.Constraint[] {
+            new System.Data.UniqueConstraint("Constraint1", new string[] {
+                        "var_name"}, true)});
+            this.global_var.Prefix = "config";
+            this.global_var.PrimaryKey = new System.Data.DataColumn[] {
+        this.var_name_col};
+            this.global_var.TableName = "global_var";
+            // 
+            // var_name_col
+            // 
+            this.var_name_col.AllowDBNull = false;
+            this.var_name_col.ColumnName = "var_name";
+            this.var_name_col.Prefix = "config";
+            // 
+            // var_type_col
+            // 
+            this.var_type_col.AllowDBNull = false;
+            this.var_type_col.ColumnName = "var_type";
+            this.var_type_col.DataType = typeof(int);
+            this.var_type_col.DefaultValue = 0;
+            this.var_type_col.Prefix = "config";
+            // 
+            // var_value_col
+            // 
+            this.var_value_col.AllowDBNull = false;
+            this.var_value_col.ColumnName = "var_value";
+            this.var_value_col.Prefix = "config";
+            // 
+            // zd_var_type
+            // 
+            this.zd_var_type.Columns.AddRange(new System.Data.DataColumn[] {
+            this.type_id_col,
+            this.type_name_col});
+            this.zd_var_type.Constraints.AddRange(new System.Data.Constraint[] {
+            new System.Data.UniqueConstraint("Constraint1", new string[] {
+                        "type_id"}, true)});
+            this.zd_var_type.Prefix = "config";
+            this.zd_var_type.PrimaryKey = new System.Data.DataColumn[] {
+        this.type_id_col};
+            this.zd_var_type.TableName = "zd_var_type";
+            // 
+            // type_id_col
+            // 
+            this.type_id_col.AllowDBNull = false;
+            this.type_id_col.AutoIncrement = true;
+            this.type_id_col.ColumnName = "type_id";
+            this.type_id_col.DataType = typeof(int);
+            this.type_id_col.Prefix = "config";
+            // 
+            // type_name_col
+            // 
+            this.type_name_col.AllowDBNull = false;
+            this.type_name_col.ColumnName = "type_name";
+            this.type_name_col.Prefix = "config";
+            // 
+            // var_name
+            // 
+            this.var_name.DataPropertyName = "var_name";
+            this.var_name.HeaderText = "变量名";
+            this.var_name.Name = "var_name";
+            // 
+            // var_type
+            // 
+            this.var_type.DataPropertyName = "var_type";
+            this.var_type.DataSource = this.cdsConfig;
+            this.var_type.DisplayMember = "zd_var_type.type_name";
+            this.var_type.HeaderText = "变量类型";
+            this.var_type.Name = "var_type";
+            this.var_type.ValueMember = "zd_var_type.type_id";
+            // 
+            // var_value
+            // 
+            this.var_value.DataPropertyName = "var_value";
+            this.var_value.HeaderText = "变量值";
+            this.var_value.Name = "var_value";
+            this.var_value.Width = 400;
             // 
             // frmMain
             // 
@@ -848,6 +996,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridTest)).EndInit();
             this.tabMsg.ResumeLayout(false);
             this.tabMsg.PerformLayout();
+            this.tConfig.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dbgrdconfig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdsConfig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.global_var)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zd_var_type)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -920,6 +1073,19 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnDstTest;
         private System.Windows.Forms.Button btnSrcTest;
+        private System.Windows.Forms.TabPage tConfig;
+        private System.Windows.Forms.DataGridView dbgrdconfig;
+        private System.Data.DataSet cdsConfig;
+        private System.Data.DataTable global_var;
+        private System.Data.DataColumn var_name_col;
+        private System.Data.DataColumn var_type_col;
+        private System.Data.DataColumn var_value_col;
+        private System.Data.DataTable zd_var_type;
+        private System.Data.DataColumn type_id_col;
+        private System.Data.DataColumn type_name_col;
+        private System.Windows.Forms.DataGridViewTextBoxColumn var_name;
+        private System.Windows.Forms.DataGridViewComboBoxColumn var_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn var_value;
     }
 }
 

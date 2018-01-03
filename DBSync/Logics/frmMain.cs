@@ -38,8 +38,16 @@ namespace DBSync.Logics
             InitTabDst();
             InitTabSql();
             InitDebugMode();
+            InitConfigDB();
         }
 
+        private void InitConfigDB()
+        {
+            cdsConfig.ReadXml($@"{Program.basePath}\config.xml");
+            dbgrdconfig.Update();
+            dbgrdconfig.AllowUserToAddRows = true;
+        }
+       
         private void InitDebugMode()
         {
             if (!debugMode)
@@ -263,6 +271,7 @@ namespace DBSync.Logics
             cmd.CommandText = txtTestSQL.Text;
             cmd.CommandText = new Regex("^\\s*[gG][Oo]\\s*$", RegexOptions.Multiline).Replace(cmd.CommandText, "");
             txtMsg.Text = "";
+            GetCommonParas(ref cmd);
             if (cbTestDebug.Checked)
             {
                 if(con is SqlConnection)
@@ -300,10 +309,34 @@ namespace DBSync.Logics
             }
             catch(Exception ex)
             {
-                txtMsg.Text = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    txtMsg.Text = ex.InnerException.Message;
+                }
+                else
+                {
+                    txtMsg.Text = ex.Message;
+                }
             }
 
             con.Close();
+        }
+
+        private void GetCommonParas(ref IDbCommand cmd)
+        {
+            foreach (DataRow dr in cdsConfig.Tables["global_var"].Rows)
+            {
+                string var_name = "gv_"+dr["var_name"].ToString();
+                object var_value = dr["var_value"];
+                if (cmd is SqlCommand)
+                {
+                    (cmd as SqlCommand).Parameters.AddWithValue(var_name, var_value);
+                }
+                else if (cmd is MySqlCommand)
+                {
+                    (cmd as MySqlCommand).Parameters.AddWithValue(var_name, var_value);
+                }
+            }
         }
 
         private IDbCommand GetDBCommand(IDbConnection con)
@@ -354,6 +387,8 @@ namespace DBSync.Logics
                     sb.Server = txtSrcSource.Text;
                     sb.Port = uint.Parse(txtSrcPort.Text);
                     sb.Database = txtSrcDB.Text;
+                    sb.AllowBatch = true;
+                    sb.AllowUserVariables = true;
                     if (cbSrcAuthz.SelectedIndex == (int) DatabaseAuthType.Windows)
                     {
                         sb.IntegratedSecurity = true;
@@ -401,6 +436,8 @@ namespace DBSync.Logics
                 sb.Server = txtDstSource.Text;
                 sb.Port = uint.Parse(txtDstPort.Text);
                 sb.Database = txtDstDB.Text;
+                sb.AllowBatch = true;
+                sb.AllowUserVariables = true;
                 if (cbDstAuthz.SelectedIndex == (int) DatabaseAuthType.Windows)
                 {
                     sb.IntegratedSecurity = true;
@@ -557,9 +594,42 @@ namespace DBSync.Logics
 
 
 
+
+        #endregion
+        
+        #region Tab Config
+        private void dbgrdconfig_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            cdsConfig.WriteXml($@"{Program.basePath}\config.xml");
+        }
+
+        private void dbgrdconfig_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {            
+            e.Row.Cells["var_type"].Value = 0;
+        }
+
+        private void dbgrdconfig_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            cdsConfig.WriteXml($@"{Program.basePath}\config.xml");
+        }
+
+        private void dbgrdconfig_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            //cdsConfig.WriteXml($@"{Program.basePath}\config.xml");
+        }
+
+        private void dbgrdconfig_CancelRowEdit(object sender, QuestionEventArgs e)
+        {
+            cdsConfig.WriteXml($@"{Program.basePath}\config.xml");
+        }
+
+        private void dbgrdconfig_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show(e.Exception.Message,"错误",MessageBoxButtons.OK,MessageBoxIcon.Error);
+        }
         #endregion
 
-        
+
     }
 }
 
