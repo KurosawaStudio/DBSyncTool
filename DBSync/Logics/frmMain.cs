@@ -328,6 +328,7 @@ namespace DBSync.Logics
             {
                 string var_name = "gv_"+dr["var_name"].ToString();
                 object var_value = dr["var_value"];
+                if ((int)dr["var_type"] != 1) continue;
                 if (cmd is SqlCommand)
                 {
                     (cmd as SqlCommand).Parameters.AddWithValue(var_name, var_value);
