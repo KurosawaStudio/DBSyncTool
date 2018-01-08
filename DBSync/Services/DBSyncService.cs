@@ -195,7 +195,6 @@ namespace DBSync.Services
                     return;
                 }
                 DoSqlForService(srcSqlList, dstSqlList);
-                Thread.Sleep(10000);
             };
             timer.Start();
         }        
