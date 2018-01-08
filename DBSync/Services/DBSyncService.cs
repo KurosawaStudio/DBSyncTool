@@ -144,6 +144,13 @@ namespace DBSync.Services
             {
                 new Thread(() =>
                 {
+                    Mutex mutex = new Mutex(true, "sync");
+                    bool mutexed=mutex.WaitOne(1000);
+                    if (!mutexed)
+                    {
+                        LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Info, "线程启动失败\r\n错误原因：上一个线程尚未退出");
+                        return;
+                    }
                     WorkerThreadForService();
                 }).Start();
                 LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Info, "线程启动成功");
@@ -180,7 +187,15 @@ namespace DBSync.Services
             STT timer = new STT(1000);
             timer.Elapsed += (sender, e) =>
             {
+                Mutex mutex = new Mutex(true, "sync");
+                bool mutexed = mutex.WaitOne(1000);
+                if (!mutexed)
+                {
+                    LogManager.CreateLogManager().AddLog("同步线程", LogLevel.Info, "线程同步失败\r\n错误原因：上一个线程尚未退出");
+                    return;
+                }
                 DoSqlForService(srcSqlList, dstSqlList);
+                Thread.Sleep(10000);
             };
             timer.Start();
         }        

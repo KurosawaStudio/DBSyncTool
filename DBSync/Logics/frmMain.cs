@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using DBSync.Enumerations;
 using DBSync.Ini;
@@ -21,7 +22,6 @@ namespace DBSync.Logics
         {
             InitializeComponent();
         }
-
         public frmMain(bool debugMode)
         {
             InitializeComponent();
