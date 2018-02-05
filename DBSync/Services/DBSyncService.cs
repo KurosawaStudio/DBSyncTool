@@ -144,14 +144,15 @@ namespace DBSync.Services
             {
                 new Thread(() =>
                 {
-                    Mutex mutex = new Mutex(true, "sync");
-                    bool mutexed=mutex.WaitOne(1000);
+                    Mutex mutex = new Mutex(true, "run");
+                    bool mutexed=mutex.WaitOne(60000);
                     if (!mutexed)
                     {
                         LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Info, "线程启动失败\r\n错误原因：上一个线程尚未退出");
                         return;
                     }
                     WorkerThreadForService();
+                    mutex.ReleaseMutex();
                 }).Start();
                 LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Info, "线程启动成功");
             }
@@ -172,29 +173,31 @@ namespace DBSync.Services
             SortedList<string,string> srcSqlList=new SortedList<string,string>();
             SortedList<string,string> dstSqlList=new SortedList<string,string>();
 
-            FileInfo[] sfis = srcDirInfo.GetFiles("*.sql");
+            FileInfo[] sfis = srcDirInfo.GetFiles("product.sql");
             foreach (var sfi in sfis)
             {
                 srcSqlList.Add(sfi.Name,sfi.FullName);
             }
 
-            FileInfo[] dfis = dstDirInfo.GetFiles("*.sql");
+            FileInfo[] dfis = dstDirInfo.GetFiles("product.sql");
             foreach (var dfi in dfis)
             {
                 dstSqlList.Add(dfi.Name,dfi.FullName);
             }
             
-            STT timer = new STT(1000);
+            STT timer = new STT(60000);
             timer.Elapsed += (sender, e) =>
             {
                 Mutex mutex = new Mutex(true, "sync");
-                bool mutexed = mutex.WaitOne(1000);
+                bool mutexed = mutex.WaitOne(60000);
                 if (!mutexed)
                 {
                     LogManager.CreateLogManager().AddLog("同步线程", LogLevel.Info, "线程同步失败\r\n错误原因：上一个线程尚未退出");
                     return;
                 }
                 DoSqlForService(srcSqlList, dstSqlList);
+                //mutex.Close();
+                mutex.ReleaseMutex();
             };
             timer.Start();
         }        
@@ -206,6 +209,7 @@ namespace DBSync.Services
                 string srcSql = File.ReadAllText(srcSqlList[key]);
                 string smsg, dmsg;
                 DataSet ds = SQLHelper.QueryDataSet(Src, srcSql, null, out smsg);
+                ds.WriteXml("ds.xml");
 
                 if (ds.Tables.Count == 0)
                 {

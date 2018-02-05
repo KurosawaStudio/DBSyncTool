@@ -1,4 +1,4 @@
-﻿select 
+﻿select top 1
 a.spbm as drugCode,a.spmc as drugName,a.ypgg as pack,a.sccj as factory,a.dw as unit,a.txm as barcode,
 a.pzwh as approval,isnull(t.stock,0) as stock,isnull(b.price04,9999) as price,1 as step
 from jc_jgtx b,jc_spxx a left join

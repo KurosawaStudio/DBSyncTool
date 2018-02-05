@@ -11,6 +11,13 @@ namespace DBSync.Services
     public class SQLHelper
     {
         private static DataSet cdsConfig;
+        private static DataTable global_var;
+        private static DataColumn var_name_col;
+        private static DataColumn var_type_col;
+        private static DataColumn var_value_col;
+        private static DataTable zd_var_type;
+        private static DataColumn type_id_col;
+        private static DataColumn type_name_col;
         private static IDbConnection GetConnection(DatabaseConfig dbconf)
         {
             IDbConnection con=null;
@@ -88,9 +95,98 @@ namespace DBSync.Services
             }
         }
 
+        private static void InitializeComponent()
+        {
+           
+
+            // 
+            // var_name_col
+            // 
+            var_name_col=new DataColumn();
+            var_name_col.AllowDBNull = false;
+            var_name_col.ColumnName = "var_name";
+            var_name_col.Prefix = "config";
+            // 
+            // var_type_col
+            // 
+            var_type_col=new DataColumn();
+            var_type_col.AllowDBNull = false;
+            var_type_col.ColumnName = "var_type";
+            var_type_col.DataType = typeof(int);
+            var_type_col.DefaultValue = 0;
+            var_type_col.Prefix = "config";
+            // 
+            // var_value_col
+            // 
+            var_value_col=new DataColumn();
+            var_value_col.AllowDBNull = false;
+            var_value_col.ColumnName = "var_value";
+            var_value_col.Prefix = "config";
+
+            // 
+            // global_var
+            // 
+            global_var=new DataTable();
+            global_var.Columns.AddRange(new System.Data.DataColumn[] {
+            var_name_col,
+            var_type_col,
+            var_value_col});
+            /*global_var.Constraints.AddRange(new System.Data.Constraint[] {
+            new System.Data.UniqueConstraint("Constraint1", new string[] {
+                        "var_name"}, true)});*/
+            global_var.Prefix = "config";
+            global_var.PrimaryKey = new System.Data.DataColumn[] {
+        var_name_col};
+            global_var.TableName = "global_var";
+            
+            // 
+            // type_id_col
+            // 
+            type_id_col=new DataColumn();
+            type_id_col.AllowDBNull = false;
+            type_id_col.AutoIncrement = true;
+            type_id_col.ColumnName = "type_id";
+            type_id_col.DataType = typeof(int);
+            type_id_col.Prefix = "config";
+            // 
+            // type_name_col
+            // 
+            type_name_col=new DataColumn();
+            type_name_col.AllowDBNull = false;
+            type_name_col.ColumnName = "type_name";
+            type_name_col.Prefix = "config";
+
+            // 
+            // zd_var_type
+            // 
+            zd_var_type=new DataTable();
+            zd_var_type.Columns.AddRange(new System.Data.DataColumn[] {
+            type_id_col,
+            type_name_col});
+            /*zd_var_type.Constraints.AddRange(new System.Data.Constraint[] {
+            new System.Data.UniqueConstraint("Constraint1", new string[] {
+                        "type_id"}, true)});*/
+            zd_var_type.Prefix = "config";
+            zd_var_type.PrimaryKey = new System.Data.DataColumn[] {
+        type_id_col};
+            zd_var_type.TableName = "zd_var_type";
+
+            // 
+            // cdsConfig
+            // 
+            cdsConfig.DataSetName = "cdsConfig";
+            cdsConfig.Namespace = "https://kurosawa.ruby.ne.jp/dbconf/";
+            cdsConfig.Prefix = "config";
+            cdsConfig.Tables.AddRange(new System.Data.DataTable[] {
+                global_var,
+                zd_var_type});
+            
+        }
+
         private static void GetCommonParas(ref IDbCommand cmd)
         {
             cdsConfig = new DataSet();
+            InitializeComponent();
             cdsConfig.ReadXml($@"{Program.basePath}\config.xml");
             foreach (DataRow dr in cdsConfig.Tables["global_var"].Rows)
             {
