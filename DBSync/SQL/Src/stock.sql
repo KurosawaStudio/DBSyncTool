@@ -1,0 +1,1 @@
+﻿SELECT GETDATE() AS dt,@gv_test AS test;
