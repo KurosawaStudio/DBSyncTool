@@ -628,9 +628,23 @@ namespace DBSync.Logics
         {
             MessageBox.Show(e.Exception.Message,"错误",MessageBoxButtons.OK,MessageBoxIcon.Error);
         }
+
         #endregion
 
+        private void btnSavePlan_Click(object sender, EventArgs e)
+        {
+            
+        }
 
+        private void btnNewPlan_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRemovePlan_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
