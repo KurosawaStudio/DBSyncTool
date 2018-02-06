@@ -150,6 +150,7 @@
             this.PlanSql_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FailMode = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnTestPlan = new System.Windows.Forms.Button();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -1036,6 +1037,7 @@
             // 
             // tPlan
             // 
+            this.tPlan.Controls.Add(this.btnTestPlan);
             this.tPlan.Controls.Add(this.panel3);
             this.tPlan.Controls.Add(this.pnlRate);
             this.tPlan.Controls.Add(this.pnlOnce);
@@ -1428,6 +1430,15 @@
             this.Index.Name = "Index";
             this.Index.Width = 80;
             // 
+            // btnTestPlan
+            // 
+            this.btnTestPlan.Location = new System.Drawing.Point(11, 626);
+            this.btnTestPlan.Name = "btnTestPlan";
+            this.btnTestPlan.Size = new System.Drawing.Size(75, 23);
+            this.btnTestPlan.TabIndex = 12;
+            this.btnTestPlan.Text = "运行测试";
+            this.btnTestPlan.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1604,6 +1615,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PlanSql_col;
         private System.Windows.Forms.DataGridViewComboBoxColumn FailMode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
+        private System.Windows.Forms.Button btnTestPlan;
     }
 }
 
