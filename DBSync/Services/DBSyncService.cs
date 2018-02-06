@@ -173,13 +173,13 @@ namespace DBSync.Services
             SortedList<string,string> srcSqlList=new SortedList<string,string>();
             SortedList<string,string> dstSqlList=new SortedList<string,string>();
 
-            FileInfo[] sfis = srcDirInfo.GetFiles("product.sql");
+            FileInfo[] sfis = srcDirInfo.GetFiles("*.sql");
             foreach (var sfi in sfis)
             {
                 srcSqlList.Add(sfi.Name,sfi.FullName);
             }
 
-            FileInfo[] dfis = dstDirInfo.GetFiles("product.sql");
+            FileInfo[] dfis = dstDirInfo.GetFiles("*.sql");
             foreach (var dfi in dfis)
             {
                 dstSqlList.Add(dfi.Name,dfi.FullName);

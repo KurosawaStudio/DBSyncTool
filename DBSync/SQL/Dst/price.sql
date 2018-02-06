@@ -1,1 +1,4 @@
-﻿SELECT GETDATE() AS dt,@gv_test AS test;
+﻿UPDATE PE_CommonProduct
+SET Price=@price,
+Price_Market=@price
+WHERE ProductNum=@drugcode

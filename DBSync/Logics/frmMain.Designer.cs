@@ -96,6 +96,8 @@
             this.txtTestSQL = new System.Windows.Forms.TextBox();
             this.tConfig = new System.Windows.Forms.TabPage();
             this.dbgrdconfig = new System.Windows.Forms.DataGridView();
+            this.var_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.var_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cdsConfig = new System.Data.DataSet();
             this.global_var = new System.Data.DataTable();
             this.var_name_col = new System.Data.DataColumn();
@@ -104,9 +106,10 @@
             this.zd_var_type = new System.Data.DataTable();
             this.type_id_col = new System.Data.DataColumn();
             this.type_name_col = new System.Data.DataColumn();
-            this.var_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.var_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.var_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.varnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vartypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.varvalueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -842,7 +845,7 @@
             this.tConfig.Padding = new System.Windows.Forms.Padding(3);
             this.tConfig.Size = new System.Drawing.Size(715, 692);
             this.tConfig.TabIndex = 5;
-            this.tConfig.Text = "程序设置";
+            this.tConfig.Text = "变量设置";
             this.tConfig.UseVisualStyleBackColor = true;
             // 
             // dbgrdconfig
@@ -854,7 +857,10 @@
             this.dbgrdconfig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.var_name,
             this.var_type,
-            this.var_value});
+            this.var_value,
+            this.varnameDataGridViewTextBoxColumn,
+            this.vartypeDataGridViewTextBoxColumn,
+            this.varvalueDataGridViewTextBoxColumn});
             this.dbgrdconfig.DataMember = "global_var";
             this.dbgrdconfig.DataSource = this.cdsConfig;
             this.dbgrdconfig.Location = new System.Drawing.Point(18, 26);
@@ -870,6 +876,21 @@
             this.dbgrdconfig.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dbgrdconfig_DefaultValuesNeeded);
             this.dbgrdconfig.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dbgrdconfig_RowsAdded);
             this.dbgrdconfig.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dbgrdconfig_RowsRemoved);
+            // 
+            // var_name
+            // 
+            this.var_name.DataPropertyName = "var_name";
+            this.var_name.HeaderText = "变量名";
+            this.var_name.Name = "var_name";
+            // 
+            // var_type
+            // 
+            this.var_type.DataPropertyName = "var_type";
+            this.var_type.DataSource = this.cdsConfig;
+            this.var_type.DisplayMember = "zd_var_type.type_name";
+            this.var_type.HeaderText = "变量类型";
+            this.var_type.Name = "var_type";
+            this.var_type.ValueMember = "zd_var_type.type_id";
             // 
             // cdsConfig
             // 
@@ -941,27 +962,30 @@
             this.type_name_col.ColumnName = "type_name";
             this.type_name_col.Prefix = "config";
             // 
-            // var_name
-            // 
-            this.var_name.DataPropertyName = "var_name";
-            this.var_name.HeaderText = "变量名";
-            this.var_name.Name = "var_name";
-            // 
-            // var_type
-            // 
-            this.var_type.DataPropertyName = "var_type";
-            this.var_type.DataSource = this.cdsConfig;
-            this.var_type.DisplayMember = "zd_var_type.type_name";
-            this.var_type.HeaderText = "变量类型";
-            this.var_type.Name = "var_type";
-            this.var_type.ValueMember = "zd_var_type.type_id";
-            // 
             // var_value
             // 
             this.var_value.DataPropertyName = "var_value";
             this.var_value.HeaderText = "变量值";
             this.var_value.Name = "var_value";
             this.var_value.Width = 400;
+            // 
+            // varnameDataGridViewTextBoxColumn
+            // 
+            this.varnameDataGridViewTextBoxColumn.DataPropertyName = "var_name";
+            this.varnameDataGridViewTextBoxColumn.HeaderText = "var_name";
+            this.varnameDataGridViewTextBoxColumn.Name = "varnameDataGridViewTextBoxColumn";
+            // 
+            // vartypeDataGridViewTextBoxColumn
+            // 
+            this.vartypeDataGridViewTextBoxColumn.DataPropertyName = "var_type";
+            this.vartypeDataGridViewTextBoxColumn.HeaderText = "var_type";
+            this.vartypeDataGridViewTextBoxColumn.Name = "vartypeDataGridViewTextBoxColumn";
+            // 
+            // varvalueDataGridViewTextBoxColumn
+            // 
+            this.varvalueDataGridViewTextBoxColumn.DataPropertyName = "var_value";
+            this.varvalueDataGridViewTextBoxColumn.HeaderText = "var_value";
+            this.varvalueDataGridViewTextBoxColumn.Name = "varvalueDataGridViewTextBoxColumn";
             // 
             // frmMain
             // 
@@ -1086,6 +1110,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn var_name;
         private System.Windows.Forms.DataGridViewComboBoxColumn var_type;
         private System.Windows.Forms.DataGridViewTextBoxColumn var_value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn varnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vartypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn varvalueDataGridViewTextBoxColumn;
     }
 }
 
