@@ -96,8 +96,6 @@
             this.txtTestSQL = new System.Windows.Forms.TextBox();
             this.tConfig = new System.Windows.Forms.TabPage();
             this.dbgrdconfig = new System.Windows.Forms.DataGridView();
-            this.var_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.var_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cdsConfig = new System.Data.DataSet();
             this.global_var = new System.Data.DataTable();
             this.var_name_col = new System.Data.DataColumn();
@@ -106,10 +104,6 @@
             this.zd_var_type = new System.Data.DataTable();
             this.type_id_col = new System.Data.DataColumn();
             this.type_name_col = new System.Data.DataColumn();
-            this.var_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.varnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vartypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.varvalueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tPlan = new System.Windows.Forms.TabPage();
             this.btnSavePlan = new System.Windows.Forms.Button();
             this.btnRemovePlan = new System.Windows.Forms.Button();
@@ -151,6 +145,9 @@
             this.FailMode = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnTestPlan = new System.Windows.Forms.Button();
+            this.var_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.var_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.var_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -204,7 +201,7 @@
             this.tLog.Location = new System.Drawing.Point(4, 22);
             this.tLog.Name = "tLog";
             this.tLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tLog.Size = new System.Drawing.Size(715, 692);
+            this.tLog.Size = new System.Drawing.Size(888, 692);
             this.tLog.TabIndex = 0;
             this.tLog.Text = "日志";
             this.tLog.UseVisualStyleBackColor = true;
@@ -236,7 +233,7 @@
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(662, 307);
+            this.txtLog.Size = new System.Drawing.Size(838, 307);
             this.txtLog.TabIndex = 2;
             // 
             // gridLog
@@ -255,7 +252,7 @@
             this.gridLog.RowTemplate.Height = 23;
             this.gridLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridLog.Size = new System.Drawing.Size(662, 308);
+            this.gridLog.Size = new System.Drawing.Size(838, 308);
             this.gridLog.TabIndex = 1;
             this.gridLog.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridLog_CellClick);
             // 
@@ -309,7 +306,7 @@
             this.tSrc.Location = new System.Drawing.Point(4, 22);
             this.tSrc.Name = "tSrc";
             this.tSrc.Padding = new System.Windows.Forms.Padding(3);
-            this.tSrc.Size = new System.Drawing.Size(715, 692);
+            this.tSrc.Size = new System.Drawing.Size(888, 672);
             this.tSrc.TabIndex = 1;
             this.tSrc.Text = "源数据库设置";
             this.tSrc.UseVisualStyleBackColor = true;
@@ -479,7 +476,7 @@
             this.tTarget.Location = new System.Drawing.Point(4, 22);
             this.tTarget.Name = "tTarget";
             this.tTarget.Padding = new System.Windows.Forms.Padding(3);
-            this.tTarget.Size = new System.Drawing.Size(715, 692);
+            this.tTarget.Size = new System.Drawing.Size(888, 672);
             this.tTarget.TabIndex = 2;
             this.tTarget.Text = "目标数据库设置";
             this.tTarget.UseVisualStyleBackColor = true;
@@ -641,7 +638,7 @@
             this.tSQL.Controls.Add(this.cbSQLSelect);
             this.tSQL.Location = new System.Drawing.Point(4, 22);
             this.tSQL.Name = "tSQL";
-            this.tSQL.Size = new System.Drawing.Size(715, 692);
+            this.tSQL.Size = new System.Drawing.Size(888, 672);
             this.tSQL.TabIndex = 3;
             this.tSQL.Text = "SQL设置";
             this.tSQL.UseVisualStyleBackColor = true;
@@ -743,7 +740,7 @@
             this.tSQLTest.Controls.Add(this.txtTestSQL);
             this.tSQLTest.Location = new System.Drawing.Point(4, 22);
             this.tSQLTest.Name = "tSQLTest";
-            this.tSQLTest.Size = new System.Drawing.Size(715, 692);
+            this.tSQLTest.Size = new System.Drawing.Size(888, 672);
             this.tSQLTest.TabIndex = 4;
             this.tSQLTest.Text = "SQL调试";
             this.tSQLTest.UseVisualStyleBackColor = true;
@@ -891,7 +888,7 @@
             this.tConfig.Location = new System.Drawing.Point(4, 22);
             this.tConfig.Name = "tConfig";
             this.tConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tConfig.Size = new System.Drawing.Size(715, 692);
+            this.tConfig.Size = new System.Drawing.Size(888, 692);
             this.tConfig.TabIndex = 5;
             this.tConfig.Text = "变量设置";
             this.tConfig.UseVisualStyleBackColor = true;
@@ -905,10 +902,7 @@
             this.dbgrdconfig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.var_name,
             this.var_type,
-            this.var_value,
-            this.varnameDataGridViewTextBoxColumn,
-            this.vartypeDataGridViewTextBoxColumn,
-            this.varvalueDataGridViewTextBoxColumn});
+            this.var_value});
             this.dbgrdconfig.DataMember = "global_var";
             this.dbgrdconfig.DataSource = this.cdsConfig;
             this.dbgrdconfig.Location = new System.Drawing.Point(18, 26);
@@ -916,7 +910,7 @@
             this.dbgrdconfig.Name = "dbgrdconfig";
             this.dbgrdconfig.RowTemplate.Height = 23;
             this.dbgrdconfig.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dbgrdconfig.Size = new System.Drawing.Size(656, 632);
+            this.dbgrdconfig.Size = new System.Drawing.Size(841, 632);
             this.dbgrdconfig.TabIndex = 0;
             this.dbgrdconfig.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.dbgrdconfig_CancelRowEdit);
             this.dbgrdconfig.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dbgrdconfig_CellEndEdit);
@@ -924,21 +918,6 @@
             this.dbgrdconfig.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dbgrdconfig_DefaultValuesNeeded);
             this.dbgrdconfig.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dbgrdconfig_RowsAdded);
             this.dbgrdconfig.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dbgrdconfig_RowsRemoved);
-            // 
-            // var_name
-            // 
-            this.var_name.DataPropertyName = "var_name";
-            this.var_name.HeaderText = "变量名";
-            this.var_name.Name = "var_name";
-            // 
-            // var_type
-            // 
-            this.var_type.DataPropertyName = "var_type";
-            this.var_type.DataSource = this.cdsConfig;
-            this.var_type.DisplayMember = "zd_var_type.type_name";
-            this.var_type.HeaderText = "变量类型";
-            this.var_type.Name = "var_type";
-            this.var_type.ValueMember = "zd_var_type.type_id";
             // 
             // cdsConfig
             // 
@@ -1010,31 +989,6 @@
             this.type_name_col.ColumnName = "type_name";
             this.type_name_col.Prefix = "config";
             // 
-            // var_value
-            // 
-            this.var_value.DataPropertyName = "var_value";
-            this.var_value.HeaderText = "变量值";
-            this.var_value.Name = "var_value";
-            this.var_value.Width = 400;
-            // 
-            // varnameDataGridViewTextBoxColumn
-            // 
-            this.varnameDataGridViewTextBoxColumn.DataPropertyName = "var_name";
-            this.varnameDataGridViewTextBoxColumn.HeaderText = "var_name";
-            this.varnameDataGridViewTextBoxColumn.Name = "varnameDataGridViewTextBoxColumn";
-            // 
-            // vartypeDataGridViewTextBoxColumn
-            // 
-            this.vartypeDataGridViewTextBoxColumn.DataPropertyName = "var_type";
-            this.vartypeDataGridViewTextBoxColumn.HeaderText = "var_type";
-            this.vartypeDataGridViewTextBoxColumn.Name = "vartypeDataGridViewTextBoxColumn";
-            // 
-            // varvalueDataGridViewTextBoxColumn
-            // 
-            this.varvalueDataGridViewTextBoxColumn.DataPropertyName = "var_value";
-            this.varvalueDataGridViewTextBoxColumn.HeaderText = "var_value";
-            this.varvalueDataGridViewTextBoxColumn.Name = "varvalueDataGridViewTextBoxColumn";
-            // 
             // tPlan
             // 
             this.tPlan.Controls.Add(this.btnTestPlan);
@@ -1053,14 +1007,14 @@
             this.tPlan.Controls.Add(this.lvPlan);
             this.tPlan.Location = new System.Drawing.Point(4, 22);
             this.tPlan.Name = "tPlan";
-            this.tPlan.Size = new System.Drawing.Size(888, 692);
+            this.tPlan.Size = new System.Drawing.Size(888, 672);
             this.tPlan.TabIndex = 6;
             this.tPlan.Text = "执行计划设置";
             this.tPlan.UseVisualStyleBackColor = true;
             // 
             // btnSavePlan
             // 
-            this.btnSavePlan.Location = new System.Drawing.Point(90, 626);
+            this.btnSavePlan.Location = new System.Drawing.Point(90, 603);
             this.btnSavePlan.Name = "btnSavePlan";
             this.btnSavePlan.Size = new System.Drawing.Size(75, 23);
             this.btnSavePlan.TabIndex = 3;
@@ -1070,7 +1024,7 @@
             // 
             // btnRemovePlan
             // 
-            this.btnRemovePlan.Location = new System.Drawing.Point(90, 596);
+            this.btnRemovePlan.Location = new System.Drawing.Point(90, 573);
             this.btnRemovePlan.Name = "btnRemovePlan";
             this.btnRemovePlan.Size = new System.Drawing.Size(75, 23);
             this.btnRemovePlan.TabIndex = 2;
@@ -1080,7 +1034,7 @@
             // 
             // btnNewPlan
             // 
-            this.btnNewPlan.Location = new System.Drawing.Point(11, 596);
+            this.btnNewPlan.Location = new System.Drawing.Point(11, 573);
             this.btnNewPlan.Name = "btnNewPlan";
             this.btnNewPlan.Size = new System.Drawing.Size(75, 23);
             this.btnNewPlan.TabIndex = 2;
@@ -1091,7 +1045,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(9, 37);
+            this.label15.Location = new System.Drawing.Point(9, 14);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(53, 12);
             this.label15.TabIndex = 1;
@@ -1099,7 +1053,7 @@
             // 
             // lvPlan
             // 
-            this.lvPlan.Location = new System.Drawing.Point(8, 55);
+            this.lvPlan.Location = new System.Drawing.Point(8, 32);
             this.lvPlan.Name = "lvPlan";
             this.lvPlan.Size = new System.Drawing.Size(157, 534);
             this.lvPlan.TabIndex = 0;
@@ -1112,7 +1066,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(186, 58);
+            this.label16.Location = new System.Drawing.Point(186, 35);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(53, 12);
             this.label16.TabIndex = 4;
@@ -1120,20 +1074,22 @@
             // 
             // txtPlanName
             // 
-            this.txtPlanName.Location = new System.Drawing.Point(245, 52);
+            this.txtPlanName.Location = new System.Drawing.Point(245, 29);
             this.txtPlanName.Name = "txtPlanName";
             this.txtPlanName.Size = new System.Drawing.Size(317, 21);
             this.txtPlanName.TabIndex = 5;
+            this.txtPlanName.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbEnabled
             // 
             this.cbEnabled.AutoSize = true;
-            this.cbEnabled.Location = new System.Drawing.Point(568, 54);
+            this.cbEnabled.Location = new System.Drawing.Point(568, 31);
             this.cbEnabled.Name = "cbEnabled";
             this.cbEnabled.Size = new System.Drawing.Size(48, 16);
             this.cbEnabled.TabIndex = 6;
             this.cbEnabled.Text = "启用";
             this.cbEnabled.UseVisualStyleBackColor = true;
+            this.cbEnabled.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbPlanType
             // 
@@ -1142,15 +1098,16 @@
             this.cbPlanType.Items.AddRange(new object[] {
             "执行一次",
             "重复执行"});
-            this.cbPlanType.Location = new System.Drawing.Point(245, 90);
+            this.cbPlanType.Location = new System.Drawing.Point(245, 67);
             this.cbPlanType.Name = "cbPlanType";
             this.cbPlanType.Size = new System.Drawing.Size(121, 20);
             this.cbPlanType.TabIndex = 7;
+            this.cbPlanType.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(186, 93);
+            this.label17.Location = new System.Drawing.Point(186, 70);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(53, 12);
             this.label17.TabIndex = 8;
@@ -1164,7 +1121,7 @@
             this.pnlOnce.Controls.Add(this.dtOnceTime);
             this.pnlOnce.Controls.Add(this.dtOnceDate);
             this.pnlOnce.Controls.Add(this.label18);
-            this.pnlOnce.Location = new System.Drawing.Point(188, 130);
+            this.pnlOnce.Location = new System.Drawing.Point(188, 107);
             this.pnlOnce.Name = "pnlOnce";
             this.pnlOnce.Size = new System.Drawing.Size(684, 66);
             this.pnlOnce.TabIndex = 9;
@@ -1185,6 +1142,7 @@
             this.dtOnceDate.Name = "dtOnceDate";
             this.dtOnceDate.Size = new System.Drawing.Size(121, 21);
             this.dtOnceDate.TabIndex = 1;
+            this.dtOnceDate.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label19
             // 
@@ -1213,6 +1171,7 @@
             this.dtOnceTime.ShowUpDown = true;
             this.dtOnceTime.Size = new System.Drawing.Size(121, 21);
             this.dtOnceTime.TabIndex = 1;
+            this.dtOnceTime.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // pnlRate
             // 
@@ -1230,7 +1189,7 @@
             this.pnlRate.Controls.Add(this.cbRepeatRate);
             this.pnlRate.Controls.Add(this.label22);
             this.pnlRate.Controls.Add(this.label21);
-            this.pnlRate.Location = new System.Drawing.Point(188, 202);
+            this.pnlRate.Location = new System.Drawing.Point(188, 179);
             this.pnlRate.Name = "pnlRate";
             this.pnlRate.Size = new System.Drawing.Size(684, 103);
             this.pnlRate.TabIndex = 10;
@@ -1264,6 +1223,7 @@
             this.cbRepeatRate.Name = "cbRepeatRate";
             this.cbRepeatRate.Size = new System.Drawing.Size(121, 20);
             this.cbRepeatRate.TabIndex = 2;
+            this.cbRepeatRate.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label23
             // 
@@ -1289,6 +1249,7 @@
             this.nudRepeatStep.Name = "nudRepeatStep";
             this.nudRepeatStep.Size = new System.Drawing.Size(61, 21);
             this.nudRepeatStep.TabIndex = 5;
+            this.nudRepeatStep.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbMonday
             // 
@@ -1299,6 +1260,7 @@
             this.cbMonday.TabIndex = 6;
             this.cbMonday.Text = "星期一";
             this.cbMonday.UseVisualStyleBackColor = true;
+            this.cbMonday.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbWednesday
             // 
@@ -1309,6 +1271,7 @@
             this.cbWednesday.TabIndex = 6;
             this.cbWednesday.Text = "星期三";
             this.cbWednesday.UseVisualStyleBackColor = true;
+            this.cbWednesday.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbFriday
             // 
@@ -1319,6 +1282,7 @@
             this.cbFriday.TabIndex = 6;
             this.cbFriday.Text = "星期五";
             this.cbFriday.UseVisualStyleBackColor = true;
+            this.cbFriday.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbSaturday
             // 
@@ -1329,6 +1293,7 @@
             this.cbSaturday.TabIndex = 6;
             this.cbSaturday.Text = "星期六";
             this.cbSaturday.UseVisualStyleBackColor = true;
+            this.cbSaturday.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbTuesday
             // 
@@ -1339,6 +1304,7 @@
             this.cbTuesday.TabIndex = 6;
             this.cbTuesday.Text = "星期二";
             this.cbTuesday.UseVisualStyleBackColor = true;
+            this.cbTuesday.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbThursday
             // 
@@ -1349,6 +1315,7 @@
             this.cbThursday.TabIndex = 6;
             this.cbThursday.Text = "星期四";
             this.cbThursday.UseVisualStyleBackColor = true;
+            this.cbThursday.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // cbSunday
             // 
@@ -1359,13 +1326,14 @@
             this.cbSunday.TabIndex = 6;
             this.cbSunday.Text = "星期日";
             this.cbSunday.UseVisualStyleBackColor = true;
+            this.cbSunday.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.dgvSqlSteps);
             this.panel3.Controls.Add(this.label25);
-            this.panel3.Location = new System.Drawing.Point(188, 311);
+            this.panel3.Location = new System.Drawing.Point(188, 288);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(684, 348);
             this.panel3.TabIndex = 11;
@@ -1396,6 +1364,7 @@
             this.dgvSqlSteps.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSqlSteps.Size = new System.Drawing.Size(659, 304);
             this.dgvSqlSteps.TabIndex = 1;
+            this.dgvSqlSteps.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSqlSteps_CellValueChanged);
             // 
             // PlanDataID_col
             // 
@@ -1432,12 +1401,35 @@
             // 
             // btnTestPlan
             // 
-            this.btnTestPlan.Location = new System.Drawing.Point(11, 626);
+            this.btnTestPlan.Location = new System.Drawing.Point(11, 603);
             this.btnTestPlan.Name = "btnTestPlan";
             this.btnTestPlan.Size = new System.Drawing.Size(75, 23);
             this.btnTestPlan.TabIndex = 12;
-            this.btnTestPlan.Text = "运行测试";
+            this.btnTestPlan.Text = "手动运行";
             this.btnTestPlan.UseVisualStyleBackColor = true;
+            this.btnTestPlan.Click += new System.EventHandler(this.btnTestPlan_Click);
+            // 
+            // var_name
+            // 
+            this.var_name.DataPropertyName = "var_name";
+            this.var_name.HeaderText = "变量名";
+            this.var_name.Name = "var_name";
+            // 
+            // var_type
+            // 
+            this.var_type.DataPropertyName = "var_type";
+            this.var_type.DataSource = this.cdsConfig;
+            this.var_type.DisplayMember = "zd_var_type.type_name";
+            this.var_type.HeaderText = "变量类型";
+            this.var_type.Name = "var_type";
+            this.var_type.ValueMember = "zd_var_type.type_id";
+            // 
+            // var_value
+            // 
+            this.var_value.DataPropertyName = "var_value";
+            this.var_value.HeaderText = "变量值";
+            this.var_value.Name = "var_value";
+            this.var_value.Width = 400;
             // 
             // frmMain
             // 
@@ -1569,12 +1561,6 @@
         private System.Data.DataTable zd_var_type;
         private System.Data.DataColumn type_id_col;
         private System.Data.DataColumn type_name_col;
-        private System.Windows.Forms.DataGridViewTextBoxColumn var_name;
-        private System.Windows.Forms.DataGridViewComboBoxColumn var_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn var_value;
-        private System.Windows.Forms.DataGridViewTextBoxColumn varnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn vartypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn varvalueDataGridViewTextBoxColumn;
         private System.Windows.Forms.TabPage tPlan;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ListView lvPlan;
@@ -1616,6 +1602,9 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn FailMode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
         private System.Windows.Forms.Button btnTestPlan;
+        private System.Windows.Forms.DataGridViewTextBoxColumn var_name;
+        private System.Windows.Forms.DataGridViewComboBoxColumn var_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn var_value;
     }
 }
 

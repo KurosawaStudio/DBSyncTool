@@ -631,9 +631,12 @@ namespace DBSync.Logics
 
         #endregion
 
+        #region Tab Plan
+
+        private bool canChangePlan = true;
         private void btnSavePlan_Click(object sender, EventArgs e)
         {
-            
+            lvPlan.Enabled = true;
         }
 
         private void btnNewPlan_Click(object sender, EventArgs e)
@@ -644,6 +647,26 @@ namespace DBSync.Logics
         private void btnRemovePlan_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnTestPlan_Click(object sender, EventArgs e)
+        {
+            //此处运行计划测试
+        }
+
+        private void ValueChanged(object sender, EventArgs e)
+        {
+            lvPlan.Enabled = false;
+        }
+        #endregion
+
+        private void dgvSqlSteps_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                ValueChanged(sender,e);
+            }
+            
         }
     }
 }
