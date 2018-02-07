@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Windows.Forms;
-using DBSync.Enumerations;
+﻿using DBSync.Enumerations;
 using DBSync.Ini;
 using DBSync.Log;
 using DBSync.Services;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace DBSync.Logics
 {
@@ -41,6 +39,7 @@ namespace DBSync.Logics
             InitConfigDB();
             InitPlanPanel();
             LoadPlanData();
+            mainTab.SelectedIndex = mainTab.TabPages.IndexOf(tPlan);
         }
 
         private void InitConfigDB()
@@ -636,19 +635,100 @@ namespace DBSync.Logics
         #region Tab Plan
 
         private bool canChangePlan = true;
+        private List<PlanData> dsPlan;
+        private DataSet dsPlanData;
+        private void lvPlan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            if (lvPlan.SelectedIndex > -1)
+            {
+                PlanData dr = dsPlan[lvPlan.SelectedIndex];
+                txtPlanName.Text = dr.Name;
+                cbEnabled.Checked = dr.Enable;
+                cbPlanType.SelectedIndex = cbPlanType.Items.IndexOf(dr.PlanDateModel.ToString());
+                dtOnceDate.Value = dr.PlanDate;
+                dtOnceTime.Value = dr.PlanTime;
+                cbRepeatRate.SelectedIndex = cbRepeatRate.Items.IndexOf(dr.PlanTimeModel.ToString());
+                nudRepeatStep.Value = dr.PlanDayStep;
+                dtRepeatTime.Value = dr.PlanTime;
+                nudStepMinutes.Value = dr.PlanTimeStep;
+
+                //DoWeekDays
+                cbMonday.Checked = $@"{dr.PlanWeek:0}".IndexOf("1",StringComparison.CurrentCulture) > -1;
+                cbTuesday.Checked = $@"{dr.PlanWeek:0}".IndexOf("2",StringComparison.CurrentCulture) > -1;
+                cbWednesday.Checked = $@"{dr.PlanWeek:0}".IndexOf("3",StringComparison.CurrentCulture) > -1;
+                cbThursday.Checked = $@"{dr.PlanWeek:0}".IndexOf("4",StringComparison.CurrentCulture) > -1;
+                cbFriday.Checked = $@"{dr.PlanWeek:0}".IndexOf("5",StringComparison.CurrentCulture) > -1;
+                cbSaturday.Checked = $@"{dr.PlanWeek:0}".IndexOf("6",StringComparison.CurrentCulture) > -1;
+                cbSunday.Checked = $@"{dr.PlanWeek:0}".IndexOf("7",StringComparison.CurrentCulture) > -1;
+
+                //Refresh Value States
+                pnlStep.Enabled = cbEnabled.Enabled = cbPlanType.Enabled = txtPlanName.Enabled = true;
+                lvPlan.Enabled = true;
+                canChangePlan = true;
+
+                btnRemovePlan.Enabled = btnTestPlan.Enabled = true;
+                btnSavePlan.Enabled = false;
+            }
+            else
+            {
+                InitPlanPanel();
+            }
+            
+        }
         private void btnSavePlan_Click(object sender, EventArgs e)
         {
+            PlanData data = dsPlan[lvPlan.SelectedIndex];
+            data.Name = txtPlanName.Text;
+            data.Enable = cbEnabled.Checked;
+            data.PlanDateModel = (PlanDateModel) Enum.Parse(typeof(PlanDateModel), cbPlanType.SelectedItem.ToString());
+            data.PlanDate = dtOnceDate.Value;
+            data.PlanTimeModel =
+                (PlanTimeModel) Enum.Parse(typeof(PlanTimeModel), cbRepeatRate.SelectedItem.ToString());
+            data.PlanDayStep = (int)nudRepeatStep.Value;
+            data.PlanTimeStep = (int) nudStepMinutes.Value;
+
+            if (data.PlanDateModel == PlanDateModel.执行一次)
+            {
+                data.PlanTime = dtOnceTime.Value;
+            }
+            else
+            {
+                data.PlanTime = dtRepeatTime.Value;
+            }
+
+            string week = "";
+            week += cbMonday.Checked ? "1":"";
+            week += cbTuesday.Checked ? "2":"";
+            week += cbWednesday.Checked ? "3":"";
+            week += cbThursday.Checked ? "4":"";
+            week += cbFriday.Checked ? "5":"";
+            week += cbSaturday.Checked ? "6":"";
+            week += cbSunday.Checked ? "7":"";
+            data.PlanWeek = week == "" ? 0:int.Parse(week);
+            
+            PlanHelper.Create().UpdatePlanData(data);
             lvPlan.Enabled = true;
+            LoadPlanData();
+            btnSavePlan.Enabled = false;
         }
 
         private void btnNewPlan_Click(object sender, EventArgs e)
         {
-
-        }
+            PlanData data=PlanData.Create();
+            PlanHelper.Create().AddPlanData(data);
+            
+            LoadPlanData();
+            lvPlan.SelectedIndex = lvPlan.Items.Count-1;
+        } 
 
         private void btnRemovePlan_Click(object sender, EventArgs e)
         {
-
+            PlanData data=dsPlan[lvPlan.SelectedIndex];
+            PlanHelper.Create().DeletePlanData(data);
+            
+            LoadPlanData();
+            lvPlan_SelectedIndexChanged(lvPlan,e);
         }
 
         private void btnTestPlan_Click(object sender, EventArgs e)
@@ -659,6 +739,9 @@ namespace DBSync.Logics
         private void ValueChanged(object sender, EventArgs e)
         {
             lvPlan.Enabled = false;
+            canChangePlan = false;
+            btnRemovePlan.Enabled = btnTestPlan.Enabled = false;
+            btnSavePlan.Enabled = true;
             EventHandler evt;
             if (sender == cbPlanType)
             {
@@ -677,9 +760,13 @@ namespace DBSync.Logics
                 };
                 evt(sender, e);
             }
+            else if (sender == cbRepeatRate)
+            {
+                evt = (a, b) => lblStepUnit.Text=(PlanTimeModel) Enum.Parse(typeof(PlanTimeModel), cbRepeatRate.SelectedItem.ToString())==PlanTimeModel.每周?"周":"天";
+                evt(sender, e);
+            }
         }
         
-
         private void dgvSqlSteps_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
@@ -695,14 +782,38 @@ namespace DBSync.Logics
             cbRepeatRate.SelectedIndex = 0;
         }
 
-        private void lvPlan_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            InitPlanPanel();
-        }
-
         private void LoadPlanData()
         {
+            int index = lvPlan.SelectedIndex;
+            dsPlan=PlanHelper.Create().GetPlanData();
+            lvPlan.DataSource = dsPlan;
+            lvPlan.DisplayMember = "Name";
+            lvPlan.ValueMember = "ID";
+            lvPlan.Refresh();
+            if (lvPlan.Items.Count >= index + 1)
+            {
+                lvPlan.SelectedIndex = index;
+            }
+            else
+            {
+                lvPlan.SelectedIndex = lvPlan.Items.Count-1;
+            }
 
+            if (index == -1 && lvPlan.Items.Count > 0)
+            {
+                lvPlan.SelectedIndex = 0;
+            }
+
+            if (lvPlan.Items.Count == 0)
+            {
+                pnlOnce.Enabled = pnlRate.Enabled =
+                    pnlStep.Enabled = cbEnabled.Enabled = cbPlanType.Enabled = txtPlanName.Enabled = false;
+            }
+            
+
+            //Refresh Value States
+            lvPlan.Enabled = true;
+            canChangePlan = true;
         }
         #endregion
     }

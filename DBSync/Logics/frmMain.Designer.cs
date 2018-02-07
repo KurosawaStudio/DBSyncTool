@@ -107,10 +107,13 @@
             this.type_id_col = new System.Data.DataColumn();
             this.type_name_col = new System.Data.DataColumn();
             this.var_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.varnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vartypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.varvalueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tPlan = new System.Windows.Forms.TabPage();
             this.lvPlan = new System.Windows.Forms.ListBox();
             this.btnTestPlan = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.pnlStep = new System.Windows.Forms.Panel();
             this.dgvSqlSteps = new System.Windows.Forms.DataGridView();
             this.PlanDataID_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PlanDataName_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -119,6 +122,9 @@
             this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label25 = new System.Windows.Forms.Label();
             this.pnlRate = new System.Windows.Forms.Panel();
+            this.label26 = new System.Windows.Forms.Label();
+            this.nudStepMinutes = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
             this.cbSunday = new System.Windows.Forms.CheckBox();
             this.cbThursday = new System.Windows.Forms.CheckBox();
             this.dtRepeatTime = new System.Windows.Forms.DateTimePicker();
@@ -149,12 +155,6 @@
             this.btnNewPlan = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.svc = new System.ServiceProcess.ServiceController();
-            this.varnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vartypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.varvalueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label24 = new System.Windows.Forms.Label();
-            this.nudStepMinutes = new System.Windows.Forms.NumericUpDown();
-            this.label26 = new System.Windows.Forms.Label();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -176,12 +176,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.global_var)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zd_var_type)).BeginInit();
             this.tPlan.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.pnlStep.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSqlSteps)).BeginInit();
             this.pnlRate.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStepMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRepeatStep)).BeginInit();
             this.pnlOnce.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStepMinutes)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTab
@@ -1022,11 +1022,29 @@
             this.var_value.Name = "var_value";
             this.var_value.Width = 400;
             // 
+            // varnameDataGridViewTextBoxColumn
+            // 
+            this.varnameDataGridViewTextBoxColumn.DataPropertyName = "var_name";
+            this.varnameDataGridViewTextBoxColumn.HeaderText = "var_name";
+            this.varnameDataGridViewTextBoxColumn.Name = "varnameDataGridViewTextBoxColumn";
+            // 
+            // vartypeDataGridViewTextBoxColumn
+            // 
+            this.vartypeDataGridViewTextBoxColumn.DataPropertyName = "var_type";
+            this.vartypeDataGridViewTextBoxColumn.HeaderText = "var_type";
+            this.vartypeDataGridViewTextBoxColumn.Name = "vartypeDataGridViewTextBoxColumn";
+            // 
+            // varvalueDataGridViewTextBoxColumn
+            // 
+            this.varvalueDataGridViewTextBoxColumn.DataPropertyName = "var_value";
+            this.varvalueDataGridViewTextBoxColumn.HeaderText = "var_value";
+            this.varvalueDataGridViewTextBoxColumn.Name = "varvalueDataGridViewTextBoxColumn";
+            // 
             // tPlan
             // 
             this.tPlan.Controls.Add(this.lvPlan);
             this.tPlan.Controls.Add(this.btnTestPlan);
-            this.tPlan.Controls.Add(this.panel3);
+            this.tPlan.Controls.Add(this.pnlStep);
             this.tPlan.Controls.Add(this.pnlRate);
             this.tPlan.Controls.Add(this.pnlOnce);
             this.tPlan.Controls.Add(this.label17);
@@ -1042,7 +1060,7 @@
             this.tPlan.Name = "tPlan";
             this.tPlan.Size = new System.Drawing.Size(888, 692);
             this.tPlan.TabIndex = 6;
-            this.tPlan.Text = "执行计划设置";
+            this.tPlan.Text = "计划设置";
             this.tPlan.UseVisualStyleBackColor = true;
             // 
             // lvPlan
@@ -1065,15 +1083,15 @@
             this.btnTestPlan.UseVisualStyleBackColor = true;
             this.btnTestPlan.Click += new System.EventHandler(this.btnTestPlan_Click);
             // 
-            // panel3
+            // pnlStep
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.dgvSqlSteps);
-            this.panel3.Controls.Add(this.label25);
-            this.panel3.Location = new System.Drawing.Point(188, 288);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(684, 348);
-            this.panel3.TabIndex = 11;
+            this.pnlStep.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlStep.Controls.Add(this.dgvSqlSteps);
+            this.pnlStep.Controls.Add(this.label25);
+            this.pnlStep.Location = new System.Drawing.Point(188, 288);
+            this.pnlStep.Name = "pnlStep";
+            this.pnlStep.Size = new System.Drawing.Size(684, 348);
+            this.pnlStep.TabIndex = 11;
             // 
             // dgvSqlSteps
             // 
@@ -1160,6 +1178,47 @@
             this.pnlRate.Name = "pnlRate";
             this.pnlRate.Size = new System.Drawing.Size(684, 103);
             this.pnlRate.TabIndex = 10;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(586, 29);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(29, 12);
+            this.label26.TabIndex = 9;
+            this.label26.Text = "分钟";
+            // 
+            // nudStepMinutes
+            // 
+            this.nudStepMinutes.Location = new System.Drawing.Point(530, 24);
+            this.nudStepMinutes.Maximum = new decimal(new int[] {
+            1440,
+            0,
+            0,
+            0});
+            this.nudStepMinutes.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudStepMinutes.Name = "nudStepMinutes";
+            this.nudStepMinutes.Size = new System.Drawing.Size(50, 21);
+            this.nudStepMinutes.TabIndex = 8;
+            this.nudStepMinutes.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudStepMinutes.ValueChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(507, 27);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(17, 12);
+            this.label24.TabIndex = 7;
+            this.label24.Text = "每";
             // 
             // cbSunday
             // 
@@ -1464,65 +1523,6 @@
             // 
             this.svc.ServiceName = "DBSyncService";
             // 
-            // varnameDataGridViewTextBoxColumn
-            // 
-            this.varnameDataGridViewTextBoxColumn.DataPropertyName = "var_name";
-            this.varnameDataGridViewTextBoxColumn.HeaderText = "var_name";
-            this.varnameDataGridViewTextBoxColumn.Name = "varnameDataGridViewTextBoxColumn";
-            // 
-            // vartypeDataGridViewTextBoxColumn
-            // 
-            this.vartypeDataGridViewTextBoxColumn.DataPropertyName = "var_type";
-            this.vartypeDataGridViewTextBoxColumn.HeaderText = "var_type";
-            this.vartypeDataGridViewTextBoxColumn.Name = "vartypeDataGridViewTextBoxColumn";
-            // 
-            // varvalueDataGridViewTextBoxColumn
-            // 
-            this.varvalueDataGridViewTextBoxColumn.DataPropertyName = "var_value";
-            this.varvalueDataGridViewTextBoxColumn.HeaderText = "var_value";
-            this.varvalueDataGridViewTextBoxColumn.Name = "varvalueDataGridViewTextBoxColumn";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(507, 27);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(17, 12);
-            this.label24.TabIndex = 7;
-            this.label24.Text = "每";
-            // 
-            // nudStepMinutes
-            // 
-            this.nudStepMinutes.Location = new System.Drawing.Point(530, 24);
-            this.nudStepMinutes.Maximum = new decimal(new int[] {
-            1440,
-            0,
-            0,
-            0});
-            this.nudStepMinutes.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudStepMinutes.Name = "nudStepMinutes";
-            this.nudStepMinutes.Size = new System.Drawing.Size(50, 21);
-            this.nudStepMinutes.TabIndex = 8;
-            this.nudStepMinutes.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudStepMinutes.ValueChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(586, 29);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(29, 12);
-            this.label26.TabIndex = 9;
-            this.label26.Text = "分钟";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1563,15 +1563,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.zd_var_type)).EndInit();
             this.tPlan.ResumeLayout(false);
             this.tPlan.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.pnlStep.ResumeLayout(false);
+            this.pnlStep.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSqlSteps)).EndInit();
             this.pnlRate.ResumeLayout(false);
             this.pnlRate.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStepMinutes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRepeatStep)).EndInit();
             this.pnlOnce.ResumeLayout(false);
             this.pnlOnce.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStepMinutes)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1675,7 +1675,7 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.ComboBox cbRepeatRate;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel pnlStep;
         private System.Windows.Forms.DataGridView dgvSqlSteps;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.CheckBox cbSunday;

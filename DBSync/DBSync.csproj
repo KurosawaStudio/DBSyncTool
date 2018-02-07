@@ -61,7 +61,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Microsoft SQL Server Compact Edition\v3.5\Desktop\System.Data.SqlServerCe.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Microsoft SQL Server Compact Edition\v4.0\Desktop\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
@@ -87,6 +87,9 @@
     <Compile Include="Ini\IniFile.cs" />
     <Compile Include="Ini\IniKeyValuePair.cs" />
     <Compile Include="Ini\IniSection.cs" />
+    <Compile Include="Logics\PlanData.cs" />
+    <Compile Include="Logics\PlanDateModel.cs" />
+    <Compile Include="Logics\PlanHelper.cs" />
     <Compile Include="Log\LogEntry.cs" />
     <Compile Include="Log\LogFile.cs" />
     <Compile Include="Log\LogLevel.cs" />
