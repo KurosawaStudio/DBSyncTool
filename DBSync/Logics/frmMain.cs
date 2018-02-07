@@ -39,6 +39,8 @@ namespace DBSync.Logics
             InitTabSql();
             InitDebugMode();
             InitConfigDB();
+            InitPlanPanel();
+            LoadPlanData();
         }
 
         private void InitConfigDB()
@@ -657,8 +659,26 @@ namespace DBSync.Logics
         private void ValueChanged(object sender, EventArgs e)
         {
             lvPlan.Enabled = false;
+            EventHandler evt;
+            if (sender == cbPlanType)
+            {
+                evt= (a, b) =>
+                {
+                    if (cbPlanType.SelectedIndex == 0)
+                    {
+                        pnlOnce.Enabled = true;
+                        pnlRate.Enabled = false;
+                    }
+                    else
+                    {
+                        pnlOnce.Enabled = false;
+                        pnlRate.Enabled = true;
+                    }
+                };
+                evt(sender, e);
+            }
         }
-        #endregion
+        
 
         private void dgvSqlSteps_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -668,6 +688,23 @@ namespace DBSync.Logics
             }
             
         }
+
+        private void InitPlanPanel()
+        {
+            cbPlanType.SelectedIndex = 0;
+            cbRepeatRate.SelectedIndex = 0;
+        }
+
+        private void lvPlan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InitPlanPanel();
+        }
+
+        private void LoadPlanData()
+        {
+
+        }
+        #endregion
     }
 }
 
