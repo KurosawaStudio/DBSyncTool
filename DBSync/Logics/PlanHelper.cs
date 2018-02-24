@@ -160,5 +160,110 @@ namespace DBSync.Logics
                 CloseConnection();
             }
         }
+
+        public DataSet GetPlanItemData(int PlanID)
+        {
+            DataSet ds=new DataSet();
+            try
+            {
+                OpenConnection();
+                SqlCeCommand cmd = new SqlCeCommand("select [PlanDataID],[PlanDataName],[PlanSql],[FailMode],[Index]" +
+                                                    " from [PlanData] where PlanID=@PlanID order by PlanDataID asc", con);
+                cmd.Parameters.AddWithValue("PlanID", PlanID);
+                SqlCeDataAdapter da=new SqlCeDataAdapter(cmd);
+                ds=new DataSet();
+                da.Fill(ds);
+                /*foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    list.Add(new PlanData(dr));
+                }*/
+            }
+            catch(Exception ex)
+            {
+                //Suppress All Exceptions
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return ds;
+        }
+
+        public void AddPlanItemData(PlanDataItem data)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCeCommand cmd = new SqlCeCommand(@"INSERT INTO [PlanData]
+                ([PlanID],[PlanDataName],[PlanSql],[FailMode],[Index])
+                VALUES(@PlanID,@PlanDataName,@PlanSql,@FailMode,@Index);", con);
+                cmd.Parameters.AddWithValue("PlanID", data.PlanID);
+                cmd.Parameters.AddWithValue("PlanDataName", data.PlanDataName);
+                cmd.Parameters.AddWithValue("PlanSql", data.PlanSql);
+                cmd.Parameters.AddWithValue("FailMode", (int)data.FailMode);
+                cmd.Parameters.AddWithValue("Index", data.Index);
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                //Suppress All Exceptions
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public void DeletePlanItemData(int PlanDataID)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCeCommand cmd = new SqlCeCommand(@"DELETE FROM [PlanData] WHERE [PlanDataID]=@PlanDataID;", con);
+                cmd.Parameters.AddWithValue("PlanDataID", PlanDataID);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                //Suppress All Exceptions
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public void UpdatePlanItemData(PlanDataItem data)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCeCommand cmd = new SqlCeCommand(@"UPDATE [PlanData] 
+                   SET [PlanID] = @PlanID
+                      ,[PlanDataName] = @PlanDataName
+                      ,[PlanSql] = @PlanSql
+                      ,[FailMode] = @FailMode
+                      ,[Index] = @Index
+                 WHERE [PlanDataID]=@PlanDataID;", con);
+                cmd.Parameters.AddWithValue("PlanDataID", data.PlanDataID);
+                cmd.Parameters.AddWithValue("PlanID", data.PlanID);
+                cmd.Parameters.AddWithValue("PlanDataName", data.PlanDataName);
+                cmd.Parameters.AddWithValue("PlanSql", data.PlanSql);
+                cmd.Parameters.AddWithValue("FailMode", (int)data.FailMode);
+                cmd.Parameters.AddWithValue("Index", data.Index);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                //Suppress All Exceptions
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
     }
 }

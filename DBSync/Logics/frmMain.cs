@@ -637,6 +637,7 @@ namespace DBSync.Logics
         private bool canChangePlan = true;
         private List<PlanData> dsPlan;
         private DataSet dsPlanData;
+        private bool LoadItem = false;
         private void lvPlan_SelectedIndexChanged(object sender, EventArgs e)
         {
             
@@ -661,6 +662,7 @@ namespace DBSync.Logics
                 cbFriday.Checked = $@"{dr.PlanWeek:0}".IndexOf("5",StringComparison.CurrentCulture) > -1;
                 cbSaturday.Checked = $@"{dr.PlanWeek:0}".IndexOf("6",StringComparison.CurrentCulture) > -1;
                 cbSunday.Checked = $@"{dr.PlanWeek:0}".IndexOf("7",StringComparison.CurrentCulture) > -1;
+                LoadPlanDataItem(dr);
 
                 //Refresh Value States
                 pnlStep.Enabled = cbEnabled.Enabled = cbPlanType.Enabled = txtPlanName.Enabled = true;
@@ -676,6 +678,79 @@ namespace DBSync.Logics
             }
             
         }
+
+        dynamic fm = new[] {new {Name="退出执行",Value=0 }, new { Name="忽略错误",Value=1}};
+        private void LoadPlanDataItem(PlanData dr)
+        {
+            LoadItem = true;
+            dsPlanData = PlanHelper.Create().GetPlanItemData(dr.ID);
+            FailMode.DataSource = fm;
+            FailMode.DisplayMember = "Name";
+            FailMode.ValueMember = "Value";
+            //dgvSqlSteps.RowsAdded -= DgvSqlSteps_RowsAdded;
+            //dgvSqlSteps.RowsRemoved -= DgvSqlSteps_RowsRemoved;
+            //dgvSqlSteps.CellEndEdit -= DgvSqlSteps_CellEndEdit;
+            dgvSqlSteps.DataSource = dsPlanData.Tables[0];
+            dgvSqlSteps.Tag = dr;
+            dgvSqlSteps.Refresh();
+            //dgvSqlSteps.RowsAdded += DgvSqlSteps_RowsAdded;
+            //dgvSqlSteps.RowsRemoved += DgvSqlSteps_RowsRemoved;
+            //dgvSqlSteps.CellEndEdit += DgvSqlSteps_CellEndEdit;
+            LoadItem = false;
+
+        }
+
+        private void DgvSqlSteps_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvSqlSteps.Tag != null && (!LoadItem))
+            {
+                PlanData dr=(PlanData)dgvSqlSteps.Tag;
+                int index=e.RowIndex;
+                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
+                PlanDataItem item=PlanDataItem.Create();
+                item.PlanID = dr.ID;
+                item.PlanDataID = (int)cells["PlanDataID_col"].Value;
+                item.PlanDataName = cells["PlanDataName_col"].Value.ToString();
+                item.PlanSql = cells["PlanSql_col"].Value.ToString();
+                item.Index = (int) cells["Index"].Value;
+                item.FailMode = (FailMode) (int)cells["FailMode"].Value;
+                PlanHelper.Create().UpdatePlanItemData(item);
+                LoadPlanDataItem(dr);
+            }
+        }
+
+        private void DgvSqlSteps_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            if (dgvSqlSteps.Tag != null && (!LoadItem))
+            {
+                PlanData dr=(PlanData)dgvSqlSteps.Tag;
+                int index=e.RowIndex;
+                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
+                int PlanDataID = (int)cells["PlanDataID_col"].Value;
+                PlanHelper.Create().DeletePlanItemData(PlanDataID);
+                LoadPlanDataItem(dr);
+            }
+        }
+
+        private void DgvSqlSteps_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            if (dgvSqlSteps.Tag != null && (!LoadItem))
+            {
+                PlanData dr=(PlanData)dgvSqlSteps.Tag;
+                int index=e.RowIndex;
+                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
+                PlanDataItem item=PlanDataItem.Create();
+                item.PlanID = dr.ID;
+                item.PlanDataID = 0;
+                item.PlanDataName = cells["PlanDataName_col"].Value.ToString();
+                item.PlanSql = cells["PlanSql_col"].Value.ToString();
+                item.Index = (int) cells["Index"].Value;
+                item.FailMode = (FailMode) (int)cells["FailMode"].Value;
+                PlanHelper.Create().AddPlanItemData(item);
+                LoadPlanDataItem(dr);
+            }
+        }
+
         private void btnSavePlan_Click(object sender, EventArgs e)
         {
             PlanData data = dsPlan[lvPlan.SelectedIndex];
@@ -816,6 +891,55 @@ namespace DBSync.Logics
             canChangePlan = true;
         }
         #endregion
+
+        private void btnNewStep_Click(object sender, EventArgs e)
+        {
+            if (dgvSqlSteps.Tag != null && (!LoadItem))
+            {
+                PlanData dr=(PlanData)dgvSqlSteps.Tag;
+                
+                PlanDataItem item=PlanDataItem.Create();
+                item.PlanID = dr.ID;
+                PlanHelper.Create().AddPlanItemData(item);
+                LoadPlanDataItem(dr);
+                int index=dgvSqlSteps.Rows.Count-1;
+                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
+                dgvSqlSteps.CurrentCell=cells[1];
+                dgvSqlSteps.BeginEdit(true);
+            }
+        }
+
+        private void btnSaveStep_Click(object sender, EventArgs e)
+        {
+            if (dgvSqlSteps.Tag != null && (!LoadItem))
+            {
+                PlanData dr=(PlanData)dgvSqlSteps.Tag;
+                int index=dgvSqlSteps.SelectedRows[0].Index;
+                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
+                PlanDataItem item=PlanDataItem.Create();
+                item.PlanID = dr.ID;
+                item.PlanDataID = (int)cells["PlanDataID_col"].Value;
+                item.PlanDataName = cells["PlanDataName_col"].Value.ToString();
+                item.PlanSql = cells["PlanSql_col"].Value.ToString();
+                item.Index = (int) cells["Index"].Value;
+                item.FailMode = (FailMode) (int)cells["FailMode"].Value;
+                PlanHelper.Create().UpdatePlanItemData(item);
+                LoadPlanDataItem(dr);
+            }
+        }
+
+        private void btnRemoveStep_Click(object sender, EventArgs e)
+        {
+            if (dgvSqlSteps.Tag != null && (!LoadItem))
+            {
+                PlanData dr=(PlanData)dgvSqlSteps.Tag;
+                int index=dgvSqlSteps.SelectedRows[0].Index;
+                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
+                int PlanDataID = (int)cells["PlanDataID_col"].Value;
+                PlanHelper.Create().DeletePlanItemData(PlanDataID);
+                LoadPlanDataItem(dr);
+            }
+        }
     }
 }
 

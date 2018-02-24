@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Enumerations\DatabaseAuthType.cs" />
     <Compile Include="Enumerations\DatabaseServerType.cs" />
+    <Compile Include="Logics\FailMode.cs" />
     <Compile Include="Logics\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +89,7 @@
     <Compile Include="Ini\IniKeyValuePair.cs" />
     <Compile Include="Ini\IniSection.cs" />
     <Compile Include="Logics\PlanData.cs" />
+    <Compile Include="Logics\PlanDataItem.cs" />
     <Compile Include="Logics\PlanDateModel.cs" />
     <Compile Include="Logics\PlanHelper.cs" />
     <Compile Include="Log\LogEntry.cs" />
