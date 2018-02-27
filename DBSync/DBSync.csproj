@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="Enumerations\DatabaseAuthType.cs" />
     <Compile Include="Enumerations\DatabaseServerType.cs" />
-    <Compile Include="Logics\FailMode.cs" />
+    <Compile Include="LogicClasses\FailMode.cs" />
     <Compile Include="Logics\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,10 +88,16 @@
     <Compile Include="Ini\IniFile.cs" />
     <Compile Include="Ini\IniKeyValuePair.cs" />
     <Compile Include="Ini\IniSection.cs" />
-    <Compile Include="Logics\PlanData.cs" />
-    <Compile Include="Logics\PlanDataItem.cs" />
-    <Compile Include="Logics\PlanDateModel.cs" />
-    <Compile Include="Logics\PlanHelper.cs" />
+    <Compile Include="LogicClasses\PlanData.cs" />
+    <Compile Include="LogicClasses\PlanDataItem.cs" />
+    <Compile Include="LogicClasses\PlanDateModel.cs" />
+    <Compile Include="LogicClasses\PlanHelper.cs" />
+    <Compile Include="Logics\frmSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logics\frmSync.Designer.cs">
+      <DependentUpon>frmSync.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log\LogEntry.cs" />
     <Compile Include="Log\LogFile.cs" />
     <Compile Include="Log\LogLevel.cs" />
@@ -109,6 +115,9 @@
     <EmbeddedResource Include="Logics\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Logics\frmSync.resx">
+      <DependentUpon>frmSync.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -117,6 +126,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Services\DBSyncService.resx">
       <DependentUpon>DBSyncService.cs</DependentUpon>
@@ -146,6 +156,11 @@
     <Content Include="plan.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\0546-hour-glass3.png" />
+    <None Include="Resources\1134-cross2.png" />
+    <None Include="Resources\1138-checkmark3.png" />
+    <None Include="Resources\1158-play4.png" />
+    <None Include="Resources\0492-bubble-cancel.png" />
     <Content Include="SQL\Dst\price.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -171,6 +186,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DBSync.Logics
+namespace DBSync.LogicClasses
 {
     public enum FailMode
     {

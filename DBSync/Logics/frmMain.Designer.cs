@@ -114,6 +114,9 @@
             this.lvPlan = new System.Windows.Forms.ListBox();
             this.btnTestPlan = new System.Windows.Forms.Button();
             this.pnlStep = new System.Windows.Forms.Panel();
+            this.btnSaveStep = new System.Windows.Forms.Button();
+            this.btnRemoveStep = new System.Windows.Forms.Button();
+            this.btnNewStep = new System.Windows.Forms.Button();
             this.dgvSqlSteps = new System.Windows.Forms.DataGridView();
             this.label25 = new System.Windows.Forms.Label();
             this.pnlRate = new System.Windows.Forms.Panel();
@@ -151,13 +154,11 @@
             this.label15 = new System.Windows.Forms.Label();
             this.svc = new System.ServiceProcess.ServiceController();
             this.PlanDataID_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PlanID_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PlanDataName_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PlanSql_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FailMode = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnNewStep = new System.Windows.Forms.Button();
-            this.btnRemoveStep = new System.Windows.Forms.Button();
-            this.btnSaveStep = new System.Windows.Forms.Button();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -1099,6 +1100,36 @@
             this.pnlStep.Size = new System.Drawing.Size(684, 348);
             this.pnlStep.TabIndex = 11;
             // 
+            // btnSaveStep
+            // 
+            this.btnSaveStep.Location = new System.Drawing.Point(147, 8);
+            this.btnSaveStep.Name = "btnSaveStep";
+            this.btnSaveStep.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveStep.TabIndex = 2;
+            this.btnSaveStep.Text = "修改步骤";
+            this.btnSaveStep.UseVisualStyleBackColor = true;
+            this.btnSaveStep.Click += new System.EventHandler(this.btnSaveStep_Click);
+            // 
+            // btnRemoveStep
+            // 
+            this.btnRemoveStep.Location = new System.Drawing.Point(228, 8);
+            this.btnRemoveStep.Name = "btnRemoveStep";
+            this.btnRemoveStep.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveStep.TabIndex = 2;
+            this.btnRemoveStep.Text = "删除步骤";
+            this.btnRemoveStep.UseVisualStyleBackColor = true;
+            this.btnRemoveStep.Click += new System.EventHandler(this.btnRemoveStep_Click);
+            // 
+            // btnNewStep
+            // 
+            this.btnNewStep.Location = new System.Drawing.Point(66, 8);
+            this.btnNewStep.Name = "btnNewStep";
+            this.btnNewStep.Size = new System.Drawing.Size(75, 23);
+            this.btnNewStep.TabIndex = 2;
+            this.btnNewStep.Text = "新建步骤";
+            this.btnNewStep.UseVisualStyleBackColor = true;
+            this.btnNewStep.Click += new System.EventHandler(this.btnNewStep_Click);
+            // 
             // dgvSqlSteps
             // 
             this.dgvSqlSteps.AllowUserToAddRows = false;
@@ -1108,6 +1139,7 @@
             this.dgvSqlSteps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSqlSteps.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PlanDataID_col,
+            this.PlanID_col,
             this.PlanDataName_col,
             this.PlanSql_col,
             this.FailMode,
@@ -1506,6 +1538,13 @@
             this.PlanDataID_col.ReadOnly = true;
             this.PlanDataID_col.Width = 80;
             // 
+            // PlanID_col
+            // 
+            this.PlanID_col.HeaderText = "计划号";
+            this.PlanID_col.Name = "PlanID_col";
+            this.PlanID_col.ReadOnly = true;
+            this.PlanID_col.Visible = false;
+            // 
             // PlanDataName_col
             // 
             this.PlanDataName_col.DataPropertyName = "PlanDataName";
@@ -1522,7 +1561,7 @@
             // 
             // FailMode
             // 
-            this.FailMode.DataPropertyName = "FailMode";
+            this.FailMode.DataPropertyName = "FailModeInt";
             this.FailMode.HeaderText = "失败时的操作";
             this.FailMode.Items.AddRange(new object[] {
             "退出执行",
@@ -1535,36 +1574,6 @@
             this.Index.HeaderText = "执行顺序";
             this.Index.Name = "Index";
             this.Index.Width = 80;
-            // 
-            // btnNewStep
-            // 
-            this.btnNewStep.Location = new System.Drawing.Point(66, 8);
-            this.btnNewStep.Name = "btnNewStep";
-            this.btnNewStep.Size = new System.Drawing.Size(75, 23);
-            this.btnNewStep.TabIndex = 2;
-            this.btnNewStep.Text = "新建步骤";
-            this.btnNewStep.UseVisualStyleBackColor = true;
-            this.btnNewStep.Click += new System.EventHandler(this.btnNewStep_Click);
-            // 
-            // btnRemoveStep
-            // 
-            this.btnRemoveStep.Location = new System.Drawing.Point(228, 8);
-            this.btnRemoveStep.Name = "btnRemoveStep";
-            this.btnRemoveStep.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveStep.TabIndex = 2;
-            this.btnRemoveStep.Text = "删除步骤";
-            this.btnRemoveStep.UseVisualStyleBackColor = true;
-            this.btnRemoveStep.Click += new System.EventHandler(this.btnRemoveStep_Click);
-            // 
-            // btnSaveStep
-            // 
-            this.btnSaveStep.Location = new System.Drawing.Point(147, 8);
-            this.btnSaveStep.Name = "btnSaveStep";
-            this.btnSaveStep.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveStep.TabIndex = 2;
-            this.btnSaveStep.Text = "修改步骤";
-            this.btnSaveStep.UseVisualStyleBackColor = true;
-            this.btnSaveStep.Click += new System.EventHandler(this.btnSaveStep_Click);
             // 
             // frmMain
             // 
@@ -1743,14 +1752,15 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.NumericUpDown nudStepMinutes;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button btnSaveStep;
+        private System.Windows.Forms.Button btnRemoveStep;
+        private System.Windows.Forms.Button btnNewStep;
         private System.Windows.Forms.DataGridViewTextBoxColumn PlanDataID_col;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PlanID_col;
         private System.Windows.Forms.DataGridViewTextBoxColumn PlanDataName_col;
         private System.Windows.Forms.DataGridViewTextBoxColumn PlanSql_col;
         private System.Windows.Forms.DataGridViewComboBoxColumn FailMode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
-        private System.Windows.Forms.Button btnSaveStep;
-        private System.Windows.Forms.Button btnRemoveStep;
-        private System.Windows.Forms.Button btnNewStep;
     }
 }
 

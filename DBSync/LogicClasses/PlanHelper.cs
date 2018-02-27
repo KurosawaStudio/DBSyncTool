@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace DBSync.Logics
+namespace DBSync.LogicClasses
 {
     public class PlanHelper
     {
@@ -161,22 +161,23 @@ namespace DBSync.Logics
             }
         }
 
-        public DataSet GetPlanItemData(int PlanID)
+        public List<PlanDataItem> GetPlanItemData(int PlanID)
         {
             DataSet ds=new DataSet();
+            List<PlanDataItem> list=new List<PlanDataItem>();
             try
             {
                 OpenConnection();
-                SqlCeCommand cmd = new SqlCeCommand("select [PlanDataID],[PlanDataName],[PlanSql],[FailMode],[Index]" +
+                SqlCeCommand cmd = new SqlCeCommand("select [PlanID],[PlanDataID],[PlanDataName],[PlanSql],[FailMode],[Index]" +
                                                     " from [PlanData] where PlanID=@PlanID order by PlanDataID asc", con);
                 cmd.Parameters.AddWithValue("PlanID", PlanID);
                 SqlCeDataAdapter da=new SqlCeDataAdapter(cmd);
                 ds=new DataSet();
                 da.Fill(ds);
-                /*foreach (DataRow dr in ds.Tables[0].Rows)
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    list.Add(new PlanData(dr));
-                }*/
+                    list.Add(new PlanDataItem(dr));
+                }
             }
             catch(Exception ex)
             {
@@ -187,7 +188,7 @@ namespace DBSync.Logics
                 CloseConnection();
             }
 
-            return ds;
+            return list;
         }
 
         public void AddPlanItemData(PlanDataItem data)
@@ -265,5 +266,7 @@ namespace DBSync.Logics
                 CloseConnection();
             }
         }
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DBSync.Logics
+﻿namespace DBSync.LogicClasses
 {
     public enum PlanDateModel
     {

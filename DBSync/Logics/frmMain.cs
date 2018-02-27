@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using DBSync.LogicClasses;
 
 namespace DBSync.Logics
 {
@@ -636,7 +637,7 @@ namespace DBSync.Logics
 
         private bool canChangePlan = true;
         private List<PlanData> dsPlan;
-        private DataSet dsPlanData;
+        private List<PlanDataItem> dsPlanData;
         private bool LoadItem = false;
         private void lvPlan_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -687,68 +688,11 @@ namespace DBSync.Logics
             FailMode.DataSource = fm;
             FailMode.DisplayMember = "Name";
             FailMode.ValueMember = "Value";
-            //dgvSqlSteps.RowsAdded -= DgvSqlSteps_RowsAdded;
-            //dgvSqlSteps.RowsRemoved -= DgvSqlSteps_RowsRemoved;
-            //dgvSqlSteps.CellEndEdit -= DgvSqlSteps_CellEndEdit;
-            dgvSqlSteps.DataSource = dsPlanData.Tables[0];
+            dgvSqlSteps.DataSource = dsPlanData;
             dgvSqlSteps.Tag = dr;
             dgvSqlSteps.Refresh();
-            //dgvSqlSteps.RowsAdded += DgvSqlSteps_RowsAdded;
-            //dgvSqlSteps.RowsRemoved += DgvSqlSteps_RowsRemoved;
-            //dgvSqlSteps.CellEndEdit += DgvSqlSteps_CellEndEdit;
             LoadItem = false;
 
-        }
-
-        private void DgvSqlSteps_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dgvSqlSteps.Tag != null && (!LoadItem))
-            {
-                PlanData dr=(PlanData)dgvSqlSteps.Tag;
-                int index=e.RowIndex;
-                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
-                PlanDataItem item=PlanDataItem.Create();
-                item.PlanID = dr.ID;
-                item.PlanDataID = (int)cells["PlanDataID_col"].Value;
-                item.PlanDataName = cells["PlanDataName_col"].Value.ToString();
-                item.PlanSql = cells["PlanSql_col"].Value.ToString();
-                item.Index = (int) cells["Index"].Value;
-                item.FailMode = (FailMode) (int)cells["FailMode"].Value;
-                PlanHelper.Create().UpdatePlanItemData(item);
-                LoadPlanDataItem(dr);
-            }
-        }
-
-        private void DgvSqlSteps_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            if (dgvSqlSteps.Tag != null && (!LoadItem))
-            {
-                PlanData dr=(PlanData)dgvSqlSteps.Tag;
-                int index=e.RowIndex;
-                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
-                int PlanDataID = (int)cells["PlanDataID_col"].Value;
-                PlanHelper.Create().DeletePlanItemData(PlanDataID);
-                LoadPlanDataItem(dr);
-            }
-        }
-
-        private void DgvSqlSteps_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            if (dgvSqlSteps.Tag != null && (!LoadItem))
-            {
-                PlanData dr=(PlanData)dgvSqlSteps.Tag;
-                int index=e.RowIndex;
-                DataGridViewCellCollection cells=dgvSqlSteps.Rows[index].Cells;
-                PlanDataItem item=PlanDataItem.Create();
-                item.PlanID = dr.ID;
-                item.PlanDataID = 0;
-                item.PlanDataName = cells["PlanDataName_col"].Value.ToString();
-                item.PlanSql = cells["PlanSql_col"].Value.ToString();
-                item.Index = (int) cells["Index"].Value;
-                item.FailMode = (FailMode) (int)cells["FailMode"].Value;
-                PlanHelper.Create().AddPlanItemData(item);
-                LoadPlanDataItem(dr);
-            }
         }
 
         private void btnSavePlan_Click(object sender, EventArgs e)
@@ -809,6 +753,11 @@ namespace DBSync.Logics
         private void btnTestPlan_Click(object sender, EventArgs e)
         {
             //此处运行计划测试
+            frmSync sync=new frmSync();
+            PlanData pd = dsPlan[lvPlan.SelectedIndex];
+            sync.PlanData = pd;
+            sync.ShowDialog();
+
         }
 
         private void ValueChanged(object sender, EventArgs e)
@@ -890,8 +839,6 @@ namespace DBSync.Logics
             lvPlan.Enabled = true;
             canChangePlan = true;
         }
-        #endregion
-
         private void btnNewStep_Click(object sender, EventArgs e)
         {
             if (dgvSqlSteps.Tag != null && (!LoadItem))
@@ -940,6 +887,8 @@ namespace DBSync.Logics
                 LoadPlanDataItem(dr);
             }
         }
+        #endregion
+
     }
 }
 

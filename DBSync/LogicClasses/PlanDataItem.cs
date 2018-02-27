@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DBSync.Logics
+namespace DBSync.LogicClasses
 {
     public class PlanDataItem
     {
@@ -18,6 +18,12 @@ namespace DBSync.Logics
         public string PlanSql{ get; set; }
 
         public FailMode FailMode{ get; set; }
+
+        public int FailModeInt
+        {
+            get => (int)FailMode;
+            set => FailMode = (FailMode)value;
+        }
 
         public int Index{ get; set; }
 

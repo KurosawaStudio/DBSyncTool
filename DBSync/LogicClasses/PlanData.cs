@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace DBSync.Logics
+namespace DBSync.LogicClasses
 {
     public class PlanData
     {
