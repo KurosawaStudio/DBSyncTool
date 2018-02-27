@@ -253,16 +253,8 @@ namespace DBSync.Logics
                         }
                         catch (Exception ex)
                         {
-                            string msg = "";
+                            string msg = ex.Message;
                             Regex skipRegex=new Regex("^(SKIP).*$");
-                            if (ex is MySqlException)
-                            {
-                                msg=((MySqlException) ex).Message;
-                            }
-                            else if(ex is SqlException)
-                            {
-                                msg=((SqlException) ex).Message;
-                            }
 
                             if (skipRegex.IsMatch(msg))
                             {
