@@ -200,7 +200,7 @@ namespace DBSync.Logics
                 Invoke(dgvEvt, cur, 0, Resources.success);
                 Invoke(dgvEvt, cur, 2, "完成");
 
-                List<PlanDataItem> piis = PlanHelper.Create().GetPlanItemData(PlanData.ID);
+                List<PlanDataItem> piis = PlanHelper.Create().GetPlanItemDataOrdered(PlanData.ID);
                 foreach (PlanDataItem pii in piis)
                 {
                     for (cur=1;cur<5;cur++)

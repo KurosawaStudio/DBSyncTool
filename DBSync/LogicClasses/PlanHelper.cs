@@ -191,6 +191,36 @@ namespace DBSync.LogicClasses
             return list;
         }
 
+        public List<PlanDataItem> GetPlanItemDataOrdered(int PlanID)
+        {
+            DataSet ds=new DataSet();
+            List<PlanDataItem> list=new List<PlanDataItem>();
+            try
+            {
+                OpenConnection();
+                SqlCeCommand cmd = new SqlCeCommand("select [PlanID],[PlanDataID],[PlanDataName],[PlanSql],[FailMode],[Index]" +
+                                                    " from [PlanData] where PlanID=@PlanID order by Index asc", con);
+                cmd.Parameters.AddWithValue("PlanID", PlanID);
+                SqlCeDataAdapter da=new SqlCeDataAdapter(cmd);
+                ds=new DataSet();
+                da.Fill(ds);
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    list.Add(new PlanDataItem(dr));
+                }
+            }
+            catch(Exception ex)
+            {
+                //Suppress All Exceptions
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return list;
+        }
+
         public void AddPlanItemData(PlanDataItem data)
         {
             try
