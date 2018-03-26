@@ -235,6 +235,7 @@ namespace DBSync.Logics
                     ok = 0;
                     fail = 0;
                     Invoke(dgvEvt, cur, 0, Resources.busy2);
+                    index = 0;
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         index++;

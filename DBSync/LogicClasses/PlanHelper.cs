@@ -199,7 +199,7 @@ namespace DBSync.LogicClasses
             {
                 OpenConnection();
                 SqlCeCommand cmd = new SqlCeCommand("select [PlanID],[PlanDataID],[PlanDataName],[PlanSql],[FailMode],[Index]" +
-                                                    " from [PlanData] where PlanID=@PlanID order by Index asc", con);
+                                                    " from [PlanData] where PlanID=@PlanID order by [Index] asc", con);
                 cmd.Parameters.AddWithValue("PlanID", PlanID);
                 SqlCeDataAdapter da=new SqlCeDataAdapter(cmd);
                 ds=new DataSet();
