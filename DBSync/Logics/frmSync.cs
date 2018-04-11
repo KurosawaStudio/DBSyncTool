@@ -234,6 +234,7 @@ namespace DBSync.Logics
                     cur = 3;
                     ok = 0;
                     fail = 0;
+                    miss = 0;
                     Invoke(dgvEvt, cur, 0, Resources.busy2);
                     index = 0;
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -263,12 +264,20 @@ namespace DBSync.Logics
                             }
                             else
                             {
-                                fail++;
-                                if (pii.FailMode == FailMode.退出执行)
+                                if (ex is SqlException && (ex as SqlException).Class == 18)
                                 {
-                                    throw ex;
+                                    fail++;
+                                }
+                                else
+                                {
+                                    if (pii.FailMode == FailMode.退出执行)
+                                    {
+                                        throw;
+                                    }
                                 }
                             }
+
+                            File.AppendAllText("txt.txt", msg + Environment.NewLine);
                         }
                     }
                     
