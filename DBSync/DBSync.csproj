@@ -161,6 +161,7 @@
     <None Include="Resources\1138-checkmark3.png" />
     <None Include="Resources\1158-play4.png" />
     <None Include="Resources\0492-bubble-cancel.png" />
+    <Content Include="SQL\Dst\control.sql" />
     <Content Include="SQL\Dst\price.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -170,6 +171,7 @@
     <Content Include="SQL\Dst\stock.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\Src\control.sql" />
     <Content Include="SQL\Src\product.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
