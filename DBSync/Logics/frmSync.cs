@@ -277,7 +277,7 @@ namespace DBSync.Logics
                                 }
                             }
 
-                            File.AppendAllText("txt.txt", msg + Environment.NewLine);
+                            File.AppendAllText(pii.PlanDataName + ".txt", msg + Environment.NewLine);
                         }
                     }
                     
