@@ -71,10 +71,10 @@ where GeneralID=@id
 insert into PE_CommonModel
 select * from PE_CommonModel_b where GeneralID=@id
 insert into PE_CommonProduct(ProductID,TableName,ProductName,ProductNum,ProductType,Unit,ServiceTermUnit,ServiceTerm,
-Price,Price_Market,StoreID,Factory,BreedName,Batch,Barcode,DistributionType,ReturnType,DrugType)
+Price,Price_Market,StoreID,Factory,ProducerName,BreedName,Batch,Barcode,DistributionType,ReturnType,DrugType)
 values
 (@ID,'PE_U_tongyong',@drugName,@drugCode,0,@unit,0,0,
-@price,@price,539,@factory,@approval,'',@barcode,@dt,@rt,@drt);
+@price,@price,539,@factory,@factory,@approval,'',@barcode,@dt,@rt,@drt);
 
 insert into PE_U_tongyong(ID,Instruction_book) values(@ID/*ID*/,'');
 
