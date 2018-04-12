@@ -230,6 +230,8 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
+
+                cmd.CommandTimeout = 0;
                 GetCommonParasSqlServer(ref cmd);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 con.Open();
@@ -247,6 +249,8 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
+
+                cmd.CommandTimeout = 0;
                 GetCommonParasMySql(ref cmd);
                 MySqlDataAdapter mda=new MySqlDataAdapter(cmd);
                 con.Open();
@@ -278,6 +282,8 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
+
+                cmd.CommandTimeout = 0;
                 GetCommonParasSqlServer(ref cmd);
                 int ret= cmd.ExecuteNonQuery();
                 con.Close();
@@ -293,6 +299,7 @@ namespace DBSync.Services
                         cmd.Parameters.Add(parameter);
                     }
                 }
+                cmd.CommandTimeout = 0;
                 GetCommonParasMySql(ref cmd);
                 int ret = cmd.ExecuteNonQuery();
                 con.Close();
