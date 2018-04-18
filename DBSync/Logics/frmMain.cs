@@ -32,6 +32,7 @@ namespace DBSync.Logics
         private void frmMain_Load(object sender, EventArgs e)
         {
             gridLog.AutoGenerateColumns = false;
+            dgvSqlSteps.AutoGenerateColumns = false;
             InitTabLog();
             InitTabSrc();
             InitTabDst();

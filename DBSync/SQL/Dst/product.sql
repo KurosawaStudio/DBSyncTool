@@ -74,7 +74,7 @@ insert into PE_CommonProduct(ProductID,TableName,ProductName,ProductNum,ProductT
 Price,Price_Market,StoreID,Factory,ProducerName,BreedName,Batch,Barcode,DistributionType,ReturnType,DrugType,ProductCharacter)
 values
 (@ID,'PE_U_tongyong',@drugName,@drugCode,0,@unit,0,0,
-@price,@price,539,@factory,@factory,@approval,'',@barcode,@dt,@rt,@drt,1);
+@price,@price,539,@factory,@factory,@approval,@ph,@barcode,@dt,@rt,@drt,1);
 
-insert into PE_U_tongyong(ID,Instruction_book) values(@ID/*ID*/,'');
+insert into PE_U_tongyong(ID,Instruction_book,ypgg,scrq,xq) values(@ID/*ID*/,'',@pack,@scrq,@xq);
 
