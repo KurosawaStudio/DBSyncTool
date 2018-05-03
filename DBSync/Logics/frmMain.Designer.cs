@@ -96,6 +96,8 @@
             this.txtTestSQL = new System.Windows.Forms.TextBox();
             this.tConfig = new System.Windows.Forms.TabPage();
             this.dbgrdconfig = new System.Windows.Forms.DataGridView();
+            this.var_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.var_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cdsConfig = new System.Data.DataSet();
             this.global_var = new System.Data.DataTable();
             this.var_name_col = new System.Data.DataColumn();
@@ -104,6 +106,7 @@
             this.zd_var_type = new System.Data.DataTable();
             this.type_id_col = new System.Data.DataColumn();
             this.type_name_col = new System.Data.DataColumn();
+            this.var_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tPlan = new System.Windows.Forms.TabPage();
             this.lvPlan = new System.Windows.Forms.ListBox();
             this.btnTestPlan = new System.Windows.Forms.Button();
@@ -112,12 +115,6 @@
             this.btnRemoveStep = new System.Windows.Forms.Button();
             this.btnNewStep = new System.Windows.Forms.Button();
             this.dgvSqlSteps = new System.Windows.Forms.DataGridView();
-            this.PlanDataID_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PlanID_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PlanDataName_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PlanSql_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FailMode = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label25 = new System.Windows.Forms.Label();
             this.pnlRate = new System.Windows.Forms.Panel();
             this.label26 = new System.Windows.Forms.Label();
@@ -153,9 +150,17 @@
             this.btnNewPlan = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.svc = new System.ServiceProcess.ServiceController();
-            this.var_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.var_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.var_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.varnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vartypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.varvalueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label27 = new System.Windows.Forms.Label();
+            this.lblLastSuccessTime = new System.Windows.Forms.Label();
+            this.PlanID_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PlanDataID_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PlanDataName_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PlanSql_col = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FailMode = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainTab.SuspendLayout();
             this.tLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLog)).BeginInit();
@@ -264,6 +269,7 @@
             this.gridLog.Size = new System.Drawing.Size(838, 308);
             this.gridLog.TabIndex = 1;
             this.gridLog.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridLog_CellClick);
+            this.gridLog.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridLog_CellClick);
             // 
             // colType
             // 
@@ -911,7 +917,10 @@
             this.dbgrdconfig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.var_name,
             this.var_type,
-            this.var_value});
+            this.var_value,
+            this.varnameDataGridViewTextBoxColumn,
+            this.vartypeDataGridViewTextBoxColumn,
+            this.varvalueDataGridViewTextBoxColumn});
             this.dbgrdconfig.DataMember = "global_var";
             this.dbgrdconfig.DataSource = this.cdsConfig;
             this.dbgrdconfig.Location = new System.Drawing.Point(18, 26);
@@ -927,6 +936,21 @@
             this.dbgrdconfig.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dbgrdconfig_DefaultValuesNeeded);
             this.dbgrdconfig.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dbgrdconfig_RowsAdded);
             this.dbgrdconfig.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dbgrdconfig_RowsRemoved);
+            // 
+            // var_name
+            // 
+            this.var_name.DataPropertyName = "var_name";
+            this.var_name.HeaderText = "变量名";
+            this.var_name.Name = "var_name";
+            // 
+            // var_type
+            // 
+            this.var_type.DataPropertyName = "var_type";
+            this.var_type.DataSource = this.cdsConfig;
+            this.var_type.DisplayMember = "zd_var_type.type_name";
+            this.var_type.HeaderText = "变量类型";
+            this.var_type.Name = "var_type";
+            this.var_type.ValueMember = "zd_var_type.type_id";
             // 
             // cdsConfig
             // 
@@ -998,8 +1022,17 @@
             this.type_name_col.ColumnName = "type_name";
             this.type_name_col.Prefix = "config";
             // 
+            // var_value
+            // 
+            this.var_value.DataPropertyName = "var_value";
+            this.var_value.HeaderText = "变量值";
+            this.var_value.Name = "var_value";
+            this.var_value.Width = 400;
+            // 
             // tPlan
             // 
+            this.tPlan.Controls.Add(this.lblLastSuccessTime);
+            this.tPlan.Controls.Add(this.label27);
             this.tPlan.Controls.Add(this.lvPlan);
             this.tPlan.Controls.Add(this.btnTestPlan);
             this.tPlan.Controls.Add(this.pnlStep);
@@ -1092,8 +1125,8 @@
             this.dgvSqlSteps.AllowUserToResizeRows = false;
             this.dgvSqlSteps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSqlSteps.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PlanDataID_col,
             this.PlanID_col,
+            this.PlanDataID_col,
             this.PlanDataName_col,
             this.PlanSql_col,
             this.FailMode,
@@ -1105,51 +1138,6 @@
             this.dgvSqlSteps.Size = new System.Drawing.Size(659, 288);
             this.dgvSqlSteps.TabIndex = 1;
             this.dgvSqlSteps.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSqlSteps_CellValueChanged);
-            // 
-            // PlanDataID_col
-            // 
-            this.PlanDataID_col.DataPropertyName = "PlanDataID";
-            this.PlanDataID_col.HeaderText = "步骤序号";
-            this.PlanDataID_col.Name = "PlanDataID_col";
-            this.PlanDataID_col.ReadOnly = true;
-            this.PlanDataID_col.Width = 80;
-            // 
-            // PlanID_col
-            // 
-            this.PlanID_col.HeaderText = "计划号";
-            this.PlanID_col.Name = "PlanID_col";
-            this.PlanID_col.ReadOnly = true;
-            this.PlanID_col.Visible = false;
-            // 
-            // PlanDataName_col
-            // 
-            this.PlanDataName_col.DataPropertyName = "PlanDataName";
-            this.PlanDataName_col.HeaderText = "步骤名称";
-            this.PlanDataName_col.Name = "PlanDataName_col";
-            this.PlanDataName_col.Width = 200;
-            // 
-            // PlanSql_col
-            // 
-            this.PlanSql_col.DataPropertyName = "PlanSql";
-            this.PlanSql_col.HeaderText = "步骤SQL文件";
-            this.PlanSql_col.Name = "PlanSql_col";
-            this.PlanSql_col.Width = 150;
-            // 
-            // FailMode
-            // 
-            this.FailMode.DataPropertyName = "FailModeInt";
-            this.FailMode.HeaderText = "失败时的操作";
-            this.FailMode.Items.AddRange(new object[] {
-            "退出执行",
-            "忽略错误"});
-            this.FailMode.Name = "FailMode";
-            // 
-            // Index
-            // 
-            this.Index.DataPropertyName = "Index";
-            this.Index.HeaderText = "执行顺序";
-            this.Index.Name = "Index";
-            this.Index.Width = 80;
             // 
             // label25
             // 
@@ -1439,7 +1427,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(186, 70);
+            this.label17.Location = new System.Drawing.Point(636, 32);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(53, 12);
             this.label17.TabIndex = 8;
@@ -1452,7 +1440,7 @@
             this.cbPlanType.Items.AddRange(new object[] {
             "执行一次",
             "重复执行"});
-            this.cbPlanType.Location = new System.Drawing.Point(245, 67);
+            this.cbPlanType.Location = new System.Drawing.Point(695, 29);
             this.cbPlanType.Name = "cbPlanType";
             this.cbPlanType.Size = new System.Drawing.Size(121, 20);
             this.cbPlanType.TabIndex = 7;
@@ -1529,27 +1517,86 @@
             // 
             this.svc.ServiceName = "DBSyncService";
             // 
-            // var_name
+            // varnameDataGridViewTextBoxColumn
             // 
-            this.var_name.DataPropertyName = "var_name";
-            this.var_name.HeaderText = "变量名";
-            this.var_name.Name = "var_name";
+            this.varnameDataGridViewTextBoxColumn.DataPropertyName = "var_name";
+            this.varnameDataGridViewTextBoxColumn.HeaderText = "var_name";
+            this.varnameDataGridViewTextBoxColumn.Name = "varnameDataGridViewTextBoxColumn";
             // 
-            // var_type
+            // vartypeDataGridViewTextBoxColumn
             // 
-            this.var_type.DataPropertyName = "var_type";
-            this.var_type.DataSource = this.cdsConfig;
-            this.var_type.DisplayMember = "zd_var_type.type_name";
-            this.var_type.HeaderText = "变量类型";
-            this.var_type.Name = "var_type";
-            this.var_type.ValueMember = "zd_var_type.type_id";
+            this.vartypeDataGridViewTextBoxColumn.DataPropertyName = "var_type";
+            this.vartypeDataGridViewTextBoxColumn.HeaderText = "var_type";
+            this.vartypeDataGridViewTextBoxColumn.Name = "vartypeDataGridViewTextBoxColumn";
             // 
-            // var_value
+            // varvalueDataGridViewTextBoxColumn
             // 
-            this.var_value.DataPropertyName = "var_value";
-            this.var_value.HeaderText = "变量值";
-            this.var_value.Name = "var_value";
-            this.var_value.Width = 400;
+            this.varvalueDataGridViewTextBoxColumn.DataPropertyName = "var_value";
+            this.varvalueDataGridViewTextBoxColumn.HeaderText = "var_value";
+            this.varvalueDataGridViewTextBoxColumn.Name = "varvalueDataGridViewTextBoxColumn";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(188, 66);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(53, 12);
+            this.label27.TabIndex = 14;
+            this.label27.Text = "上次完成";
+            // 
+            // lblLastSuccessTime
+            // 
+            this.lblLastSuccessTime.AutoSize = true;
+            this.lblLastSuccessTime.Location = new System.Drawing.Point(247, 66);
+            this.lblLastSuccessTime.Name = "lblLastSuccessTime";
+            this.lblLastSuccessTime.Size = new System.Drawing.Size(119, 12);
+            this.lblLastSuccessTime.TabIndex = 15;
+            this.lblLastSuccessTime.Text = "0000-00-00 00:00:00";
+            // 
+            // PlanID_col
+            // 
+            this.PlanID_col.HeaderText = "计划号";
+            this.PlanID_col.Name = "PlanID_col";
+            this.PlanID_col.ReadOnly = true;
+            this.PlanID_col.Visible = false;
+            // 
+            // PlanDataID_col
+            // 
+            this.PlanDataID_col.DataPropertyName = "PlanDataID";
+            this.PlanDataID_col.HeaderText = "步骤序号";
+            this.PlanDataID_col.Name = "PlanDataID_col";
+            this.PlanDataID_col.ReadOnly = true;
+            this.PlanDataID_col.Width = 80;
+            // 
+            // PlanDataName_col
+            // 
+            this.PlanDataName_col.DataPropertyName = "PlanDataName";
+            this.PlanDataName_col.HeaderText = "步骤名称";
+            this.PlanDataName_col.Name = "PlanDataName_col";
+            this.PlanDataName_col.Width = 200;
+            // 
+            // PlanSql_col
+            // 
+            this.PlanSql_col.DataPropertyName = "PlanSql";
+            this.PlanSql_col.HeaderText = "步骤SQL文件";
+            this.PlanSql_col.Name = "PlanSql_col";
+            this.PlanSql_col.Width = 150;
+            // 
+            // FailMode
+            // 
+            this.FailMode.DataPropertyName = "FailModeInt";
+            this.FailMode.HeaderText = "失败时的操作";
+            this.FailMode.Items.AddRange(new object[] {
+            "退出执行",
+            "忽略错误"});
+            this.FailMode.Name = "FailMode";
+            // 
+            // Index
+            // 
+            this.Index.DataPropertyName = "Index";
+            this.Index.HeaderText = "执行顺序";
+            this.Index.Name = "Index";
+            this.Index.Width = 80;
             // 
             // frmMain
             // 
@@ -1725,15 +1772,20 @@
         private System.Windows.Forms.Button btnSaveStep;
         private System.Windows.Forms.Button btnRemoveStep;
         private System.Windows.Forms.Button btnNewStep;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PlanDataID_col;
+        private System.Windows.Forms.DataGridViewTextBoxColumn var_name;
+        private System.Windows.Forms.DataGridViewComboBoxColumn var_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn var_value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn varnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vartypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn varvalueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Label lblLastSuccessTime;
+        private System.Windows.Forms.Label label27;
         private System.Windows.Forms.DataGridViewTextBoxColumn PlanID_col;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PlanDataID_col;
         private System.Windows.Forms.DataGridViewTextBoxColumn PlanDataName_col;
         private System.Windows.Forms.DataGridViewTextBoxColumn PlanSql_col;
         private System.Windows.Forms.DataGridViewComboBoxColumn FailMode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
-        private System.Windows.Forms.DataGridViewTextBoxColumn var_name;
-        private System.Windows.Forms.DataGridViewComboBoxColumn var_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn var_value;
     }
 }
 

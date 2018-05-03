@@ -27,6 +27,10 @@ namespace DBSync.LogicClasses
 
         public int PlanWeek { get; set; }
 
+        public bool Working { get; set; }
+
+        public DateTime LastSuccessTime { get; set; }
+
         private PlanData()
         {
             Name = "新计划";
@@ -39,6 +43,8 @@ namespace DBSync.LogicClasses
             Enable = true;
             PlanDayStep = 0;
             PlanWeek = 0;
+            Working = false;
+            LastSuccessTime = DateTime.Now.Date;
         }
 
         public static PlanData Create()=>new PlanData();
@@ -56,6 +62,8 @@ namespace DBSync.LogicClasses
             PlanTime = (DateTime) dr["PlanTime"];
             PlanTimeStep = (int)dr["PlanTimeStep"];
             PlanWeek = (int)dr["PlanWeek"];
+            Working = (bool) dr["Working"];
+            LastSuccessTime = (DateTime) dr["LastSuccessTime"];
 
         }
     }

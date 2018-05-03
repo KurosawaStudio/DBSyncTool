@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows.Forms;
-using DBSync.Enumerations;
+﻿using DBSync.Enumerations;
 using DBSync.Ini;
 using DBSync.Log;
-using STT=System.Timers.Timer;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+using System.ServiceProcess;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
+using DBSync.LogicClasses;
+using DBSync.Properties;
+using STT = System.Timers.Timer;
 
 namespace DBSync.Services
 {
@@ -28,6 +27,7 @@ namespace DBSync.Services
         private bool error = false;
         private DatabaseConfig Dest,Src;
         private Thread worker;
+        private readonly Image nullImage=new Bitmap(16,16);
 
         protected override void OnStart(string[] args)
         {
@@ -139,103 +139,213 @@ namespace DBSync.Services
 
         private void StartNewThreadForService()
         {
-            LogManager.CreateLogManager().AddLog("线程操作池",LogLevel.Info,"开启线程操作");
-            try
+            new Thread(() =>
             {
-                new Thread(() =>
+                //线程操作开始
+                STT timer = new STT();
+                timer.Interval = 60000;
+                timer.Elapsed += (sender, e) =>
                 {
-                    Mutex mutex = new Mutex(true, "run");
-                    bool mutexed=mutex.WaitOne(60000);
-                    if (!mutexed)
-                    {
-                        LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Info, "线程启动失败\r\n错误原因：上一个线程尚未退出");
-                        return;
-                    }
-                    WorkerThreadForService();
-                    mutex.ReleaseMutex();
-                }).Start();
-                LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Info, "线程启动成功");
-            }
-            catch (Exception ex)
-            {
-                LogManager.CreateLogManager().AddLog("线程操作池", LogLevel.Error, $@"线程启动失败,错误类型:{ex.GetType().FullName}\r\n错误信息:{ex.Message}\r\n错误堆栈:{ex.StackTrace}");
-            }
+                    //启动线程操作
+                    InitAndDoSyncWork();
+                };
+                
+                timer.AutoReset = true;
+                timer.Enabled = true;
+            }).Start();
             
         }
 
-        private void WorkerThreadForService()
+        private void dgv_UpdateProgressToggles(int row, int column, object value, string plan, string step)
         {
-            string SrcSqlBasePath = $@"{Program.basePath}\SQL\Src\";
-            string DstSqlBasePath = $@"{Program.basePath}\SQL\Dst\";
+            //dgv.Rows[row].Cells[column].Value = value;
+            string title = $@"同步线程 - {plan}";
+            string msg = $"任务计划: {plan}\r\n计划步骤:{step}\r\n消息内容:\r\n{value}";
+            LogManager.CreateLogManager().AddLog(title, LogLevel.Info, msg);
+        }
 
-            DirectoryInfo srcDirInfo=new DirectoryInfo(SrcSqlBasePath);
-            DirectoryInfo dstDirInfo=new DirectoryInfo(DstSqlBasePath);
-            SortedList<string,string> srcSqlList=new SortedList<string,string>();
-            SortedList<string,string> dstSqlList=new SortedList<string,string>();
-
-            FileInfo[] sfis = srcDirInfo.GetFiles("*.sql");
-            foreach (var sfi in sfis)
-            {
-                srcSqlList.Add(sfi.Name,sfi.FullName);
-            }
-
-            FileInfo[] dfis = dstDirInfo.GetFiles("*.sql");
-            foreach (var dfi in dfis)
-            {
-                dstSqlList.Add(dfi.Name,dfi.FullName);
-            }
-            
-            STT timer = new STT(60000);
-            timer.Elapsed += (sender, e) =>
-            {
-                Mutex mutex = new Mutex(true, "sync");
-                bool mutexed = mutex.WaitOne(60000);
-                if (!mutexed)
-                {
-                    LogManager.CreateLogManager().AddLog("同步线程", LogLevel.Info, "线程同步失败\r\n错误原因：上一个线程尚未退出");
-                    return;
-                }
-                DoSqlForService(srcSqlList, dstSqlList);
-                //mutex.Close();
-                mutex.ReleaseMutex();
-            };
-            timer.Start();
-        }        
-
-        private void DoSqlForService(SortedList<string, string> srcSqlList, SortedList<string, string> dstSqlList)
+        private void Invoke(Delegate evt, int cur, int column, object obj, string plan, string step)
         {
-            foreach (var key in srcSqlList.Keys)
+            evt.DynamicInvoke(cur, column, obj, plan, step);
+        }
+
+        private delegate void UpdateProgressToggles(int row, int column, object value, string plan, string step);
+
+        private string GetSql(string Source, string fileName)
+        {
+            string SqlBasePath = $@"{Program.basePath}\SQL\{Source}\";
+            string Sql = File.ReadAllText($@"{SqlBasePath}{fileName}.sql");
+            return Sql;
+        }
+
+        private void InitAndDoSyncWork()
+        {
+            //初始化并开始同步
+            Delegate dgvEvt=new UpdateProgressToggles(dgv_UpdateProgressToggles);
+            string smsg, dmsg;
+            int ok = 0, fail = 0, miss = 0, index = 0, total = 0;
+            int cur = 0;
+
+            foreach (PlanData PlanData in PlanHelper.Create().GetPlanData((plan) =>
             {
-                string srcSql = File.ReadAllText(srcSqlList[key]);
-                string smsg, dmsg;
-                DataSet ds = SQLHelper.QueryDataSet(Src, srcSql, null, out smsg);
-                ds.WriteXml("ds.xml");
+                bool ret = true;
+                bool onetime =
+                    //执行一次的任务判断
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm").Equals($@"{plan.PlanDate:yyyy-MM-dd} {plan.PlanTime:HH:mm}") && plan.PlanDateModel == PlanDateModel.执行一次;
 
-                if (ds.Tables.Count == 0)
+                bool repeat = //重复执行的判断
+                    plan.PlanDateModel == PlanDateModel.重复执行;
+
+                bool everyday = (DateTime.Now.Date - plan.LastSuccessTime).Days == plan.PlanDayStep;
+                everyday &= plan.PlanTimeModel == PlanTimeModel.每天;
+
+                bool everyweek = (DateTime.Now.Date - plan.LastSuccessTime).Days / 7 == plan.PlanDayStep;
+                everyweek &= plan.PlanWeek.ToString()
+                    .Contains((DateTime.Now.Date.DayOfWeek == DayOfWeek.Sunday ? 7 : (int) DateTime.Now.Date.DayOfWeek)
+                        .ToString());
+                everyweek &= plan.PlanTimeModel == PlanTimeModel.每周;
+
+                bool time = (int) ((DateTime.Now.TimeOfDay - plan.LastSuccessTime.TimeOfDay).TotalMinutes) >=
+                            plan.PlanTimeStep;
+
+                ret = onetime || (repeat && (everyday || everyweek) && time);
+                ret &= (!plan.Working);
+                return ret;
+                    
+
+            }))
+            {
+                try
                 {
-                    LogManager.CreateLogManager().AddLog("数据库查询",LogLevel.Error,$@"数据库查询'{srcSql}'没有返回表");
-                    continue;
-                }
+                    PlanData.Working=true;
+                    PlanHelper.Create().UpdatePlanData(PlanData);
+                    //Invoke(dgvEvt, cur, 0, Resources.busy2);
+                    Invoke(dgvEvt, cur, 2, "正在获取数据库连接", "任务初始化", "数据库连接");
+                    GetDBConfigForService();
+                    Thread.Sleep(1000);
+                    Invoke(dgvEvt, cur, 2, "正在测试数据库连接", "任务初始化", "数据库连接");
+                    TryDBConfigForService();
+                    Thread.Sleep(1000);
+                    //Invoke(dgvEvt, cur, 0, Resources.success);
+                    Invoke(dgvEvt, cur, 2, "完成", "任务初始化", "数据库连接");
 
-                if (!dstSqlList.ContainsKey(key))
-                {
-                    LogManager.CreateLogManager().AddLog("数据库查询", LogLevel.Error, $@"数据库查询'{key}'没有对应的同步查询");
-                    continue;
-                }
-
-                string dstSql = File.ReadAllText(dstSqlList[key]);
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    List<IDbDataParameter> paras = new List<IDbDataParameter>();
-                    foreach (DataColumn col in ds.Tables[0].Columns)
+                    List<PlanDataItem> piis = PlanHelper.Create().GetPlanItemDataOrdered(PlanData.ID);
+                    foreach (PlanDataItem pii in piis)
                     {
-                        IDbDataParameter para = SQLHelper.CreateParameter(Dest,"@" + col.ColumnName, dr[col],out dmsg);
-                        paras.Add(para);
+                        for (cur = 1; cur < 5; cur++)
+                        {
+                            //Invoke(dgvEvt, cur, 0, nullImage);
+                            //Invoke(dgvEvt, cur, 2, "");
+                        }
+
+                        Thread.Sleep(100);
+
+                        cur = 1;
+                        //Invoke(dgvEvt, cur, 0, Resources.busy2);
+                        Invoke(dgvEvt, cur, 2, $@"正在获取""{pii.PlanDataName}""的同步设置", PlanData.Name, $"{pii.PlanDataName} - 正在准备同步");
+                        string srcSql = GetSql("Src", pii.PlanSql);
+                        string dstSql = GetSql("Dst", pii.PlanSql);
+                        Thread.Sleep(1000);
+                        //Invoke(dgvEvt, cur, 0, Resources.success);
+                        Invoke(dgvEvt, cur, 2, $@"""{pii.PlanDataName}"" - 准备就绪",  PlanData.Name, $"{pii.PlanDataName} - 正在开始步骤");
+
+                        cur = 2;
+                        //Invoke(dgvEvt, cur, 0, Resources.busy2);
+                        Invoke(dgvEvt, cur, 2, "正在获取数据", PlanData.Name, $"{pii.PlanDataName} - 正在获取数据");
+                        DataSet ds = SQLHelper.QueryDataSet(Src, srcSql, null, out smsg);
+                        if (ds.Tables.Count == 0)
+                        {
+                            throw new Exception($@"数据库查询'{srcSql}'没有返回表");
+                        }
+
+                        //Invoke(dgvEvt, cur, 0, Resources.success);
+                        total = ds.Tables[0].Rows.Count;
+                        Invoke(dgvEvt, cur, 2, $@"发现{total}条数据", PlanData.Name, $"{pii.PlanDataName} - 正在获取数据");
+
+                        cur = 3;
+                        ok = 0;
+                        fail = 0;
+                        miss = 0;
+                        //Invoke(dgvEvt, cur, 0, Resources.busy2);
+                        index = 0;
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+                            index++;
+                            Invoke(dgvEvt, cur, 2, $@"正在复制第{index}条(共{total}条)", PlanData.Name, $"{pii.PlanDataName} - 正在获取数据");
+                            List<IDbDataParameter> paras = new List<IDbDataParameter>();
+                            foreach (DataColumn col in ds.Tables[0].Columns)
+                            {
+                                IDbDataParameter para =
+                                    SQLHelper.CreateParameter(Dest, "@" + col.ColumnName, dr[col], out dmsg);
+                                paras.Add(para);
+                            }
+
+                            try
+                            {
+                                SQLHelper.NonQuery(Dest, dstSql, paras, out dmsg);
+                                ok++;
+                            }
+                            catch (Exception ex)
+                            {
+                                string msg = ex.Message;
+                                Regex skipRegex = new Regex("^(SKIP).*$");
+
+                                if (skipRegex.IsMatch(msg))
+                                {
+                                    miss++;
+                                }
+                                else
+                                {
+                                    if (ex is SqlException && (ex as SqlException).Class == 18)
+                                    {
+                                        fail++;
+                                    }
+                                    else
+                                    {
+                                        if (pii.FailMode == FailMode.退出执行)
+                                        {
+                                            throw;
+                                        }
+                                    }
+                                }
+
+                                File.AppendAllText(pii.PlanDataName + ".txt", msg + Environment.NewLine);
+                            }
+                        }
+
+                        //Invoke(dgvEvt, cur, 0, Resources.success);
+                        Invoke(dgvEvt, cur, 2, $@"复制成功{ok}条,失败{fail}条,忽略{miss}条", PlanData.Name, $"{pii.PlanDataName} - 正在获取数据");
+
+                        Thread.Sleep(1000);
+                        cur = 4;
+                        //Invoke(dgvEvt, cur, 0, Resources.busy2);
+                        Invoke(dgvEvt, cur, 2, "进行中", PlanData.Name, $"{pii.PlanDataName} - 正在结束步骤");
+                        Thread.Sleep(1000);
+                        //Invoke(dgvEvt, cur, 0, Resources.success);
+                        Invoke(dgvEvt, cur, 2, $@"复制成功{ok}条,失败{fail}条,忽略{miss}条", PlanData.Name, $"{pii.PlanDataName} - 正在结束步骤");
+                        Thread.Sleep(1000);
+                        cur = 1;
                     }
-                    SQLHelper.NonQuery(Dest, dstSql, paras, out dmsg);
+
+                    cur = 5;
+                    //Invoke(dgvEvt, cur, 0, Resources.busy2);
+                    Invoke(dgvEvt, cur, 2, "进行中", PlanData.Name, "正在结束同步");
+                    Thread.Sleep(1000);
+                    //Invoke(dgvEvt, cur, 0, Resources.success);
+                    Invoke(dgvEvt, cur, 2, "完成", PlanData.Name, "正在结束同步");
+                    PlanData.LastSuccessTime=DateTime.Now;
+                    PlanData.Working=false;
+                    PlanHelper.Create().UpdatePlanData(PlanData);
                 }
-                
+                catch (Exception ex)
+                {
+                    //Message = ex.Message;
+                    //Invoke(new btnMessageShow(()=>btnMessage.Visible=true), null);
+                    //Invoke(dgvEvt, cur, 0, Resources.fail);
+                    Invoke(dgvEvt, cur, 2, "失败" + "\r\n" + ex.Message, PlanData.Name, "出错信息");
+                }
+
+                //timer.Stop();
             }
         }
     }

@@ -156,6 +156,12 @@
     <Content Include="plan.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\Dst\test.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SQL\Src\test.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\0546-hour-glass3.png" />
     <None Include="Resources\1134-cross2.png" />
     <None Include="Resources\1138-checkmark3.png" />

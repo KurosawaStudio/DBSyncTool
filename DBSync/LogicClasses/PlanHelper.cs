@@ -66,6 +66,20 @@ namespace DBSync.LogicClasses
             return list;
         }
 
+        public List<PlanData> GetPlanData(Predicate<PlanData> condition)
+        {
+            List<PlanData> ret = new List<PlanData>();
+            var list = GetPlanData();
+            foreach (PlanData plan in list)
+            {
+                if (condition(plan))
+                {
+                    ret.Add(plan);
+                }
+            }
+            return ret;
+        }
+
         public void UpdatePlanData(PlanData data)
         {
             try
@@ -82,6 +96,8 @@ namespace DBSync.LogicClasses
                           ,[Enable] = @Enable
                           ,[PlanDayStep] = @PlanDayStep
                           ,[PlanWeek] = @PlanWeek
+                          ,[Working] = @Working
+                          ,[LastSuccessTime]=@LastSuccessTime
                      WHERE ID=@ID", con);
                 cmd.Parameters.AddWithValue("ID", data.ID);
                 cmd.Parameters.AddWithValue("Name", data.Name);
@@ -94,6 +110,8 @@ namespace DBSync.LogicClasses
                 cmd.Parameters.AddWithValue("Enable", data.Enable);
                 cmd.Parameters.AddWithValue("PlanDayStep", data.PlanDayStep);
                 cmd.Parameters.AddWithValue("PlanWeek", data.PlanWeek);
+                cmd.Parameters.AddWithValue("Working", data.Working);
+                cmd.Parameters.AddWithValue("LastSuccessTime", data.LastSuccessTime);
 
                 cmd.ExecuteNonQuery();
             }
@@ -114,10 +132,10 @@ namespace DBSync.LogicClasses
                 OpenConnection();
                 SqlCeCommand cmd = new SqlCeCommand(@"INSERT INTO [Plan]
                 ([Name],[PlanDateModel],[PlanDate],[PlanDateStep],[PlanTimeModel],[PlanTime],
-                [PlanTimeStep],[Enable],[PlanDayStep],[PlanWeek])
+                [PlanTimeStep],[Enable],[PlanDayStep],[PlanWeek],[Working],[LastSuccessTime])
                 VALUES(@Name,@PlanDateModel,@PlanDate,
                 @PlanDateStep,@PlanTimeModel,@PlanTime,@PlanTimeStep,
-                @Enable,@PlanDayStep,@PlanWeek);", con);
+                @Enable,@PlanDayStep,@PlanWeek,@Working,@LastSuccessTime);", con);
                 cmd.Parameters.AddWithValue("Name", data.Name);
                 cmd.Parameters.AddWithValue("PlanDateModel", (int)data.PlanDateModel);
                 cmd.Parameters.AddWithValue("PlanDate", data.PlanDate);
@@ -128,6 +146,8 @@ namespace DBSync.LogicClasses
                 cmd.Parameters.AddWithValue("Enable", data.Enable);
                 cmd.Parameters.AddWithValue("PlanDayStep", data.PlanDayStep);
                 cmd.Parameters.AddWithValue("PlanWeek", data.PlanWeek);
+                cmd.Parameters.AddWithValue("Working", data.Working);
+                cmd.Parameters.AddWithValue("LastSuccessTime", data.LastSuccessTime);
 
                 cmd.ExecuteNonQuery();
             }

@@ -1,23 +1,17 @@
-﻿using System;
+﻿using DBSync.Enumerations;
+using DBSync.Ini;
+using DBSync.LogicClasses;
+using DBSync.Properties;
+using DBSync.Services;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DBSync.Enumerations;
-using DBSync.Ini;
-using DBSync.Log;
-using DBSync.LogicClasses;
-using DBSync.Properties;
-using DBSync.Services;
-using MySql.Data.MySqlClient;
 
 namespace DBSync.Logics
 {
@@ -26,7 +20,7 @@ namespace DBSync.Logics
         TimeSpan time=new TimeSpan(0,0,0);
         public PlanData PlanData;
         private Thread tSync;
-        private Image nullImage=new Bitmap(16,16);
+        private readonly Image nullImage=new Bitmap(16,16);
         private bool error = false;
         private DatabaseConfig Dest,Src;
         private string Message = "";

@@ -655,6 +655,7 @@ namespace DBSync.Logics
                 nudRepeatStep.Value = dr.PlanDayStep;
                 dtRepeatTime.Value = dr.PlanTime;
                 nudStepMinutes.Value = dr.PlanTimeStep;
+                lblLastSuccessTime.Text = dr.LastSuccessTime.ToString("yyyy-MM-dd HH:mm:ss");
 
                 //DoWeekDays
                 cbMonday.Checked = $@"{dr.PlanWeek:0}".IndexOf("1",StringComparison.CurrentCulture) > -1;
@@ -840,6 +841,7 @@ namespace DBSync.Logics
             lvPlan.Enabled = true;
             canChangePlan = true;
         }
+        
         private void btnNewStep_Click(object sender, EventArgs e)
         {
             if (dgvSqlSteps.Tag != null && (!LoadItem))
