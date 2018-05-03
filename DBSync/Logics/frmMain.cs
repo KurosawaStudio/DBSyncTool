@@ -41,7 +41,7 @@ namespace DBSync.Logics
             InitConfigDB();
             InitPlanPanel();
             LoadPlanData();
-            mainTab.SelectedIndex = mainTab.TabPages.IndexOf(tPlan);
+            mainTab.SelectedIndex = mainTab.TabPages.IndexOf(tLog);
         }
 
         private void InitConfigDB()
@@ -788,7 +788,18 @@ namespace DBSync.Logics
             }
             else if (sender == cbRepeatRate)
             {
-                evt = (a, b) => lblStepUnit.Text=(PlanTimeModel) Enum.Parse(typeof(PlanTimeModel), cbRepeatRate.SelectedItem.ToString())==PlanTimeModel.每周?"周":"天";
+                evt = (a, b) =>
+                {
+                    lblStepUnit.Text =
+                            (PlanTimeModel) Enum.Parse(typeof(PlanTimeModel), cbRepeatRate.SelectedItem.ToString()) ==
+                            PlanTimeModel.每周
+                                ? "周"
+                                : "天";
+                    cbMonday.Enabled = cbTuesday.Enabled = cbWednesday.Enabled = cbThursday.Enabled = cbFriday.Enabled =
+                        cbSaturday.Enabled = cbSunday.Enabled =
+                            (PlanTimeModel) Enum.Parse(typeof(PlanTimeModel), cbRepeatRate.SelectedItem.ToString()) ==
+                            PlanTimeModel.每周;
+                };
                 evt(sender, e);
             }
         }
