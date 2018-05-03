@@ -33,6 +33,7 @@ namespace DBSync.Logics
         {
             gridLog.AutoGenerateColumns = false;
             dgvSqlSteps.AutoGenerateColumns = false;
+            dbgrdconfig.AutoGenerateColumns = false;
             InitTabLog();
             InitTabSrc();
             InitTabDst();
