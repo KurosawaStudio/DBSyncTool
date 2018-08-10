@@ -37,7 +37,17 @@ namespace DBSync.Services
             WriteSuccessLogForService();
             StartNewThreadForService();
         }
-        
+
+        public void OnStartEx(string[] args)
+        {
+            GetParametersForService();
+            GetDBConfigForService();
+            TryDBConfigForService();
+            WriteSuccessLogForService();
+            StartNewThreadForService();
+            while (true) { }
+        }
+
         #region Basic Service Functions
 
         private void WriteSuccessLogForService()
@@ -196,10 +206,10 @@ namespace DBSync.Services
                 bool repeat = //重复执行的判断
                     plan.PlanDateModel == PlanDateModel.重复执行;
 
-                bool everyday = (DateTime.Now.Date - plan.LastSuccessTime).Days == plan.PlanDayStep;
+                bool everyday = (DateTime.Now.Date - plan.LastSuccessTime).Days >= plan.PlanDayStep;
                 everyday &= plan.PlanTimeModel == PlanTimeModel.每天;
 
-                bool everyweek = (DateTime.Now.Date - plan.LastSuccessTime).Days / 7 == plan.PlanDayStep;
+                bool everyweek = (DateTime.Now.Date - plan.LastSuccessTime).Days / 7 >= plan.PlanDayStep;
                 everyweek &= plan.PlanWeek.ToString()
                     .Contains((DateTime.Now.Date.DayOfWeek == DayOfWeek.Sunday ? 7 : (int) DateTime.Now.Date.DayOfWeek)
                         .ToString());

@@ -74,6 +74,7 @@ namespace DBSync
                         service
                     };
                     ServiceBase.Run(serviceToRun);
+                    //(service as DBSyncService).OnStartEx(null);
                 }
 
             }
