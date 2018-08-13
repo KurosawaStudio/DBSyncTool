@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.ServiceProcess;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -172,6 +174,7 @@ namespace DBSync.Services
             string title = $@"同步线程 - {plan}";
             string msg = $"任务计划: {plan}\r\n计划步骤:{step}\r\n消息内容:\r\n{value}";
             LogManager.CreateLogManager().AddLog(title, LogLevel.Info, msg);
+            EventLog.WriteEntry("DBSyncService",msg,EventLogEntryType.Information,1,1,Encoding.UTF8.GetBytes(msg));
         }
 
         private void Invoke(Delegate evt, int cur, int column, object obj, string plan, string step)
@@ -199,6 +202,7 @@ namespace DBSync.Services
             foreach (PlanData PlanData in PlanHelper.Create().GetPlanData((plan) =>
             {
                 bool ret = true;
+                ret &= plan.Enable;
                 bool onetime =
                     //执行一次的任务判断
                     DateTime.Now.ToString("yyyy-MM-dd HH:mm").Equals($@"{plan.PlanDate:yyyy-MM-dd} {plan.PlanTime:HH:mm}") && plan.PlanDateModel == PlanDateModel.执行一次;
@@ -218,7 +222,7 @@ namespace DBSync.Services
                 bool time = (int) ((DateTime.Now.TimeOfDay - plan.LastSuccessTime.TimeOfDay).TotalMinutes) >=
                             plan.PlanTimeStep;
 
-                ret = onetime || (repeat && (everyday || everyweek) && time);
+                ret &= onetime || (repeat && (everyday || everyweek) && time);
                 ret &= (!plan.Working);
                 return ret;
                     
@@ -353,6 +357,8 @@ namespace DBSync.Services
                     //Invoke(new btnMessageShow(()=>btnMessage.Visible=true), null);
                     //Invoke(dgvEvt, cur, 0, Resources.fail);
                     Invoke(dgvEvt, cur, 2, "失败" + "\r\n" + ex.Message, PlanData.Name, "出错信息");
+                    PlanData.Working = false;
+                    PlanHelper.Create().UpdatePlanData(PlanData);
                 }
 
                 //timer.Stop();
