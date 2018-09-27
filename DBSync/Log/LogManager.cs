@@ -9,17 +9,21 @@ namespace DBSync.Log
 {
     public class LogManager
     {
-        private string log = $@"{Program.basePath}\log.log";
-        private LogFile logFile=new LogFile();
+        private readonly string _log = $@"{Program.basePath}\log\{DateTime.Now:yyyy-MM-dd-HH}.log";
+        private LogFile _logFile=new LogFile();
         private LogManager()
         {
-            if (File.Exists(log))
+            if (Directory.Exists($@"{Program.basePath}\log\"))
             {
-                logFile = LogFile.FromLogBytes(File.ReadAllBytes(log));
+                Directory.CreateDirectory($@"{Program.basePath}\log\");
+            }
+            if (File.Exists(_log))
+            {
+                _logFile = LogFile.FromLogBytes(File.ReadAllBytes(_log));
             }
             else
             {
-                logFile=new LogFile();
+                _logFile=new LogFile();
             }
         }
 
@@ -30,9 +34,9 @@ namespace DBSync.Log
 
         public void AddLog(string Source,LogLevel LogLevel,string Detail)
         {
-            if (logFile.entries == null)
+            if (_logFile.entries == null)
             {
-                logFile.entries=new List<LogEntry>();
+                _logFile.entries=new List<LogEntry>();
             }
             LogEntry entry = new LogEntry
             {
@@ -41,14 +45,14 @@ namespace DBSync.Log
                 LogTime = DateTime.Now,
                 Detail = Detail
             };
-            logFile.entries.Add(entry);
-            File.WriteAllBytes(log,logFile.ToLogBytes());
-            OnEntryAdded?.Invoke(log);
+            _logFile.entries.Add(entry);
+            File.WriteAllBytes(_log,_logFile.ToLogBytes());
+            OnEntryAdded?.Invoke(_log);
         }
 
         public List<LogEntry> GetEntries()
         {
-            return logFile.entries;
+            return _logFile.entries;
         }
     }
 
