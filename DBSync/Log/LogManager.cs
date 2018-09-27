@@ -10,7 +10,7 @@ namespace DBSync.Log
     public class LogManager
     {
         private readonly string _log = $@"{Program.basePath}\log\{DateTime.Now:yyyy-MM-dd-HH}.log";
-        private LogFile _logFile=new LogFile();
+        private readonly LogFile _logFile;
         private LogManager()
         {
             if (Directory.Exists($@"{Program.basePath}\log\"))
