@@ -101,7 +101,7 @@ namespace DBSync
             psi.CreateNoWindow = true;
             psi.RedirectStandardInput = true;
             Process p=Process.Start(psi);
-            p.StandardInput.Write("sc.exe {0}\r\n", $@"create DBSyncService binPath=""{Application.ExecutablePath} -k DBSyncService"" start=auto DisplayName=数据同步服务");
+            p.StandardInput.Write("sc.exe {0}\r\n", $@"create DBSyncService binPath= ""{Application.ExecutablePath} -k DBSyncService"" start= auto DisplayName= 数据同步服务");
             p.StandardInput.Flush();
             p.StandardInput.Write("exit\r\n");
             p.StandardInput.Flush();
