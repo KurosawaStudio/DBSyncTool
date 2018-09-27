@@ -13,7 +13,7 @@ namespace DBSync.Log
         private readonly LogFile _logFile;
         private LogManager()
         {
-            if (Directory.Exists($@"{Program.basePath}\log\"))
+            if (!Directory.Exists($@"{Program.basePath}\log\"))
             {
                 Directory.CreateDirectory($@"{Program.basePath}\log\");
             }
