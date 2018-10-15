@@ -222,6 +222,8 @@ namespace DBSync.Services
                 bool time = (int) ((DateTime.Now.TimeOfDay - plan.LastSuccessTime.TimeOfDay).TotalMinutes) >=
                             plan.PlanTimeStep;
 
+                time |= (DateTime.Now.Date - plan.PlanDate).TotalDays > 0;
+
                 ret &= onetime || (repeat && (everyday || everyweek) && time);
                 ret &= (!plan.Working);
                 return ret;
